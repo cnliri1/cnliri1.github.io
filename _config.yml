@@ -1,54 +1,57 @@
-title: Jason Ansel
-#tagline:          A short tagline
-#description:      Describe your website.
-#Comment out url when working locally to resolve base urls correctly
-url: http://jasonansel.com
+title:            Site Title
+description:      Describe your website here.
+logo:             site-logo.png
+disqus_shortname:
+search:           true
+# Change url to your domain. Leave localhost server or blank when working locally.
+# You don't need to specify the protocol if you want it available on http and https. Example: //localhost:4000
+url:              http://localhost:4000
 
 # Owner/author information
 owner:
-  name:           Jason Ansel
-  avatar:         jasonansel.jpg
-#  bio:
-  email:          jasonansel@jasonansel.com
-  # Social networking links are used in author-bio sidebar. Update and remove as you like.
+  name:           Your Name
+  avatar:         bio-photo.jpg
+  email:          you@email.com
+  # Social networking links used in footer. Update and remove as you like.
   twitter:
   facebook:
-  github: jansel
+  github:
+  stackexchange:
   linkedin:
   instagram:
-  lastfm:
+  flickr:
   tumblr:
   # For Google Authorship https://plus.google.com/authorship
   google_plus:
 
 # Analytics and webmaster tools stuff goes here
-google_verify: "JW0gdx05xcJSQe6saaq67u_U1vgdfuh8OxrjS-fEuyQ"
+google_analytics:
+google_verify:
 # https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
 bing_verify:
 
 # Links to include in top navigation
 # For external links add external: true
 links:
-  - title: About Me
-    url: /
-  - title: Projects
-    url: /projects/
-  - title: Publications
-    url: /publications/
-  - title: Experience
-    url: /experience/
-  - title: Hobbies
-    url: /hobbies/
+  - title: About
+    url: /about/
+  - title: Articles
+    url: /articles/
+  - title: Theme Setup
+    url: /theme-setup/
+  - title: Made Mistakes
+    url: http://mademistakes.com
+    external: true
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-timezone: America/New_York
-future: true
-pygments: true
-#markdown: kramdown
-markdown: redcarpet
+timezone:    America/New_York
+future:      true
+pygments:    true
+#highlighter: pygments
+markdown:    kramdown
 
 # https://github.com/mojombo/jekyll/wiki/Permalinks
-permalink:   /:categories/:title
+permalink:   /:categories/:title/
 
 kramdown:
   auto_ids: true
@@ -65,6 +68,4 @@ kramdown:
     coderay_css: class
 
 include: [".htaccess"]
-exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "minimal-mistakes.sublime-project", "minimal-mistakes.sublime-workspace"]
-
-
+exclude: ["lib", "config.rb", "Gemfile", "Capfile", "README.md", "LICENSE", "Gemfile.lock", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules"]
