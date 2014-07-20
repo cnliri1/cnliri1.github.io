@@ -1,6 +1,6 @@
 markdown: rdiscount
 permalink: /:year/:month/:title/
 url: http://cnliri1.github.io 
-author: 谢益辉
+author: liruizhi
 pygments: true
 
