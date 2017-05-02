@@ -20,6 +20,10 @@ deb-src http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contri
 
 #### 安装nodejs
 > sudo nano /etc/profile  
+wget https://nodejs.org/dist/v4.3.2/node-v4.3.2-linux-armv6l.tar.gz
+tar -xvf node-v4.3.2-linux-armv6l.tar.gz
+cd node-v4.3.2-linux-armv6l
+sudo cp -R * /usr/local/
 
 After you install it, edit your path by modifying /etc/profile  
 > sudo nano /etc/profile  
@@ -119,8 +123,11 @@ If you are running Debian-based flavours of Linux on your Pi, like Raspbian and 
 
 Congratulations, you're done!  
 Just point your browser to the IP address of your Raspberry Pi, and use port 8080. From your Pi's browser you could surf to http://127.0.0.1:8080.
+#### 小米插座
 
+小米插座(https://www.npmjs.com/package/homebridge-miio)
 ## 其他参考链接
 [如何安装在openwrt上](http://bbs.feng.com/forum.php?mod=viewthread&tid=10909315)  
-[群晖安装broadlink-http-rest代替RMBridge](http://www.shafa.com/articles/zNzf7HJdfjyeAbGB.html)
-[小米网关接入Homekit完整教程，声控家中设备!](http://bbs.xiaomi.cn/t-13198850)
+[群晖安装broadlink-http-rest代替RMBridge](http://www.shafa.com/articles/zNzf7HJdfjyeAbGB.html)  
+[小米网关接入Homekit完整教程，声控家中设备!](http://bbs.xiaomi.cn/t-13198850)  
+[折腾 Raspberry Pi + HomeKit 手记](http://andelf.github.io/blog/2016/09/16/play-homekit-with-ios-10-and-raspberry-pi/)
