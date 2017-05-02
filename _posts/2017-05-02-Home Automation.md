@@ -1,7 +1,11 @@
- ### 主思路  
+### 主思路  
+主要参考链接
  [解放你的双手 — 让普通家电也能被Siri召唤](http://post.smzdm.com/p/532100/?be_invited_by=3724913200)  
 Siri <—> homeKit <—> homebridge <—> Domoticz <—> RMbridge <—>broadlinkRM <—> 受控设备  
- **Siri接收语音信号控制Homekit，homekit通过homebridge控制Domoticz,Domoticz再通过RMbridge控制RMpro,RMpro接收网络信号发出红外或者射频信号，完成对设备的控制。broadlinkRM前面一直是网络信号的传递，broadlinkRM负责把接收到的遥控码用红外或者射频信号发到受控设备上。**
+ Siri接收语音信号控制Homekit，homekit通过homebridge控制Domoticz,Domoticz再通过RMbridge控制RMpro,RMpro接收网络信号发出红外或者射频信号，完成对设备的控制。broadlinkRM前面一直是网络信号的传递，broadlinkRM负责把接收到的遥控码用红外或者射频信号发到受控设备上。
+
+### 树莓派安装配置
+#### 树莓派系统安装
 
 #### 设置国内源
 >sudo nano /etc/apt/sources.list    
