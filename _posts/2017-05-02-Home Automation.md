@@ -5,6 +5,10 @@ Siri <—> homeKit <—> homebridge <—> Domoticz <—> RMbridge <—>broadlink
  Siri接收语音信号控制Homekit，homekit通过homebridge控制Domoticz,Domoticz再通过RMbridge控制RMpro,RMpro接收网络信号发出红外或者射频信号，完成对设备的控制。broadlinkRM前面一直是网络信号的传递，broadlinkRM负责把接收到的遥控码用红外或者射频信号发到受控设备上。
 
 ### 树莓派安装配置
+[官方参考链接](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)
+> sudo dd bs=4m if=2017-04-10-raspbian-jessie.img of=/dev/rdisk2
+
+
 #### 树莓派系统安装
 
 #### 设置国内源
@@ -24,6 +28,10 @@ Go ahead and add these two lines before “export $PATH”
 >NODE_JS_HOME="/opt/node"  
 NODE_PATH="/opt/node"  
 PATH="$NODE_JS_HOME/bin/:$PATH"  
+
+补充内容
+>sudo su  
+PATH=/opt/node/bin/:$PATH
 
 Log out and back in for it to take effect.
 #### 安装 Homebridge 及相关依赖
@@ -111,3 +119,8 @@ If you are running Debian-based flavours of Linux on your Pi, like Raspbian and 
 
 Congratulations, you're done!  
 Just point your browser to the IP address of your Raspberry Pi, and use port 8080. From your Pi's browser you could surf to http://127.0.0.1:8080.
+
+## 其他参考链接
+[如何安装在openwrt上](http://bbs.feng.com/forum.php?mod=viewthread&tid=10909315)  
+[群晖安装broadlink-http-rest代替RMBridge](http://www.shafa.com/articles/zNzf7HJdfjyeAbGB.html)
+[小米网关接入Homekit完整教程，声控家中设备!](http://bbs.xiaomi.cn/t-13198850)
