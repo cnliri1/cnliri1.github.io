@@ -132,11 +132,15 @@ Just point your browser to the IP address of your Raspberry Pi, and use port 808
 [群晖安装broadlink-http-rest代替RMBridge](http://www.shafa.com/articles/zNzf7HJdfjyeAbGB.html)  
 [小米网关接入Homekit完整教程，声控家中设备!](http://bbs.xiaomi.cn/t-13198850)  
 [折腾 Raspberry Pi + HomeKit 手记](http://andelf.github.io/blog/2016/09/16/play-homekit-with-ios-10-and-raspberry-pi/)
-
+[树莓派启动](http://elmagnificogi.github.io/2015/11/12/RaspberryStartup-6/)
 ####常用指令
 replace(/:/g, '')
 已服务模式启动后 查看日志 tail -F /var/log/daemon.log
 sudo systemctl stop homebridge
+homebridge.service
+sudo find / -name 'homebridge.service'
+
+
 
 ####删除make install
 when you followed the instructions of this blog you can undo your steps like this:
@@ -144,6 +148,7 @@ when you followed the instructions of this blog you can undo your steps like thi
 remove shairport from boot scripts:
 
 sudo update-rc.d -f shairport remove
+sudo update-rc.d -f tightvncserver remove   /etc/init.d/tightvncserver
 remove the init file
 
 sudo rm /etc/init.d/shairport
