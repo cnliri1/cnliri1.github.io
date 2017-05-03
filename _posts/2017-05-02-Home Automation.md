@@ -84,8 +84,8 @@ config.json 内容
 > sudo nano /etc/init.d/tightvncserver
 
 我們將會建立一個文字檔案，再來需打入下列程式碼
-
->#!/bin/sh
+```
+#!/bin/sh
 #/etc/init.d/tightvncserver
 #Carry out specific functions when asked to by the system  
 case "$1" in  
@@ -103,6 +103,7 @@ case "$1" in
     ;;  
 esac  
 exit 0  
+```
 
 之後在LXTerminal視窗中繼續打入下列指令
 
@@ -131,3 +132,37 @@ Just point your browser to the IP address of your Raspberry Pi, and use port 808
 [群晖安装broadlink-http-rest代替RMBridge](http://www.shafa.com/articles/zNzf7HJdfjyeAbGB.html)  
 [小米网关接入Homekit完整教程，声控家中设备!](http://bbs.xiaomi.cn/t-13198850)  
 [折腾 Raspberry Pi + HomeKit 手记](http://andelf.github.io/blog/2016/09/16/play-homekit-with-ios-10-and-raspberry-pi/)
+
+####常用指令
+replace(/:/g, '')
+已服务模式启动后 查看日志 tail -F /var/log/daemon.log
+sudo systemctl stop homebridge
+
+####删除make install
+when you followed the instructions of this blog you can undo your steps like this:
+
+remove shairport from boot scripts:
+
+sudo update-rc.d -f shairport remove
+remove the init file
+
+sudo rm /etc/init.d/shairport
+find the shairport program
+
+sudo find /usr -name 'shairport'
+
+the result will be in /usr/local/bin or /usr/sbin
+delete the program
+
+sudo rm /path/to/file/shairport
+search for soruces of shairport
+
+sudo find / -name 'shairport'
+delete sources
+
+sudo rm -r /path/to/sources
+maybe it is not recommented to purge the prereqirements you found in the blog post, becasue they might be used by other
+
+i found the informations in this Blog post:
+
+http://komputermaschine.blogspot.de/2015/01/shairport-vom-system-entfernen.html
