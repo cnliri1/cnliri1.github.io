@@ -26,7 +26,7 @@ Siri-homeKit-homebridge-Domoticz-RMbridge -broadlinkRM-受控设备
 
 ##### 1 树莓派安装配置
 1.1 下载树莓派系统及刷入SD卡
-[官方参考链接](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)  
+[官方参考链接](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)    
 ``` sudo dd bs=4m if=2017-04-10-raspbian-jessie.img of=/dev/rdisk2```  
 
 1.2 设置国内源  
@@ -143,7 +143,7 @@ crontab -e
 ##### 4. Domoticz平台安装配置
 Debian平台下运行以下这一行就好
 
-```sudo curl -L install.domoticz.com | sudo bash ``` 
+```sudo curl -L install.domoticz.com | sudo bash ```
 
 运行在本地8080端口  
  http://127.0.0.1:8080.
