@@ -9,7 +9,7 @@ Siri-homeKit-homebridge-Domoticz-RMbridge -broadlinkRM-受控设备
  主要参考链接  
   [解放你的双手 — 让普通家电也能被Siri召唤](http://post.smzdm.com/p/532100/?be_invited_by=3724913200)  
 
-----------------
+-----------------------
 #### 文章目录
 ##### 1.树莓派安装和配置
 ##### 2.安装 Homebridge 及相关依赖
