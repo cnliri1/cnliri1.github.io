@@ -27,38 +27,34 @@ Siri-homeKit-homebridge-Domoticz-RMbridge -broadlinkRM-受控设备
 ##### 1 树莓派安装配置
 1.1 下载树莓派系统及刷入SD卡
 [官方参考链接](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)  
-``` sudo dd bs=4m if=2017-04-10-raspbian-jessie.img of=/dev/rdisk2```
+``` sudo dd bs=4m if=2017-04-10-raspbian-jessie.img of=/dev/rdisk2```  
 
-1.2 设置国内源
-打开源列表进行编辑
->sudo nano /etc/apt/sources.list    
-
+1.2 设置国内源  
+打开源列表进行编辑  
+```sudo nano /etc/apt/sources.list```  
 用 # 注释掉原有的 source, 输入阿里云镜像.    
->deb http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib    
-deb-src http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib
+```deb http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib    
+deb-src http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib```  
 
-1.3 安装nodejs
-
-
->wget https://nodejs.org/dist/v4.3.2/node-v4.3.2-linux-armv6l.tar.gz
+1.3 安装nodejs  
+```wget https://nodejs.org/dist/v4.3.2/node-v4.3.2-linux-armv6l.tar.gz
 tar -xvf node-v4.3.2-linux-armv6l.tar.gz
 cd node-v4.3.2-linux-armv6l
-sudo cp -R * /usr/local/
-
+sudo cp -R * /usr/local/```  
 After you install it, edit your path by modifying /etc/profile  
-> sudo nano /etc/profile  
-
-Go ahead and add these two lines before “export $PATH”
->NODE_JS_HOME="/opt/node"  
+```sudo nano /etc/profile```  
+Go ahead and add these two lines before  
+```“export $PATH”
+NODE_JS_HOME="/opt/node"  
 NODE_PATH="/opt/node"  
-PATH="$NODE_JS_HOME/bin/:$PATH"  
+PATH="$NODE_JS_HOME/bin/:$PATH"  ```
 
-1.4 改变环境变量
->sudo su  
-PATH=/opt/node/bin/:$PATH  
+1.4 改变环境变量  
+```sudo su  
+PATH=/opt/node/bin/:$PATH```  
 
-1.5 開機時自動啟動VNCserver
-> sudo nano /etc/init.d/tightvncserver
+1.5 開機時自動啟動VNCserver  
+```sudo nano /etc/init.d/tightvncserver```
 
 我們將會建立一個文字檔案，再來需打入下列程式碼
 ```
@@ -82,29 +78,25 @@ esac
 exit 0  
 ```
 
-之後在LXTerminal視窗中繼續打入下列指令
+之後在LXTerminal視窗中繼續打入下列指令  
+```sudo chmod 777 /etc/init.d/tightvncserver```
 
->sudo chmod 777 /etc/init.d/tightvncserver
-
-在繼續打入下面這一行
-
->sudo update-rc.d tightvncserver defaults
+在繼續打入下面這一行  
+```sudo update-rc.d tightvncserver defaults```
 
 之後將Raspberry Pi重開機後就會自動執行VNC Server了
 
-Log out and back in for it to take effect.
 
 ----------------------
 ##### 2 安装 Homebridge 及相关依赖
-2.1 下载并安装
->sudo apt-get install   libavahi-compat-libdnssd-dev  
+2.1 下载并安装  
+```sudo apt-get install   libavahi-compat-libdnssd-dev  
 apt-get install libavahi-compat-libdnssd-dev  
 apt-get install build-essential g++  
 npm install -g --unsafe-perm homebridge  
-npm install -g --unsafe-perm homebridge-edomoticz
+npm install -g --unsafe-perm homebridge-edomoticz```
 
-2.2 编辑配置文件
-
+2.2 编辑配置文件  
 config.json 内容
 ```
 {
@@ -134,10 +126,10 @@ config.json 内容
 
 
 2.3 设置开机启动  
- 2.3.1  方式1  安装cron（失败）
->sudo apt-get install gnome-schedule    
->crontab -e    
-> @reboot homebridge &  
+ 2.3.1  安装cron（失败）  
+```sudo apt-get install gnome-schedule  
+crontab -e    
+ @reboot homebridge &  ```
 
  This will run your Python script every time the Raspberry Pi reboots. If you want your command to be run in the background while the Raspberry Pi continues starting up, add a space and & at the end of the line
 
@@ -151,7 +143,7 @@ config.json 内容
 ##### 4. Domoticz平台安装配置
 Debian平台下运行以下这一行就好
 
-> sudo curl -L install.domoticz.com | sudo bash  
+```sudo curl -L install.domoticz.com | sudo bash ``` 
 
 运行在本地8080端口  
  http://127.0.0.1:8080.
