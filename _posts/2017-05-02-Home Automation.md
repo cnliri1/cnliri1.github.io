@@ -8,6 +8,8 @@ Siri-homeKit-homebridge-Domoticz-RMbridge -broadlinkRM-受控设备
 
  主要参考链接  
   [解放你的双手 — 让普通家电也能被Siri召唤](http://post.smzdm.com/p/532100/?be_invited_by=3724913200)  
+
+----------------
 #### 文章目录
 ##### 1.树莓派安装和配置
 ##### 2.安装 Homebridge 及相关依赖
@@ -91,6 +93,8 @@ exit 0
 之後將Raspberry Pi重開機後就會自動執行VNC Server了
 
 Log out and back in for it to take effect.
+
+----------------------
 ##### 2 安装 Homebridge 及相关依赖
 2.1 下载并安装
 >sudo apt-get install   libavahi-compat-libdnssd-dev  
@@ -136,11 +140,14 @@ config.json 内容
 > @reboot homebridge &  
 
  This will run your Python script every time the Raspberry Pi reboots. If you want your command to be run in the background while the Raspberry Pi continues starting up, add a space and & at the end of the line
-#####
+
+-----------------------------
 
 ##### 3. 安装RM Bridge替代方案
 通过url发送控制请求  
 未完待续。。。
+
+-------------------------
 ##### 4. Domoticz平台安装配置
 Debian平台下运行以下这一行就好
 
@@ -148,14 +155,20 @@ Debian平台下运行以下这一行就好
 
 运行在本地8080端口  
  http://127.0.0.1:8080.
+
+ ----------------------
 ##### 5. 配件配置小米插座  
 [小米插座](https://www.npmjs.com/package/homebridge-miio)
+
+--------------------
 ##### 6. 其他参考链接
 [如何安装在openwrt上](http://bbs.feng.com/forum.php?mod=viewthread&tid=10909315)  
 [群晖安装broadlink-http-rest代替RMBridge](http://www.shafa.com/articles/zNzf7HJdfjyeAbGB.html)  
 [小米网关接入Homekit完整教程，声控家中设备!](http://bbs.xiaomi.cn/t-13198850)  
 [折腾 Raspberry Pi + HomeKit 手记](http://andelf.github.io/blog/2016/09/16/play-homekit-with-ios-10-and-raspberry-pi/)
 [树莓派启动](http://elmagnificogi.github.io/2015/11/12/RaspberryStartup-6/)
+
+---------------------
 ##### 7.linux常用指令
 replace(/:/g, '')   
 查看日志 tail -F /var/log/daemon.log  
@@ -163,7 +176,7 @@ sudo systemctl stop homebridge
 homebridge.service
 查找 sudo find / -name 'homebridge.service'
 
-
+---------------------
 ##### 8. shairport安装配置(已卸载)
 ```
 删除make install
