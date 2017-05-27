@@ -1,4 +1,4 @@
-kramdown: rdiscount
+markdown: kramdown
 permalink: /:year/:month/:title/
 url: http://cnliri1.github.io 
 author: Liruizhi_
