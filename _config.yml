@@ -2,5 +2,6 @@ markdown: kramdown
 permalink: /:year/:month/:title/
 url: http://cnliri1.github.io 
 author: Liruizhi_
-pygments: true
+pygments: false
+highlighter: rouge
 
