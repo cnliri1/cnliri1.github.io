@@ -1,9 +1,12 @@
 ### 主思路  
 
 家庭自动化简化模型  
+![](http://wx1.sinaimg.cn/mw690/5a7198d7ly1fgpotyu20yj21kw0vm0yn.jpg)  
+
 Siri-homeKit-homebridge-Domoticz-RMbridge -broadlinkRM-受控设备  
 
 模型描述  
+
  Siri接收语音信号控制Homekit，homekit通过homebridge控制Domoticz,Domoticz再通过RMbridge控制RMpro,RMpro接收网络信号发出红外或者射频信号，完成对设备的控制。broadlinkRM前面一直是网络信号的传递，broadlinkRM负责把接收到的遥控码用红外或者射频信号发到受控设备上。  
 
  主要参考链接  
