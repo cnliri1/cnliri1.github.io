@@ -5,3 +5,5 @@ author: Liruizhi_
 pygments: false
 highlighter: rouge
 google_analytics: UA-101008134-1
+plugins:
+  - jekyll-feed
