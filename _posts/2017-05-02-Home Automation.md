@@ -162,6 +162,7 @@ Debian平台下运行以下这一行就好
 [小米网关接入Homekit完整教程，声控家中设备!](http://bbs.xiaomi.cn/t-13198850)  
 [折腾 Raspberry Pi + HomeKit 手记](http://andelf.github.io/blog/2016/09/16/play-homekit-with-ios-10-and-raspberry-pi/)
 [树莓派启动](http://elmagnificogi.github.io/2015/11/12/RaspberryStartup-6/)
+[broadlink data dump](https://www.home-assistant.io/components/switch.broadlink/)
 
 ---------------------
 ##### 7.linux常用指令
