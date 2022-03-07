@@ -15,5 +15,16 @@ layout: page
     <a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
   </li>
 {% endfor %}
-</ul>
 
+{% for timelines in site.timelines %}
+  {% capture y %}{{timelines.date | date:"%Y"}}{% endcapture %}
+  {% if year != y %}
+    {% assign year = y %}
+    <li class="listing-seperator">{{ y }}</li>
+  {% endif %}
+  <li class="listing-item">
+    <time datetime="{{ timelines.date | date:"%Y-%m-%d" }}">{{ timelines.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ site.url }}{{ timelines.url }}" title="{{ timelines.title }}">{{ timelines.title }}</a>
+  </li>
+{% endfor %}
+</ul>
