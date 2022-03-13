@@ -7,8 +7,10 @@ layout: default
 {{ content }}
 </span>
 <span class="b">
-    {{ created_at }}
+  {% for time in site.json_collection %}
+    {{ time.created_at }}
 </span>
+
 <span class="c">
     {{ text }}
 </section>
