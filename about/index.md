@@ -12,7 +12,7 @@ comments: yes
 
 
 <ul class="listing">
-{% for post in site.posts %}
+{% for post in site.json_collection %}
   {% capture y %}{{post.date | date:"%Y"}}{% endcapture %}
   {% if year != y %}
     {% assign year = y %}
@@ -23,4 +23,15 @@ comments: yes
     <a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
   </li>
 {% endfor %}
+
+
+
+{% for staff_member in site.json_collection %}
+  <li class="listing-item">
+  <h2>{{ staff_member.created_at }}-发表微博</h2>
+  <p>{{ staff_member.text | markdownify }}</p>
+  <p><img src="{{ staff_member.original_pic}}" /></p>
+  </li>
+{% endfor %}
+
 </ul>
