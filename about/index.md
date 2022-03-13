@@ -25,13 +25,4 @@ comments: yes
 {% endfor %}
 
 
-
-{% for staff_member in site.json_collection %}
-  <li class="listing-item">
-  <h2>{{ staff_member.created_at }}-发表微博</h2>
-  <p>{{ staff_member.text | markdownify }}</p>
-  <p><img src="{{ staff_member.original_pic}}" /></p>
-  </li>
-{% endfor %}
-
 </ul>
