@@ -3,7 +3,13 @@ layout: default
 ---
 
 <section class="post">
+
 {{ content }}
+{% for time in site.json_collection %}
+  {{ cont.time }}
+{% endfor %}
+
+
 {% for cont in site.json_collection %}
   {{ cont.text }}
 {% endfor %}
