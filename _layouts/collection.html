@@ -4,6 +4,9 @@ layout: default
 
 <section class="post">
 {{ content }}
+{% for cont in site.json_collection %}
+  {{ cont.text }}
+{% endfor %}
 </section>
 <section class="meta">
 <span class="author">
