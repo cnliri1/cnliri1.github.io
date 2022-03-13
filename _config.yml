@@ -7,3 +7,10 @@ highlighter: rouge
 google_analytics: UA-101008134-1
 plugins:
   - jekyll-feed
+
+collections:
+  json_collection:
+    output: true
+    source: weibo5.json
+    id_key: id
+    layout: page
