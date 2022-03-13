@@ -3,16 +3,18 @@ layout: default
 ---
 
 <section class="post">
-
+<span class="a">
 {{ content }}
-{% for time in site.json_collection %}
-  {{ cont.created_at }}
-{% endfor %}
-
-
-{% for cont in site.json_collection %}
-  {{ cont.text }}
-{% endfor %}
+</span>
+<span class="b">
+  {% for time in site.json_collection %}
+    {{ cont.created_at }}
+  {% endfor %}
+</span>
+<span class="c">
+  {% for cont in site.json_collection %}
+    {{ cont.text }}
+  {% endfor %}
 </section>
 <section class="meta">
 <span class="author">
