@@ -1,6 +1,8 @@
 markdown: kramdown
 permalink: /:year/:month/:title/
 url: http://cnliri1.github.io
+baseurl: /vitae
+
 author: Liruizhi_
 pygments: false
 highlighter: rouge
@@ -14,3 +16,15 @@ collections:
     source: weibo5.json
     id_key: id
     layout: page
+
+#new added
+  steps:
+    title: Steps
+    output: false
+defaults:
+- scope:
+    path: ''
+    type: steps
+  values:
+    title:
+    date: 2016-09-01 00:00:00 -0700
