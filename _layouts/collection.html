@@ -7,14 +7,10 @@ layout: default
 {{ content }}
 </span>
 <span class="b">
-  {% for time in site.json_collection %}
-    {{ time.created_at }}
-  {% endfor %}
+    {{ created_at }}
 </span>
 <span class="c">
-  {% for cont in site.json_collection %}
-    {{ cont.text }}
-  {% endfor %}
+    {{ text }}
 </section>
 <section class="meta">
 <span class="author">
