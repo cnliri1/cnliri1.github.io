@@ -1,10 +1,18 @@
 ---
-title: 我的数字Timeline
+title: Timeline
 layout: defaulttime
 ---
 
 <div class="container row">
     <h1 class="cv-title"><span class="black white-text">{{ page.title }}</span></h1>
+    <nav>
+          <span><a title="home page" class="" href="{{ site.url }}/">home</a></span>
+          <span><a title="about" class="" href="{{ site.url }}/about/">about</a></span>
+          <span><a title="vitae" class="" href="{{ site.url }}/vitae/">vitae</a></span>
+          <span><a title="categories" class="" href="{{ site.url }}/categories/">categories</a></span>
+          <span><a title="tags" class="" href="{{ site.url }}/tags/">tags</a></span>
+          <span><a title="links" class="" href="{{ site.url }}/links/">links</a></span>
+      </nav>
     {% assign steps = site.steps | sort: 'date' %}
     {% for step in steps reversed%}
     <div class="item">
