@@ -1,0 +1,25 @@
+---
+标题: 恶魔岛
+简介: 2012 / 美国 加拿大 / 悬疑 惊悚 / 丹尼·加农 / Sarah Jones Jorge Garcia
+豆瓣评分: '6.5'
+链接: https://movie.douban.com/subject/5343164/
+创建时间: '2011-07-11 20:08:36'
+我的评分:
+标签: 美剧
+评论:
+date: 2011-07-11 20:08:36
+title: 看了电影 - 恶魔岛
+tags: [电影]
+categories: [美剧]
+---
+
+我的评分:
+
+我的评论:
+
+豆瓣评分:6.5
+
+简介:2012 / 美国 加拿大 / 悬疑 惊悚 / 丹尼·加农 / Sarah Jones Jorge Garcia
+
+[豆瓣链接](https://movie.douban.com/subject/5343164/)
+
