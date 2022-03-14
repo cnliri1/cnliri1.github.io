@@ -15,7 +15,7 @@ layout: defaulttime
         <span><a title="links" class="" href="{{ site.url }}/links/">links</a></span>
     </nav>
     {% assign steps = site.steps | sort: 'date' %}
-    {% for step in steps %}
+    {% for step in steps reversed %}
     <div class="item">
         <i class="vertical-line"></i>
         <h2 class="item-date">{{ step.date | date: '%d/%m/%Y' }}{% if step.enddate %} - {{ step.enddate | date: '%m/%Y' }}{% endif %}</h2>
