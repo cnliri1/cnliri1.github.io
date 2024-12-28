@@ -1,7 +1,7 @@
 ### 主思路  
 
 家庭自动化简化模型  
-![](http://wx1.sinaimg.cn/mw690/5a7198d7ly1fgpotyu20yj21kw0vm0yn.jpg)  
+![](https://image.baidu.com/search/down?http://wx1.sinaimg.cn/mw690/5a7198d7ly1fgpotyu20yj21kw0vm0yn.jpg)  
 
 Siri-homeKit-homebridge-Domoticz-RMbridge -broadlinkRM-受控设备  
 
