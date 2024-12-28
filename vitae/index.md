@@ -7,7 +7,7 @@ layout: defaulttime
     <h1 class="cv-title"><span a class="black white-text" href="{{ site.url }}/">
     {{ page.title }} </span></h1>
     <nav>
-        <span><a title="home page" class="" href="{{ site.url }}/">home</a></span>
+        <span><a title="home page" class="" href="{{ site.url }}/posts">blog</a></span>
         <span><a title="about" class="" href="{{ site.url }}/about/">about</a></span>
         <span><a title="timeline" class="" href="{{ site.url }}/vitae/">timeline</a></span>
         <span><a title="categories" class="" href="{{ site.url }}/categories/">categories</a></span>
