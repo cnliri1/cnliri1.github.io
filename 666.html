@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海航 666 航线查询</title>
+<style>
+:root {
+  --primary: #1a6e3c;
+  --primary-light: #e8f5ec;
+  --bg: #f2f5f9;
+  --card: #ffffff;
+  --border: #dde3ec;
+  --text: #1a2332;
+  --text-muted: #6b7a8d;
+  --out-color: #1565c0;
+  --out-light: #e3eef7;
+  --back-color: #c62828;
+  --back-light: #fdeaec;
+  --beijing: #1565c0;
+  --tianjin: #2e7d32;
+  --sjz: #6a1b9a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+header {
+  background: linear-gradient(135deg, #1a6e3c, #145530);
+  color: white;
+  padding: 22px 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+}
+
+header h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+header p {
+  font-size: 0.82rem;
+  opacity: 0.8;
+}
+
+.controls {
+  background: white;
+  padding: 12px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 86px;
+  z-index: 99;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.filter-btn {
+  padding: 5px 13px;
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.15s;
+  color: var(--text);
+}
+
+.filter-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.filter-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 6px 32px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+.legend-dot.bj { background: var(--beijing); }
+.legend-dot.tj { background: var(--tianjin); }
+.legend-dot.sjz { background: var(--sjz); }
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+
+/* Province filter pills */
+#province-filter-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.province-wrap-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.province-scroll {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+/* Main split layout */
+.split-view {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.trip-column {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: sticky;
+  top: 148px;
+  max-height: calc(100vh - 170px);
+  overflow-y: auto;
+}
+
+.trip-column::-webkit-scrollbar { width: 4px; }
+.trip-column::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+
+.col-header {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.col-header.out { background: var(--out-light); border-bottom: 2px solid var(--out-color); }
+.col-header.back { background: var(--back-light); border-bottom: 2px solid var(--back-color); }
+
+.col-badge {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.col-badge.out { background: var(--out-color); }
+.col-badge.back { background: var(--back-color); }
+
+.col-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.col-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+/* Airport filter tabs */
+.airport-tabs {
+  display: flex;
+  gap: 0;
+  padding: 10px 16px 0;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 68px;
+  z-index: 9;
+}
+
+.airport-tab {
+  padding: 7px 14px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+  border-radius: 6px 6px 0 0;
+}
+
+.airport-tab:hover { color: var(--primary); }
+.airport-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+.airport-tab .dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.dot-bj { background: var(--beijing); }
+.dot-tj { background: var(--tianjin); }
+.dot-sjz { background: var(--sjz); }
+
+/* Cards grid inside column */
+.cards-grid {
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+
+.card-city-row {
+  padding: 10px 14px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.card-city { font-weight: 700; font-size: 0.9rem; }
+.card-province { font-size: 0.72rem; color: var(--text-muted); margin-top: 1px; }
+.card-count { font-size: 0.72rem; color: var(--text-muted); background: #f0f2f5; padding: 2px 7px; border-radius: 10px; }
+
+.card-body { padding: 8px 12px 10px; }
+
+.flight-chip {
+  background: #f8f9fb;
+  border-radius: 6px;
+  padding: 5px 8px;
+  margin-bottom: 4px;
+  border-left: 3px solid var(--out-color);
+}
+
+.flight-chip.tj { border-left-color: var(--tianjin); }
+.flight-chip.sjz { border-left-color: var(--sjz); }
+
+.flight-chip .f-no { font-weight: 700; font-size: 0.78rem; color: var(--text); }
+.flight-chip .f-time { font-size: 0.76rem; color: var(--text-muted); margin-top: 1px; }
+.flight-chip .f-day { font-size: 0.7rem; color: #999; }
+
+.no-result {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.result-count-bar {
+  background: var(--primary-light);
+  padding: 6px 32px;
+  font-size: 0.78rem;
+  color: var(--primary);
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #c8e6d5;
+}
+
+.search-input {
+  padding: 6px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.83rem;
+  outline: none;
+  width: 160px;
+  transition: border-color 0.15s;
+}
+
+.search-input:focus { border-color: var(--primary); }
+
+@media (max-width: 900px) {
+  .split-view { grid-template-columns: 1fr; }
+  .trip-column { position: static; max-height: none; }
+  .controls { top: 82px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>✈️ 海航 666 航线查询</h1>
+  <p>天津 / 北京首都·大兴 / 石家庄 · 去程 & 回程双栏并列</p>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot bj"></div>北京首都·大兴</div>
+  <div class="legend-item"><div class="legend-dot tj"></div>天津</div>
+  <div class="legend-item"><div class="legend-dot sjz"></div>石家庄</div>
+  <div style="margin-left:auto; font-size:0.73rem; color:#999;">666=基础产品 · 2666=高级产品</div>
+</div>
+
+<div class="result-count-bar">
+  <span id="total-out">去程 0 条</span>
+  <span id="total-back">回程 0 条</span>
+  <span id="total-cities">覆盖 0 个目的地</span>
+</div>
+
+<div class="controls">
+  <div class="filter-group" id="province-filter-wrap">
+    <span class="province-wrap-label">省份</span>
+    <div class="province-scroll" id="province-scroll"></div>
+  </div>
+  <div class="filter-group" style="margin-left:auto;">
+    <span class="filter-label">搜索</span>
+    <input type="text" id="search" class="search-input" placeholder="目的地/航班号" oninput="doFilter()">
+  </div>
+</div>
+
+<div class="container">
+  <div class="split-view">
+    <!-- LEFT: Outbound -->
+    <div class="trip-column" id="col-out">
+      <div class="col-header out">
+        <div class="col-badge out">去</div>
+        <div>
+          <div class="col-title">去程航班</div>
+          <div class="col-sub">出发地 → 目的地</div>
+        </div>
+      </div>
+      <div class="airport-tabs" id="tabs-out"></div>
+      <div class="cards-grid" id="cards-out"></div>
+    </div>
+
+    <!-- RIGHT: Return -->
+    <div class="trip-column" id="col-back">
+      <div class="col-header back">
+        <div class="col-badge back">返</div>
+        <div>
+          <div class="col-title">回程航班</div>
+          <div class="col-sub">目的地 → 出发地</div>
+        </div>
+      </div>
+      <div class="airport-tabs" id="tabs-back"></div>
+      <div class="cards-grid" id="cards-back"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== DATA ====================
+const RAW = [
+  ["上海市","上海","去程","首都: HU7601 07:45-10:00(每天)\n首都: HU7611 21:00-23:05(每天)\n首都: HU7613 07:30-09:50(每天)","-","-"],
+  ["上海市","上海","回程","首都: HU7602 08:20-10:40(每天)\n首都: HU7612 20:15-22:30(每天)","-","-"],
+  ["云南省","丽江","回程","大兴: JD5130 20:50-00:05(二四六)\n大兴: JD5678 21:30-00:05(一三五日)","8L9793 07:20-10:55(每天)\nJD5739 07:30-10:55(一三五日)","-"],
+  ["云南省","大理","去程","大兴: JD5919 06:55-10:50(每天)\n大兴: JD5153 08:00-11:50(日)","-","8L9930 20:00-00:35(二四六)"],
+  ["云南省","大理","回程","-","JD5025 07:40-10:55(一三五日)","-"],
+  ["云南省","昆明","去程","首都: HU7211 07:30-11:10(每天)\n首都: BL9988 20:10-23:50(每天)","-","-"],
+  ["云南省","昆明","回程","首都: HU7112 20:55-00:45(每天)","8L9731 07:10-12:15(一三五日)\n8L9727 07:15-12:15(二四六)","-"],
+  ["云南省","西双版纳","去程","大兴: JD5111 06:55-10:45(每天)","-","-"],
+  ["云南省","西双版纳","回程","大兴: JD5112 21:00-00:45(一三五日)","-","-"],
+  ["内蒙古自治区","二连浩特","去程","大兴: JD5221 20:20-21:45(每天)","-","-"],
+  ["内蒙古自治区","呼伦贝尔","去程","首都: HU7193 20:00-21:40(一三五日)\n大兴: JD5707 08:00-10:10(每天)","GS6698 20:05-22:35(每天)","-"],
+  ["内蒙古自治区","呼伦贝尔","回程","首都: HU7194 22:30-00:15(一三五日)","-","-"],
+  ["内蒙古自治区","呼和浩特","去程","-","GS6413 22:15-23:45(每天)","-"],
+  ["内蒙古自治区","满洲里","回程","首都: HU7674 20:30-23:00(二四六)","-","-"],
+  ["内蒙古自治区","赤峰","回程","-","-","GS6676 22:15-23:35(一三五日)"],
+  ["内蒙古自治区","锡林浩特","回程","-","GS7798 21:20-22:35(二四六)","-"],
+  ["内蒙古自治区","阿尔山","去程","大兴: JD5685 07:40-10:00(一三五日)","-","-"],
+  ["内蒙古自治区","霍林郭勒","回程","首都: HU7124 22:45-01:30(二四六)","-","-"],
+  ["四川省","成都","去程","首都: HU7147 08:00-10:55(每天)","-","-"],
+  ["四川省","成都","回程","大兴: JD5612 20:30-23:00(每天)","-","-"],
+  ["四川省","泸州","去程","-","-","8L9930 20:00-22:40(二四六)"],
+  ["四川省","绵阳","回程","-","GS7860 21:25-23:50(一三五日)","-"],
+  ["宁夏回族自治区","银川","去程","大兴: JD5639 07:40-10:20(每天)","-","GS7401 07:35-10:30(一三五日)"],
+  ["宁夏回族自治区","银川","回程","首都: CN7670 21:55-00:05(每天)\n大兴: JD5718 20:50-22:40(一三五日)","-","-"],
+  ["安徽省","亳州","回程","大兴: JD5250 21:35-22:55(一三五日)","GS7812 23:00-00:35(一三五日)","-"],
+  ["安徽省","安庆","去程","首都: CN7127 06:40-08:50(每天)","GS7909 07:30-09:15(二四六)","-"],
+  ["安徽省","安庆","回程","首都: HU7848 20:15-23:00(每天)","-","-"],
+  ["山东省","青岛","回程","-","-","GS6676 20:05-23:35(一三五日)"],
+  ["山西省","太原","去程","-","GS7801 07:35-08:50(一三五日)","-"],
+  ["广东省","广州","去程","首都: HU7815 20:30-23:55(每天)","JD5186 20:35-00:05(每天)","JD5348 22:45-01:30(每天)"],
+  ["广东省","广州","回程","首都: HU7802 07:50-11:00(每天)\n首都: HU7816 21:15-00:25(每天)\n大兴: JD5922 21:55-00:55(每天)","JD5185 06:40-09:40(每天)","-"],
+  ["广东省","惠州","去程","-","GS7815 08:00-13:20(二四六)","-"],
+  ["广东省","揭阳","去程","-","GS7829 06:35-09:20(一三五日)","GS7403 07:55-12:45(二四六)"],
+  ["广东省","深圳","去程","首都: HU7713 20:30-23:50(每天)\n首都: HU7715 21:30-01:10(每天)","GS7909 07:30-11:55(二四六)","-"],
+  ["广东省","深圳","回程","首都: HU7702 07:10-10:15(每天)\n首都: HU7714 19:10-22:30(每天)\n首都: HU7716 20:10-23:25(每天)","-","-"],
+  ["广西壮族自治区","南宁","回程","首都: HU7154 21:30-00:55(每天)\n大兴: JD5292 20:40-23:55(每天)","GX7873 07:15-12:15(一三五日)","-"],
+  ["广西壮族自治区","桂林","回程","大兴: JD5780 22:15-00:55(每天)","-","-"],
+  ["广西壮族自治区","玉林","回程","首都: HU7110 21:10-00:25(三五日)","-","-"],
+  ["新疆维吾尔自治区","乌鲁木齐","去程","首都: HU7145 07:30-11:55(每天)\n首都: HU6224 20:55-01:15(每天)\n大兴: JD5217 07:25-11:50(每天)","GS7835 07:45-11:50(每天)\nGS7578 20:05-00:40(每天)","HU7826 21:00-01:15(每天)"],
+  ["新疆维吾尔自治区","乌鲁木齐","回程","首都: HU6223 07:15-10:55(每天)\n首都: HU7246 20:00-23:50(每天)\n大兴: JD5220 20:40-00:20(每天)","GS7577 07:00-10:30(每天)\nUQ2507 07:25-11:20(一三五日)","-"],
+  ["新疆维吾尔自治区","和田","去程","-","GS7835 07:45-15:25(每天)","-"],
+  ["江西省","上饶","回程","-","GS7872 22:40-00:55(二四六)","-"],
+  ["江西省","南昌","去程","大兴: JD5091 07:20-09:40(二四六)","-","-"],
+  ["河南省","南阳","回程","-","GS7850 21:05-23:00(一三五日)","-"],
+  ["浙江省","杭州","去程","首都: HU7577 06:55-09:15(每天)\n首都: HU7277 08:00-10:15(每天)\n首都: HU7177 21:00-23:20(每天)\n首都: HU7377 22:05-00:25(每天)\n大兴: JD5908 07:25-09:25(每天)","JD5902 22:05-00:10(每天)","JD5280 22:40-01:05(每天)"],
+  ["浙江省","杭州","回程","首都: HU7378 07:30-09:45(每天)\n首都: HU7678 21:25-23:45(每天)\n大兴: JD5907 21:45-00:05(每天)","GS7854 21:05-23:15(每天)","-"],
+  ["浙江省","温州","去程","首都: HU7291 07:55-10:45(每天)","-","-"],
+  ["浙江省","舟山","去程","-","FU6602 20:55-22:55(每天)","-"],
+  ["海南省","三亚","去程","首都: HU7579 21:05-01:10(每天)\n大兴: JD5121 06:55-10:55(一三五日)\n大兴: JD5577 07:25-11:30(每天)","JD5196 20:55-01:15(每天)","JD5758 20:20-23:40(二六)\nJD5532 21:05-00:40(每天)"],
+  ["海南省","三亚","回程","大兴: JD5578 19:55-23:40(五日)\n大兴: JD5122 21:05-00:50(二四六)","-","-"],
+  ["海南省","海口","去程","首都: HU7382 08:00-11:45(每天)\n首都: HU7282 21:00-01:00(每天)","GS7829 06:35-11:35(一三五日)","-"],
+  ["海南省","海口","回程","首都: HU7181 08:00-11:45(每天)\n首都: HU7581 21:00-00:40(每天)","-","JD5037 06:25-11:50(二四六)\nGS6527 07:10-10:20(每天)"],
+  ["湖北省","十堰","去程","-","GS7815 08:00-10:10(二四六)","GS7403 07:55-09:50(二四六)"],
+  ["湖北省","十堰","回程","-","GS7816 21:35-23:40(二四六)","-"],
+  ["湖北省","宜昌","去程","首都: HU7185 06:55-09:10(每天)","-","-"],
+  ["湖北省","宜昌","回程","-","GS7818 22:50-00:45(二四六)\nGS7870 22:55-00:55(一三五日)","-"],
+  ["湖北省","武汉","回程","-","GS7858 21:45-23:40(每天)","-"],
+  ["湖南省","衡阳","回程","-","GS7828 21:10-23:50(一三五日)","-"],
+  ["湖南省","长沙","去程","首都: HU7135 07:15-09:50(每天)\n首都: HU7535 23:05-01:40(每天)\n大兴: JD5931 07:40-10:05(一二三五日)","-","-"],
+  ["湖南省","长沙","回程","首都: HU7436 20:30-23:00(每天)\n首都: HU7536 21:30-00:05(每天)\n大兴: JD5932 20:30-22:40(一三五日)","-","-"],
+  ["甘肃省","兰州","去程","首都: HU7197 06:55-09:20(每天)\n首都: HU7297 20:30-22:55(每天)","GS7877 08:00-11:55(一三五日)","-"],
+  ["甘肃省","兰州","回程","首都: HU7298 20:25-23:00(每天)","-","-"],
+  ["甘肃省","庆阳","去程","-","GS7877 08:00-10:05(一三五日)","-"],
+  ["福建省","厦门","去程","首都: HU7191 07:55-11:00(每天)","-","-"],
+  ["福建省","厦门","回程","首都: HU7492 20:45-23:40(每天)","GS7818 20:05-00:45(二四六)\nGS7812 20:15-00:35(一三五日)","-"],
+  ["福建省","福州","去程","-","FU6602 20:55-00:50(每天)","-"],
+  ["福建省","福州","回程","首都: HU7296 21:05-23:50(每天)","FU6601 07:50-12:00(每天)","-"],
+  ["贵州省","贵阳","去程","首都: HU7289 07:30-10:40(每天)","-","-"],
+  ["贵州省","贵阳","回程","首都: HU7290 20:00-23:00(一三五日)","GS7902 20:25-00:50(每天)","-"],
+  ["辽宁省","大连","去程","首都: HU7105 06:55-08:25(每天)\n首都: HU7103 23:05-00:30(每天)","GS7821 07:30-08:30(五)\nHU7660 22:20-23:35(每天)","HU7686 21:50-23:15(二四六)"],
+  ["辽宁省","大连","回程","首都: HU7104 20:20-21:40(每天)\n首都: HU7106 22:25-00:05(每天)","HU7659 07:55-09:10(每天)\nGS6413 20:05-21:25(二四六)","-"],
+  ["辽宁省","沈阳","去程","-","-","JD5194 21:00-23:05(每天)"],
+  ["重庆市","重庆","去程","首都: HU7167 08:00-10:55(每天)\n首都: HU7367 20:00-22:40(每天)\n大兴: JD5755 07:55-10:35(每天)","-","PN6318 22:55-01:30(二四六)"],
+  ["重庆市","重庆","回程","首都: HU7368 07:25-10:00(每天)\n首都: HU7268 21:30-23:55(每天)","PN6237 06:55-09:25(每天)\nGS7918 21:30-23:55(每天)","PN6349 06:35-08:40(每天)\nPN6317 20:10-22:05(二四六)"],
+  ["陕西省","榆林","去程","首都: CN7133 20:00-21:40(一四六)","GS7458 21:15-22:55(每天)","GS7401 07:35-08:50(一三五日)"],
+  ["陕西省","榆林","回程","首都: HU7134 22:30-00:05(一四六)","-","-"],
+  ["陕西省","西安","去程","首都: HU7137 06:50-09:10(一二三四六日)\n首都: HU7337 22:05-00:30(每天)","-","-"],
+  ["陕西省","西安","回程","首都: HU6218 19:30-22:00(二四)","GS7902 23:15-00:50(每天)","GS7671 07:55-09:30(二四六)"],
+  ["青海省","玉树","去程","大兴: JD5639 07:40-12:40(每天)","-","-"],
+  ["黑龙江省","哈尔滨","去程","首都: CN7139 06:55-08:55(每天)\n首都: HU7129 22:05-00:05(每天)","GS7919 07:45-09:50(每天)","-"],
+  ["黑龙江省","哈尔滨","回程","首都: CN7140 21:05-23:15(每天)\n首都: HU7130 21:55-00:15(每天)","HU7627 07:25-09:45(每天)","-"]
+];
+
+// ==================== CONSTANTS ====================
+const AIRPORTS = [
+  { key: 3, name: '北京首都·大兴', dot: 'bj' },
+  { key: 4, name: '天津',           dot: 'tj' },
+  { key: 5, name: '石家庄',         dot: 'sjz' }
+];
+
+const TRIP_LABELS = { out: '去程', back: '回程' };
+
+// Province order (first appearance)
+const PROV_ORDER = [];
+RAW.forEach(r => { if (!PROV_ORDER.includes(r[0])) PROV_ORDER.push(r[0]); });
+
+// ==================== STATE ====================
+let activeProvinces = new Set(['全部']);
+let searchText = '';
+let activeTab = { out: '全部', back: '全部' };
+
+// ==================== INIT ====================
+function init() {
+  buildProvinceButtons();
+  buildTabs();
+  doFilter();
+}
+
+function buildProvinceButtons() {
+  const wrap = document.getElementById('province-scroll');
+  wrap.innerHTML = '';
+
+  ['全部'].concat(PROV_ORDER).forEach(prov => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (activeProvinces.has(prov) ? ' active' : '');
+    btn.textContent = prov;
+    btn.onclick = () => toggleProvince(prov, btn);
+    wrap.appendChild(btn);
+  });
+}
+
+function toggleProvince(prov, btn) {
+  if (prov === '全部') {
+    activeProvinces = new Set(['全部']);
+  } else {
+    activeProvinces.delete('全部');
+    if (activeProvinces.has(prov)) {
+      activeProvinces.delete(prov);
+    } else {
+      activeProvinces.add(prov);
+    }
+    if (activeProvinces.size === 0) activeProvinces.add('全部');
+  }
+
+  document.querySelectorAll('#province-scroll .filter-btn').forEach(b => {
+    b.classList.remove('active');
+  });
+  document.querySelectorAll('#province-scroll .filter-btn').forEach(b => {
+    const txt = b.textContent;
+    if ((prov === '全部' && txt === '全部') || activeProvinces.has(txt)) {
+      b.classList.add('active');
+    }
+  });
+
+  // Sync airport tabs
+  ['out', 'back'].forEach(t => {
+    const tabs = document.querySelectorAll(`#tabs-${t} .airport-tab`);
+    let hasActive = false;
+    tabs.forEach(tab => {
+      if (tab.classList.contains('active')) hasActive = true;
+    });
+    if (!hasActive) {
+      tabs.forEach(t => t.classList.remove('active'));
+      tabs[0] && tabs[0].classList.add('active');
+      activeTab[t] = '全部';
+    }
+  });
+
+  doFilter();
+}
+
+function buildTabs() {
+  ['out', 'back'].forEach(trip => {
+    const container = document.getElementById(`tabs-${trip}`);
+    container.innerHTML = '';
+
+    ['全部', ...AIRPORTS].forEach(ap => {
+      const btn = document.createElement('button');
+      btn.className = 'airport-tab' + (ap === '全部' ? ' active' : '');
+      if (ap !== '全部') {
+        const dot = `<span class="dot dot-${ap.dot}"></span>`;
+        btn.innerHTML = dot + ap.name;
+      } else {
+        btn.textContent = '全部机场';
+      }
+      btn.onclick = () => setTab(trip, ap, btn);
+      container.appendChild(btn);
+    });
+  });
+}
+
+function setTab(trip, ap, btn) {
+  activeTab[trip] = ap === '全部' ? '全部' : ap.key;
+  btn.parentElement.querySelectorAll('.airport-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  doFilter();
+}
+
+function doFilter() {
+  searchText = document.getElementById('search').value.trim().toLowerCase();
+  render('out');
+  render('back');
+}
+
+function matchesSearch(text) {
+  if (!searchText) return true;
+  return text.toLowerCase().includes(searchText);
+}
+
+function getAirportFilter(trip) {
+  const tab = activeTab[trip];
+  if (tab === '全部') return () => true;
+  return idx => idx === tab;
+}
+
+function countFlights(rows, trip, airportFilter) {
+  let cnt = 0;
+  rows.filter(r => r[2] === trip).forEach(r => {
+    AIRPORTS.forEach(ap => {
+      if (!airportFilter(ap.key)) return;
+      const text = r[ap.key];
+      if (text === '-' || !text) return;
+      if (!matchesSearch(r[1]) && !matchesSearch(text)) return;
+      if (!matchesProvince(r[0])) return;
+      cnt += text.split('\n').filter(f => f.trim()).length;
+    });
+  });
+  return cnt;
+}
+
+function matchesProvince(prov) {
+  if (activeProvinces.has('全部')) return true;
+  return activeProvinces.has(prov);
+}
+
+// ==================== RENDER ====================
+function render(trip) {
+  const container = document.getElementById(`cards-${trip}`);
+  const tripKey = trip === 'out' ? '去程' : '回程';
+  const airportFilter = getAirportFilter(trip);
+
+  // Group by destination city
+  const cityMap = {};
+
+  RAW.filter(r => r[2] === tripKey).forEach(r => {
+    const prov = r[0];
+    const dest = r[1];
+
+    AIRPORTS.forEach(ap => {
+      if (!airportFilter(ap.key)) return;
+      const text = r[ap.key];
+      if (text === '-' || !text || !text.trim()) return;
+      if (!matchesSearch(dest) && !matchesSearch(text)) return;
+      if (!matchesProvince(prov)) return;
+
+      if (!cityMap[dest]) cityMap[dest] = { prov, flights: [] };
+      const flights = text.split('\n').filter(f => f.trim());
+      flights.forEach(f => {
+        cityMap[dest].flights.push({ text: f, airportKey: ap.key });
+      });
+    });
+  });
+
+  const cities = Object.keys(cityMap).sort();
+
+  if (cities.length === 0) {
+    container.innerHTML = '<div class="no-result">暂无航班信息，请调整筛选条件</div>';
+    return;
+  }
+
+  container.innerHTML = cities.map(city => {
+    const { prov, flights } = cityMap[city];
+    const flightChips = flights.map(f => {
+      const parsed = parseFlight(f.text);
+      const chipClass = f.airportKey === 5 ? 'sjz' : f.airportKey === 4 ? 'tj' : '';
+      if (parsed) {
+        return `<div class="flight-chip ${chipClass}">
+          <div class="f-no">${parsed.prefix ? parsed.prefix + ' ' : ''}${parsed.flightNo}</div>
+          <div class="f-time">${parsed.depart} → ${parsed.arrive}</div>
+          <div class="f-day">${parsed.day}</div>
+        </div>`;
+      }
+      return `<div class="flight-chip ${chipClass}"><div class="f-no">${f.text}</div></div>`;
+    }).join('');
+
+    return `<div class="card">
+      <div class="card-city-row">
+        <div>
+          <div class="card-city">${city}</div>
+          <div class="card-province">${prov}</div>
+        </div>
+        <span class="card-count">${flights.length}条</span>
+      </div>
+      <div class="card-body">${flightChips}</div>
+    </div>`;
+  }).join('');
+
+  // Update counts
+  if (trip === 'out') {
+    const outRows = RAW.filter(r => r[2] === '去程');
+    const citySet = new Set();
+    let outCount = 0;
+    const af = getAirportFilter('out');
+    outRows.forEach(r => {
+      AIRPORTS.forEach(ap => {
+        if (!af(ap.key)) return;
+        const text = r[ap.key];
+        if (text === '-' || !text || !matchesSearch(r[1]) && !matchesSearch(text)) return;
+        if (!matchesProvince(r[0])) return;
+        outCount += text.split('\n').filter(f => f.trim()).length;
+        citySet.add(r[1]);
+      });
+    });
+    document.getElementById('total-out').textContent = `去程 ${outCount} 条`;
+    document.getElementById('total-cities').textContent = `覆盖 ${citySet.size} 个目的地`;
+  } else {
+    const backRows = RAW.filter(r => r[2] === '回程');
+    let backCount = 0;
+    const af = getAirportFilter('back');
+    backRows.forEach(r => {
+      AIRPORTS.forEach(ap => {
+        if (!af(ap.key)) return;
+        const text = r[ap.key];
+        if (text === '-' || !text || !matchesSearch(r[1]) && !matchesSearch(text)) return;
+        if (!matchesProvince(r[0])) return;
+        backCount += text.split('\n').filter(f => f.trim()).length;
+      });
+    });
+    document.getElementById('total-back').textContent = `回程 ${backCount} 条`;
+  }
+}
+
+function parseFlight(str) {
+  const m = str.match(/^(?:([^:：]+)[:：]\s*)?([A-Za-z0-9]+)\s+(\d{2}:\d{2})-(\d{2}:\d{2})\(([^)]+)\)/);
+  if (!m) return null;
+  return { prefix: m[1] ? m[1].trim() : '', flightNo: m[2], depart: m[3], arrive: m[4], day: m[5] };
+}
+
+init();
+</script>
+</body>
+</html>
