@@ -581,9 +581,23 @@ header p {
   <!-- Row 3: Search -->
   <div class="controls-row">
     <span class="filter-label">搜索</span>
-    <input type="text" id="search-input" placeholder="目的地/航班号" 
+    <input type="text" id="search-input" placeholder="目的地/航班号"
            style="padding:5px 12px;border:1.5px solid var(--border);border-radius:16px;font-size:0.82rem;outline:none;width:150px;"
            oninput="doFilter()">
+  </div>
+
+  <div class="filter-divider"></div>
+
+  <!-- Row 4: 夕发 / 夕至 -->
+  <div class="controls-row">
+    <label style="display:flex;align-items:center;gap:6px;font-size:0.8rem;cursor:pointer;">
+      <input type="checkbox" id="night-out-filter" onchange="updateNightFilter()">
+      <span>夕发（去程 20:00 后起飞）</span>
+    </label>
+    <label style="display:flex;align-items:center;gap:6px;font-size:0.8rem;cursor:pointer;">
+      <input type="checkbox" id="night-back-filter" onchange="updateNightFilter()">
+      <span>夕至（回程 20:00 后起飞）</span>
+    </label>
   </div>
 
   <div style="margin-left:auto;font-size:0.78rem;color:var(--text-muted);align-self:center;" id="result-count"></div>
@@ -688,6 +702,8 @@ let outCity = null;   // null = all cities, 3/4/5 = specific city
 let backCity = null;  // null = all cities
 let activeProvince = '全部';
 let activeLevel = null;   // null = show all, 'p1' = P1 only, 'p2' = P2 only
+let nightOut = false;
+let nightBack = false;
 let searchText = '';
 
 // ==================== COMPUTE P1/P2 ====================
@@ -824,8 +840,16 @@ function buildProvinceButtons() {
     });
   };
 
-  const sortedP1 = sortByDist(P1_PROVS);
-  const sortedP2 = sortByDist(P2_PROVS);
+  let p1List = P1_PROVS;
+  let p2List = P2_PROVS;
+  if (nightOut || nightBack) {
+    const eveningProvs = getEveningProvinceSet();
+    p1List = P1_PROVS.filter(p => eveningProvs.has(p));
+    p2List = P2_PROVS.filter(p => eveningProvs.has(p));
+  }
+
+  const sortedP1 = sortByDist(p1List);
+  const sortedP2 = sortByDist(p2List);
 
   // P1 row
   p1Container.innerHTML = '';
@@ -878,11 +902,62 @@ function matchesSearch(text) {
   return text.toLowerCase().includes(searchText);
 }
 
+function isEveningFlight(flightStr) {
+  const parsed = parseFlight(flightStr);
+  if (!parsed) return false;
+  return parsed.depart >= '20:00';
+}
+
+function rowHasEveningFlight(r) {
+  for (let i = 3; i <= 5; i++) {
+    const t = r[i];
+    if (!t || t === '-') continue;
+    if (t.split('\n').filter(f => f.trim()).some(isEveningFlight)) return true;
+  }
+  return false;
+}
+
+function getEveningDirectionSet(tripType) {
+  const set = new Set();
+  RAW.forEach(r => {
+    if (r[2] !== tripType) return;
+    if (rowHasEveningFlight(r)) set.add(r[0]);
+  });
+  return set;
+}
+
+function getEveningProvinceSet() {
+  const out = nightOut ? getEveningDirectionSet('去程') : new Set();
+  const back = nightBack ? getEveningDirectionSet('回程') : new Set();
+
+  if (nightOut && nightBack) {
+    const both = new Set();
+    out.forEach(p => { if (back.has(p)) both.add(p); });
+    return both;
+  }
+  return nightOut ? out : back;
+}
+
+function updateNightFilter() {
+  nightOut = document.getElementById('night-out-filter').checked;
+  nightBack = document.getElementById('night-back-filter').checked;
+  if ((nightOut || nightBack) && activeProvince !== '全部') {
+    const eveningProvs = getEveningProvinceSet();
+    if (!eveningProvs.has(activeProvince)) {
+      activeProvince = '全部';
+    }
+  }
+  buildProvinceButtons();
+  doFilter();
+}
+
 // ==================== RENDER ====================
 function render() {
   const container = document.getElementById('main-container');
   const statsBar = document.getElementById('stats-bar');
   container.innerHTML = '';
+
+  const eveningProvs = (nightOut || nightBack) ? getEveningProvinceSet() : null;
 
   const ALL_CITIES = [
     { key: 3, name: '北京首都·大兴', dotClass: 'dot-beijing' },
@@ -954,7 +1029,14 @@ function render() {
       const rows = RAW.filter(r => r[2] === tripType && r[cityKey] && r[cityKey] !== '-');
       const destCards = [];
       rows.forEach(r => {
-        const prov = r[0], dest = r[1], text = r[cityKey];
+        const prov = r[0], dest = r[1];
+        const applyNight = (tripType === '去程' && nightOut) || (tripType === '回程' && nightBack);
+        let text = r[cityKey];
+        if (applyNight) {
+          if (!eveningProvs.has(prov)) return;
+          text = text.split('\n').filter(f => f.trim()).filter(isEveningFlight).join('\n');
+          if (!text) return;
+        }
         if (!text || !text.trim()) return;
         if (!matchesSearch(dest) && !matchesSearch(text)) return;
         if (activeProvince !== '全部') {
