@@ -8,18 +8,27 @@
 :root {
   --primary: #1a6e3c;
   --primary-light: #e8f5ec;
-  --bg: #f2f5f9;
+  --accent: #c8391a;
+  --accent-light: #fff3ee;
+  --bg: #f5f7fa;
   --card: #ffffff;
   --border: #dde3ec;
   --text: #1a2332;
   --text-muted: #6b7a8d;
-  --out-color: #1565c0;
-  --out-light: #e3eef7;
-  --back-color: #c62828;
-  --back-light: #fdeaec;
-  --beijing: #1565c0;
-  --tianjin: #2e7d32;
-  --sjz: #6a1b9a;
+  --badge-beijing: #1565c0;
+  --badge-tianjin: #2e7d32;
+  --badge-shijiazhuang: #6a1b9a;
+  --trip-out: #1565c0;
+  --trip-back: #c62828;
+  --p1-color: #b71c1c;
+  --p1-bg: #ffebee;
+  --p1-border: #ef9a9a;
+  --p2-color: #37474f;
+  --p2-bg: #f5f5f5;
+  --p2-border: #cfd8dc;
+  --far-color: #bf360c;
+  --far-bg: #fff3e0;
+  --far-border: #ffb74d;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,13 +41,13 @@ body {
 }
 
 header {
-  background: linear-gradient(135deg, #1a6e3c, #145530);
+  background: var(--primary);
   color: white;
-  padding: 22px 32px;
+  padding: 20px 32px;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
 
 header h1 {
@@ -49,50 +58,113 @@ header h1 {
 
 header p {
   font-size: 0.82rem;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
+.legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding: 8px 32px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-dot.beijing { background: var(--badge-beijing); }
+.legend-dot.tianjin { background: var(--badge-tianjin); }
+.legend-dot.sjz { background: var(--badge-shijiazhuang); }
+
+.legend-p1 {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--p1-bg);
+  border: 1px solid var(--p1-border);
+  border-radius: 12px;
+  padding: 1px 8px;
+  color: var(--p1-color);
+  font-weight: 600;
+  font-size: 0.72rem;
+}
+
+.legend-p2 {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--p2-bg);
+  border: 1px solid var(--p2-border);
+  border-radius: 12px;
+  padding: 1px 8px;
+  color: var(--p2-color);
+  font-weight: 600;
+  font-size: 0.72rem;
+}
+
+/* Controls */
 .controls {
   background: white;
   padding: 12px 32px;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  align-items: center;
-  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+  border-bottom: 2px solid var(--border);
   position: sticky;
-  top: 86px;
+  top: 76px;
   z-index: 99;
 }
 
-.filter-group {
+.controls-row {
   display: flex;
-  align-items: center;
-  gap: 8px;
   flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 
 .filter-label {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 28px;
+}
+
+.filter-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+  margin: 0 4px;
 }
 
 .filter-btn {
   padding: 5px 13px;
   border: 1.5px solid var(--border);
-  border-radius: 18px;
+  border-radius: 16px;
   background: white;
   cursor: pointer;
   font-size: 0.8rem;
-  transition: all 0.15s;
+  transition: all 0.18s;
   color: var(--text);
+  white-space: nowrap;
 }
 
 .filter-btn:hover {
   border-color: var(--primary);
   color: var(--primary);
-  background: var(--primary-light);
 }
 
 .filter-btn.active {
@@ -101,232 +173,375 @@ header p {
   color: white;
 }
 
-.legend {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  padding: 6px 32px;
-  background: white;
-  border-bottom: 1px solid var(--border);
-}
-
-.legend-item { display: flex; align-items: center; gap: 4px; }
-.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-.legend-dot.bj { background: var(--beijing); }
-.legend-dot.tj { background: var(--tianjin); }
-.legend-dot.sjz { background: var(--sjz); }
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px 16px;
-}
-
-/* Province filter pills */
-#province-filter-wrap {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.province-wrap-label {
+/* P1 / P2 filter pills */
+.filter-p1-btn {
+  border-color: var(--p1-border);
+  color: var(--p1-color);
+  background: var(--p1-bg);
   font-size: 0.78rem;
-  color: var(--text-muted);
   font-weight: 600;
-  margin-right: 4px;
 }
 
-.province-scroll {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
+.filter-p1-btn:hover {
+  border-color: var(--p1-color);
+  background: #fce4ec;
 }
 
-/* Main split layout */
-.split-view {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  align-items: start;
-}
-
-.trip-column {
-  background: white;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  overflow: hidden;
-  position: sticky;
-  top: 148px;
-  max-height: calc(100vh - 170px);
-  overflow-y: auto;
-}
-
-.trip-column::-webkit-scrollbar { width: 4px; }
-.trip-column::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
-
-.col-header {
-  padding: 14px 18px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.col-header.out { background: var(--out-light); border-bottom: 2px solid var(--out-color); }
-.col-header.back { background: var(--back-light); border-bottom: 2px solid var(--back-color); }
-
-.col-badge {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800;
-  font-size: 0.75rem;
+.filter-p1-btn.active {
+  background: var(--p1-color);
+  border-color: var(--p1-color);
   color: white;
-  flex-shrink: 0;
 }
 
-.col-badge.out { background: var(--out-color); }
-.col-badge.back { background: var(--back-color); }
-
-.col-title {
-  font-size: 1rem;
-  font-weight: 700;
+.filter-p2-btn {
+  border-color: var(--p2-border);
+  color: var(--p2-color);
+  background: var(--p2-bg);
 }
 
-.col-sub {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  margin-top: 1px;
+.filter-p2-btn:hover {
+  border-color: #90a4ae;
 }
 
-/* Airport filter tabs */
-.airport-tabs {
+.filter-p2-btn.active {
+  background: var(--p2-color);
+  border-color: var(--p2-color);
+  color: white;
+}
+
+.trip-toggle {
   display: flex;
-  gap: 0;
-  padding: 10px 16px 0;
-  background: #f8fafc;
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 68px;
-  z-index: 9;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-.airport-tab {
-  padding: 7px 14px;
+.trip-toggle-btn {
+  padding: 6px 16px;
   border: none;
-  background: none;
+  background: white;
   cursor: pointer;
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-muted);
-  border-bottom: 2.5px solid transparent;
-  margin-bottom: -1px;
-  transition: all 0.15s;
-  border-radius: 6px 6px 0 0;
+  transition: all 0.18s;
 }
 
-.airport-tab:hover { color: var(--primary); }
-.airport-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.trip-toggle-btn.active-out {
+  background: var(--trip-out);
+  color: white;
+}
 
-.airport-tab .dot {
+.trip-toggle-btn.active-back {
+  background: var(--trip-back);
+  color: white;
+}
+
+.trip-toggle-btn + .trip-toggle-btn {
+  border-left: 1px solid var(--border);
+}
+
+/* P-level badge on province buttons */
+.province-btn-wrap {
+  position: relative;
   display: inline-block;
-  width: 7px; height: 7px;
+}
+
+.p-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  margin-right: 4px;
-}
-
-.dot-bj { background: var(--beijing); }
-.dot-tj { background: var(--tianjin); }
-.dot-sjz { background: var(--sjz); }
-
-/* Cards grid inside column */
-.cards-grid {
-  padding: 12px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 10px;
-}
-
-.card {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  transition: box-shadow 0.18s, transform 0.18s;
-}
-
-.card:hover {
-  box-shadow: 0 4px 18px rgba(0,0,0,0.1);
-  transform: translateY(-1px);
-}
-
-.card-city-row {
-  padding: 10px 14px 8px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #f0f2f5;
+  justify-content: center;
+  font-size: 0.55rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+  z-index: 2;
 }
 
-.card-city { font-weight: 700; font-size: 0.9rem; }
-.card-province { font-size: 0.72rem; color: var(--text-muted); margin-top: 1px; }
-.card-count { font-size: 0.72rem; color: var(--text-muted); background: #f0f2f5; padding: 2px 7px; border-radius: 10px; }
+.p-badge.p1 { background: var(--p1-color); }
+.p-badge.p2 { background: #78909c; }
 
-.card-body { padding: 8px 12px 10px; }
-
-.flight-chip {
-  background: #f8f9fb;
-  border-radius: 6px;
-  padding: 5px 8px;
-  margin-bottom: 4px;
-  border-left: 3px solid var(--out-color);
-}
-
-.flight-chip.tj { border-left-color: var(--tianjin); }
-.flight-chip.sjz { border-left-color: var(--sjz); }
-
-.flight-chip .f-no { font-weight: 700; font-size: 0.78rem; color: var(--text); }
-.flight-chip .f-time { font-size: 0.76rem; color: var(--text-muted); margin-top: 1px; }
-.flight-chip .f-day { font-size: 0.7rem; color: #999; }
-
-.no-result {
-  padding: 40px 20px;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.88rem;
-}
-
-.result-count-bar {
+/* Stats bar */
+.stats-bar {
   background: var(--primary-light);
-  padding: 6px 32px;
-  font-size: 0.78rem;
+  padding: 8px 32px;
+  font-size: 0.8rem;
   color: var(--primary);
   display: flex;
-  gap: 20px;
+  gap: 24px;
   border-bottom: 1px solid #c8e6d5;
 }
 
-.search-input {
-  padding: 6px 12px;
-  border: 1.5px solid var(--border);
-  border-radius: 20px;
-  font-size: 0.83rem;
-  outline: none;
-  width: 160px;
-  transition: border-color 0.15s;
+/* Main container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 16px;
 }
 
-.search-input:focus { border-color: var(--primary); }
+/* Trip section */
+.trip-section {
+  margin-bottom: 40px;
+}
 
-@media (max-width: 900px) {
-  .split-view { grid-template-columns: 1fr; }
-  .trip-column { position: static; max-height: none; }
-  .controls { top: 82px; }
+.trip-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+}
+
+.trip-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: white;
+}
+
+.trip-badge.out { background: var(--trip-out); }
+.trip-badge.back { background: var(--trip-back); }
+
+.trip-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* City tabs */
+.city-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+
+.city-tab {
+  padding: 10px 18px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.18s;
+  border-radius: 6px 6px 0 0;
+}
+
+.city-tab:hover { color: var(--primary); background: var(--primary-light); }
+
+.city-tab.active {
+  color: white;
+  background: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.city-tab .count {
+  display: inline-block;
+  background: rgba(0,0,0,0.1);
+  color: inherit;
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 4px;
+}
+
+/* Cards grid */
+.dept-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+
+.card.p1-card {
+  border-color: var(--p1-border);
+}
+
+.card.p1-card .card-header {
+  background: var(--p1-bg);
+  border-bottom-color: var(--p1-border);
+}
+
+.card.p2-card {
+  border-color: var(--p2-border);
+  opacity: 0.85;
+}
+
+.card-header {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-city {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.p-level-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 8px;
+  color: white;
+}
+
+.p-level-tag.p1 { background: var(--p1-color); }
+.p-level-tag.p2 { background: #78909c; }
+
+.distance-tag {
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 8px;
+  color: white;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+.distance-tag.far { background: var(--far-color); }
+.distance-tag.near { background: #90a4ae; }
+
+.card.far-card {
+  border-color: var(--far-border) !important;
+  background: var(--far-bg) !important;
+}
+.card.far-card .card-header { background: #fff8ee !important; border-bottom-color: var(--far-border); }
+.card.far-card:hover { box-shadow: 0 4px 20px rgba(191, 54, 12, 0.15); }
+
+.card-province {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+}
+
+.flight-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #f0f2f5;
+  padding: 10px 14px;
+  align-items: start;
+}
+
+.flight-row:last-child { border-bottom: none; }
+
+.flight-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.flight-col:first-child {
+  border-right: 1px solid #f0f2f5;
+  padding-right: 12px;
+}
+
+.flight-col:last-child {
+  padding-left: 12px;
+}
+
+.flight-item {
+  background: #f8f9fb;
+  border-radius: 6px;
+  padding: 5px 8px;
+  margin-bottom: 3px;
+  border-left: 3px solid var(--primary);
+}
+
+.flight-item.shijiazhuang {
+  border-left-color: var(--badge-shijiazhuang);
+}
+
+.flight-item .flight-no {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+.flight-item .flight-time {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.flight-item .flight-day {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.no-flights {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
+
+/* City dot colors */
+.dot-beijing { background: var(--badge-beijing); }
+.dot-tianjin { background: var(--badge-tianjin); }
+.dot-shijiazhuang { background: var(--badge-shijiazhuang); }
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.highlight { background: rgba(255, 235, 59, 0.4); }
+
+/* Province section label */
+.province-section-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 0 4px;
+  margin-bottom: 4px;
+}
+
+.province-section-label.p1-label { color: var(--p1-color); }
+.province-section-label.p2-label { color: var(--p2-color); }
+
+@media (max-width: 600px) {
+  .controls { padding: 10px 16px; top: 72px; }
+  .dept-cards { grid-template-columns: 1fr; }
+  header { padding: 14px 16px; }
 }
 </style>
 </head>
@@ -334,61 +549,53 @@ header p {
 
 <header>
   <h1>✈️ 海航 666 航线查询</h1>
-  <p>天津 / 北京首都·大兴 / 石家庄 · 去程 & 回程双栏并列</p>
+  <p>天津 / 北京首都·大兴 / 石家庄 出发 · 去程 & 回程完整信息</p>
 </header>
 
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot bj"></div>北京首都·大兴</div>
-  <div class="legend-item"><div class="legend-dot tj"></div>天津</div>
+  <div class="legend-item"><div class="legend-dot beijing"></div>北京首都·大兴</div>
+  <div class="legend-item"><div class="legend-dot tianjin"></div>天津</div>
   <div class="legend-item"><div class="legend-dot sjz"></div>石家庄</div>
-  <div style="margin-left:auto; font-size:0.73rem; color:#999;">666=基础产品 · 2666=高级产品</div>
-</div>
-
-<div class="result-count-bar">
-  <span id="total-out">去程 0 条</span>
-  <span id="total-back">回程 0 条</span>
-  <span id="total-cities">覆盖 0 个目的地</span>
+  <div class="legend-p1"><span>●</span> P1 = 往返都有票</div>
+  <div class="legend-p2"><span>●</span> P2 = 仅单程有票</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--far-color);"></div>800km+ 长途优先</div>
+  <div style="margin-left:auto;font-size:0.73rem;color:var(--text-muted);">产品：666=基础 / 2666=高级</div>
 </div>
 
 <div class="controls">
-  <div class="filter-group" id="province-filter-wrap">
-    <span class="province-wrap-label">省份</span>
-    <div class="province-scroll" id="province-scroll"></div>
+  <!-- Row 1: P1 provinces -->
+  <div class="controls-row" id="p1-filter-row">
+    <span class="filter-label" style="color:var(--p1-color);">P1</span>
+    <div id="p1-buttons" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
   </div>
-  <div class="filter-group" style="margin-left:auto;">
+
+  <div class="filter-divider"></div>
+
+  <!-- Row 2: P2 provinces -->
+  <div class="controls-row" id="p2-filter-row">
+    <span class="filter-label" style="color:var(--p2-color);">P2</span>
+    <div id="p2-buttons" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+  </div>
+
+  <div class="filter-divider"></div>
+
+  <!-- Row 3: Search -->
+  <div class="controls-row">
     <span class="filter-label">搜索</span>
-    <input type="text" id="search" class="search-input" placeholder="目的地/航班号" oninput="doFilter()">
+    <input type="text" id="search-input" placeholder="目的地/航班号" 
+           style="padding:5px 12px;border:1.5px solid var(--border);border-radius:16px;font-size:0.82rem;outline:none;width:150px;"
+           oninput="doFilter()">
   </div>
+
+  <div style="margin-left:auto;font-size:0.78rem;color:var(--text-muted);align-self:center;" id="result-count"></div>
 </div>
 
-<div class="container">
-  <div class="split-view">
-    <!-- LEFT: Outbound -->
-    <div class="trip-column" id="col-out">
-      <div class="col-header out">
-        <div class="col-badge out">去</div>
-        <div>
-          <div class="col-title">去程航班</div>
-          <div class="col-sub">出发地 → 目的地</div>
-        </div>
-      </div>
-      <div class="airport-tabs" id="tabs-out"></div>
-      <div class="cards-grid" id="cards-out"></div>
-    </div>
+<div class="stats-bar" id="stats-bar">
+  <!-- filled by JS -->
+</div>
 
-    <!-- RIGHT: Return -->
-    <div class="trip-column" id="col-back">
-      <div class="col-header back">
-        <div class="col-badge back">返</div>
-        <div>
-          <div class="col-title">回程航班</div>
-          <div class="col-sub">目的地 → 出发地</div>
-        </div>
-      </div>
-      <div class="airport-tabs" id="tabs-back"></div>
-      <div class="cards-grid" id="cards-back"></div>
-    </div>
-  </div>
+<div class="container" id="main-container">
+  <!-- rendered by JS -->
 </div>
 
 <script>
@@ -477,115 +684,192 @@ const RAW = [
   ["黑龙江省","哈尔滨","回程","首都: CN7140 21:05-23:15(每天)\n首都: HU7130 21:55-00:15(每天)","HU7627 07:25-09:45(每天)","-"]
 ];
 
-// ==================== CONSTANTS ====================
-const AIRPORTS = [
-  { key: 3, name: '北京首都·大兴', dot: 'bj' },
-  { key: 4, name: '天津',           dot: 'tj' },
-  { key: 5, name: '石家庄',         dot: 'sjz' }
-];
-
-const TRIP_LABELS = { out: '去程', back: '回程' };
-
-// Province order (first appearance)
-const PROV_ORDER = [];
-RAW.forEach(r => { if (!PROV_ORDER.includes(r[0])) PROV_ORDER.push(r[0]); });
-
 // ==================== STATE ====================
-let activeProvinces = new Set(['全部']);
+let outCity = null;   // null = all cities, 3/4/5 = specific city
+let backCity = null;  // null = all cities
+let activeProvince = '全部';
 let searchText = '';
-let activeTab = { out: '全部', back: '全部' };
+
+// ==================== COMPUTE P1/P2 ====================
+// Determine P-level: P1 = has both 去程 AND 回程 for this province
+function computePLevels() {
+  const provOut = new Set();
+  const provBack = new Set();
+  RAW.forEach(r => {
+    const prov = r[0];
+    if (r[2] === '去程') provOut.add(prov);
+    if (r[2] === '回程') provBack.add(prov);
+  });
+  const p1 = [];
+  const p2 = [];
+  const allProvs = [...new Set([...provOut, ...provBack])];
+  allProvs.forEach(p => {
+    if (provOut.has(p) && provBack.has(p)) p1.push(p);
+    else p2.push(p);
+  });
+  return { p1, p2 };
+}
+
+const { p1: P1_PROVS, p2: P2_PROVS } = computePLevels();
+
+// ==================== DISTANCE DATA ====================
+// Haversine distances (km) from departure airports to each destination
+// Format: CITY_NAME: {peo: dist from 北京大兴/首都, tsn: dist from 天津, sjw: dist from 石 }
+const DIST = {
+  // key: [Beijing, Tianjin, Shijiazhuang]
+  '上海':    [1082, 1075, 1173],
+  '丽江':    [2100, 2170, 2030],
+  '大理':    [2060, 2130, 1990],
+  '昆明':    [1905, 1970, 1815],
+  '西双版纳':[1930, 2000, 1850],
+  '二连浩特':[650,  620,  710],
+  '呼伦贝尔':[1220, 1300, 1340],
+  '呼和浩特':[660,  600,  520],
+  '满洲里':  [1320, 1400, 1440],
+  '赤峰':    [460,  420,  490],
+  '锡林浩特':[620,  600,  670],
+  '阿尔山':  [1070, 1140, 1180],
+  '霍林郭勒':[880,  940,  980],
+  '成都':    [1520, 1540, 1420],
+  '泸州':    [1640, 1670, 1540],
+  '绵阳':    [1440, 1470, 1340],
+  '银川':    [1040, 1050,  950],
+  '亳州':    [740,  690,  630],
+  '安庆':    [880,  840,  810],
+  '青岛':    [670,  640,  770],
+  '太原':    [520,  470,  340],
+  '广州':    [1890, 1850, 1800],
+  '惠州':    [1860, 1820, 1770],
+  '揭阳':    [1940, 1900, 1860],
+  '深圳':    [1950, 1910, 1860],
+  '南宁':    [2050, 2010, 1960],
+  '桂林':    [1870, 1840, 1780],
+  '玉林':    [2030, 1990, 1950],
+  '乌鲁木齐':[2670, 2760, 2590],
+  '和田':    [3030, 3120, 2950],
+  '上饶':    [1080, 1060, 1060],
+  '南昌':    [1210, 1180, 1140],
+  '南阳':    [810,  770,  680],
+  '杭州':    [1130, 1110, 1180],
+  '温州':    [1270, 1250, 1290],
+  '舟山':    [1200, 1180, 1260],
+  '三亚':    [2490, 2450, 2430],
+  '海口':    [2360, 2320, 2300],
+  '十堰':    [930,  920,  820],
+  '宜昌':    [1130, 1120, 1010],
+  '武汉':    [1050, 1020,  950],
+  '衡阳':    [1470, 1440, 1390],
+  '长沙':    [1360, 1330, 1270],
+  '兰州':    [1350, 1370, 1230],
+  '庆阳':    [1150, 1160, 1030],
+  '厦门':    [1740, 1700, 1700],
+  '福州':    [1680, 1650, 1640],
+  '贵阳':    [1690, 1680, 1580],
+  '大连':    [580,  540,  670],
+  '沈阳':    [650,  610,  740],
+  '重庆':    [1500, 1510, 1380],
+  '榆林':    [860,  840,  760],
+  '西安':    [920,  910,  810],
+  '玉树':    [1830, 1880, 1720],
+  '哈尔滨':  [1040, 1010, 1140],
+};
+
+const FAR_THRESHOLD = 800;
+
+function getCityDist(city) {
+  return DIST[city] || [0, 0, 0];
+}
+
+function cityMaxDist(city) {
+  const d = getCityDist(city);
+  return Math.max(d[0], d[1], d[2]);
+}
+
+function cityFarLabel(city, airportKey) {
+  // airportKey: 3=Beijing, 4=Tianjin, 5=Shijiazhuang
+  const idx = airportKey === 3 ? 0 : airportKey === 4 ? 1 : 2;
+  const d = getCityDist(city)[idx] || 0;
+  if (d === 0) return '';
+  const isFar = d >= FAR_THRESHOLD;
+  return { label: isFar ? `${d}km` : `${d}km`, far: isFar, km: d };
+}
+
+// First destination city per province (for distance sorting)
+const PROV_FIRST_CITY = {};
+const SEEN_PROV = [];
+RAW.forEach(r => {
+  if (!PROV_FIRST_CITY[r[0]]) PROV_FIRST_CITY[r[0]] = r[1];
+  if (!SEEN_PROV.includes(r[0])) SEEN_PROV.push(r[0]);
+});
 
 // ==================== INIT ====================
 function init() {
   buildProvinceButtons();
-  buildTabs();
   doFilter();
 }
 
 function buildProvinceButtons() {
-  const wrap = document.getElementById('province-scroll');
-  wrap.innerHTML = '';
+  const p1Container = document.getElementById('p1-buttons');
+  const p2Container = document.getElementById('p2-buttons');
 
-  ['全部'].concat(PROV_ORDER).forEach(prov => {
-    const btn = document.createElement('button');
-    btn.className = 'filter-btn' + (activeProvinces.has(prov) ? ' active' : '');
-    btn.textContent = prov;
-    btn.onclick = () => toggleProvince(prov, btn);
-    wrap.appendChild(btn);
+  // Sort P1/P2 provinces by distance from outCity (default Beijing if null)
+  const sortByDist = (provs) => {
+    const idx = outCity === 3 ? 0 : outCity === 4 ? 1 : 2; // Beijing(0) / Tianjin(1) / SJZ(2)
+    return [...provs].sort((a, b) => {
+      const cityA = PROV_FIRST_CITY[a];
+      const cityB = PROV_FIRST_CITY[b];
+      const dA = cityA ? (DIST[cityA] || [0,0,0])[idx] : 0;
+      const dB = cityB ? (DIST[cityB] || [0,0,0])[idx] : 0;
+      return dB - dA;
+    });
+  };
+
+  const sortedP1 = sortByDist(P1_PROVS);
+  const sortedP2 = sortByDist(P2_PROVS);
+
+  // P1 row
+  p1Container.innerHTML = '';
+  p1Container.appendChild(makeBtn('全部', '全部', activeProvince === '全部', 'p1'));
+  sortedP1.forEach(prov => {
+    p1Container.appendChild(makeBtn(prov, prov, activeProvince === prov, 'p1'));
   });
-}
 
-function toggleProvince(prov, btn) {
-  if (prov === '全部') {
-    activeProvinces = new Set(['全部']);
+  // P2 row
+  p2Container.innerHTML = '';
+  if (sortedP2.length > 0) {
+    document.getElementById('p2-filter-row').style.display = '';
+    p2Container.appendChild(makeBtn('全部', '全部', activeProvince === '全部', 'p2'));
+    sortedP2.forEach(prov => {
+      p2Container.appendChild(makeBtn(prov, prov, activeProvince === prov, 'p2'));
+    });
   } else {
-    activeProvinces.delete('全部');
-    if (activeProvinces.has(prov)) {
-      activeProvinces.delete(prov);
-    } else {
-      activeProvinces.add(prov);
-    }
-    if (activeProvinces.size === 0) activeProvinces.add('全部');
+    document.getElementById('p2-filter-row').style.display = 'none';
   }
-
-  document.querySelectorAll('#province-scroll .filter-btn').forEach(b => {
-    b.classList.remove('active');
-  });
-  document.querySelectorAll('#province-scroll .filter-btn').forEach(b => {
-    const txt = b.textContent;
-    if ((prov === '全部' && txt === '全部') || activeProvinces.has(txt)) {
-      b.classList.add('active');
-    }
-  });
-
-  // Sync airport tabs
-  ['out', 'back'].forEach(t => {
-    const tabs = document.querySelectorAll(`#tabs-${t} .airport-tab`);
-    let hasActive = false;
-    tabs.forEach(tab => {
-      if (tab.classList.contains('active')) hasActive = true;
-    });
-    if (!hasActive) {
-      tabs.forEach(t => t.classList.remove('active'));
-      tabs[0] && tabs[0].classList.add('active');
-      activeTab[t] = '全部';
-    }
-  });
-
-  doFilter();
 }
 
-function buildTabs() {
-  ['out', 'back'].forEach(trip => {
-    const container = document.getElementById(`tabs-${trip}`);
-    container.innerHTML = '';
-
-    ['全部', ...AIRPORTS].forEach(ap => {
-      const btn = document.createElement('button');
-      btn.className = 'airport-tab' + (ap === '全部' ? ' active' : '');
-      if (ap !== '全部') {
-        const dot = `<span class="dot dot-${ap.dot}"></span>`;
-        btn.innerHTML = dot + ap.name;
-      } else {
-        btn.textContent = '全部机场';
-      }
-      btn.onclick = () => setTab(trip, ap, btn);
-      container.appendChild(btn);
-    });
-  });
+function makeBtn(text, value, active, level) {
+  const btn = document.createElement('button');
+  btn.className = `filter-btn filter-${level}-btn${active ? ' active' : ''}`;
+  btn.textContent = text;
+  btn.onclick = () => setProvince(value, level, btn);
+  return btn;
 }
 
-function setTab(trip, ap, btn) {
-  activeTab[trip] = ap === '全部' ? '全部' : ap.key;
-  btn.parentElement.querySelectorAll('.airport-tab').forEach(b => b.classList.remove('active'));
+function setProvince(prov, level, btn) {
+  // Only one province active at a time across both levels
+  activeProvince = prov;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+
+  // If "全部", only activate the "全部" of the clicked level
+  // If a specific province, activate its button
   btn.classList.add('active');
   doFilter();
 }
 
+// ==================== FILTER ====================
 function doFilter() {
-  searchText = document.getElementById('search').value.trim().toLowerCase();
-  render('out');
-  render('back');
+  searchText = document.getElementById('search-input').value.trim().toLowerCase();
+  render();
 }
 
 function matchesSearch(text) {
@@ -593,131 +877,202 @@ function matchesSearch(text) {
   return text.toLowerCase().includes(searchText);
 }
 
-function getAirportFilter(trip) {
-  const tab = activeTab[trip];
-  if (tab === '全部') return () => true;
-  return idx => idx === tab;
-}
-
-function countFlights(rows, trip, airportFilter) {
-  let cnt = 0;
-  rows.filter(r => r[2] === trip).forEach(r => {
-    AIRPORTS.forEach(ap => {
-      if (!airportFilter(ap.key)) return;
-      const text = r[ap.key];
-      if (text === '-' || !text) return;
-      if (!matchesSearch(r[1]) && !matchesSearch(text)) return;
-      if (!matchesProvince(r[0])) return;
-      cnt += text.split('\n').filter(f => f.trim()).length;
-    });
-  });
-  return cnt;
-}
-
-function matchesProvince(prov) {
-  if (activeProvinces.has('全部')) return true;
-  return activeProvinces.has(prov);
-}
-
 // ==================== RENDER ====================
-function render(trip) {
-  const container = document.getElementById(`cards-${trip}`);
-  const tripKey = trip === 'out' ? '去程' : '回程';
-  const airportFilter = getAirportFilter(trip);
+function render() {
+  const container = document.getElementById('main-container');
+  const statsBar = document.getElementById('stats-bar');
+  container.innerHTML = '';
 
-  // Group by destination city
-  const cityMap = {};
+  const ALL_CITIES = [
+    { key: 3, name: '北京首都·大兴', dotClass: 'dot-beijing' },
+    { key: 4, name: '天津',          dotClass: 'dot-tianjin' },
+    { key: 5, name: '石家庄',        dotClass: 'dot-shijiazhuang' }
+  ];
 
-  RAW.filter(r => r[2] === tripKey).forEach(r => {
-    const prov = r[0];
-    const dest = r[1];
+  // --- Two-column layout ---
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'display:flex;gap:16px;max-width:1200px;margin:0 auto;';
 
-    AIRPORTS.forEach(ap => {
-      if (!airportFilter(ap.key)) return;
-      const text = r[ap.key];
-      if (text === '-' || !text || !text.trim()) return;
-      if (!matchesSearch(dest) && !matchesSearch(text)) return;
-      if (!matchesProvince(prov)) return;
+  // Helper: render a column
+  function renderCol(tripType, colBg, accentColor) {
+    const section = document.createElement('div');
+    section.style.cssText = `flex:1;min-width:0;background:${colBg};border-radius:12px;overflow:hidden;`;
 
-      if (!cityMap[dest]) cityMap[dest] = { prov, flights: [] };
-      const flights = text.split('\n').filter(f => f.trim());
-      flights.forEach(f => {
-        cityMap[dest].flights.push({ text: f, airportKey: ap.key });
+    // Column title bar
+    const titleBar = document.createElement('div');
+    titleBar.style.cssText = `background:${accentColor};color:white;padding:10px 16px;font-weight:700;font-size:0.95rem;display:flex;align-items:center;gap:8px;`;
+    titleBar.innerHTML = tripType === '去程'
+      ? `<span style="font-size:1.1rem;">🛫</span> 去程航班（出发 → 目的地）`
+      : `<span style="font-size:1.1rem;">🛬</span> 回程航班（目的地 → 出发）`;
+    section.appendChild(titleBar);
+
+    // City tabs: always show all 3 + "全部"
+    // outCity/backCity = null means "全部"
+    const myCity = tripType === '去程' ? outCity : backCity;
+    const setMyCity = (key) => {
+      if (tripType === '去程') { outCity = key; buildProvinceButtons(); }
+      else { backCity = key; }
+      render();
+    };
+
+    const tabsWrap = document.createElement('div');
+    tabsWrap.className = 'city-tabs';
+    tabsWrap.style.cssText = 'background:#fff;display:flex;border-bottom:2px solid var(--border);';
+
+    const allTab = document.createElement('button');
+    allTab.style.cssText = myCity === null
+      ? 'padding:10px 16px;cursor:pointer;font-size:0.84rem;border:none;background:var(--primary);color:white;font-weight:700;border-bottom:3px solid var(--primary);border-radius:6px 6px 0 0;'
+      : 'padding:10px 16px;cursor:pointer;font-size:0.84rem;border:none;background:none;color:var(--text-muted);font-weight:600;border-bottom:3px solid transparent;border-radius:6px 6px 0 0;';
+    allTab.textContent = '全部';
+    allTab.onclick = () => setMyCity(null);
+    tabsWrap.appendChild(allTab);
+
+    ALL_CITIES.forEach(city => {
+      const tab = document.createElement('button');
+      tab.style.cssText = myCity === city.key
+        ? 'padding:10px 16px;cursor:pointer;font-size:0.84rem;border:none;background:var(--primary);color:white;font-weight:700;border-bottom:3px solid var(--primary);border-radius:6px 6px 0 0;'
+        : 'padding:10px 16px;cursor:pointer;font-size:0.84rem;border:none;background:none;color:var(--text-muted);font-weight:600;border-bottom:3px solid transparent;border-radius:6px 6px 0 0;';
+      tab.textContent = city.name;
+      tab.onclick = () => setMyCity(city.key);
+      tabsWrap.appendChild(tab);
+    });
+    section.appendChild(tabsWrap);
+
+    // Cards
+    const cardsDiv = document.createElement('div');
+    cardsDiv.style.cssText = 'padding:16px;display:flex;flex-direction:column;gap:12px;';
+
+    // Determine which city keys to show
+    const cityKeys = myCity !== null ? [myCity] : ALL_CITIES.map(c => c.key);
+
+    let colTotal = 0, colFar = 0;
+
+    cityKeys.forEach(cityKey => {
+      const cityInfo = ALL_CITIES.find(c => c.key === cityKey);
+
+      const rows = RAW.filter(r => r[2] === tripType && r[cityKey] && r[cityKey] !== '-');
+      const provGroups = {};
+      rows.forEach(r => {
+        const prov = r[0], dest = r[1], text = r[cityKey];
+        if (!text || !text.trim()) return;
+        if (!matchesSearch(dest) && !matchesSearch(text)) return;
+        if (activeProvince !== '全部' && prov !== activeProvince) return;
+        if (!provGroups[prov]) provGroups[prov] = [];
+        provGroups[prov].push({ dest, text, cityKey });
+      });
+
+      const provKeys = Object.keys(provGroups);
+      if (provKeys.length === 0) return;
+
+      // Section divider with city name (only if showing all cities)
+      if (myCity === null) {
+        const div = document.createElement('div');
+        div.style.cssText = 'font-size:0.72rem;font-weight:700;color:var(--text-muted);padding:4px 0 2px;letter-spacing:0.05em;text-transform:uppercase;display:flex;align-items:center;gap:6px;';
+        div.innerHTML = `<span class="dot ${cityInfo.dotClass}" style="width:8px;height:8px;border-radius:50%;"></span>${cityInfo.name} 出发`;
+        cardsDiv.appendChild(div);
+      }
+
+      // Sort: far first, then by distance desc
+      provKeys.sort((a, b) => {
+        const fa = cityFarLabel(provGroups[a][0].dest, cityKey).far ? 1 : 0;
+        const fb = cityFarLabel(provGroups[b][0].dest, cityKey).far ? 1 : 0;
+        if (fb !== fa) return fb - fa;
+        return cityMaxDist(provGroups[b][0].dest) - cityMaxDist(provGroups[a][0].dest);
+      });
+
+      provKeys.forEach(prov => {
+        const items = provGroups[prov];
+        const isP1 = P1_PROVS.includes(prov);
+        const destCity = items[0].dest;
+        const distInfo = cityFarLabel(destCity, cityKey);
+        const isFar = distInfo.far;
+        colTotal++;
+        if (isFar) colFar++;
+
+        const card = document.createElement('div');
+        const cardBg = isFar ? 'var(--far-bg)' : isP1 ? 'var(--p1-bg)' : 'white';
+        const cardBorder = isFar ? 'var(--far-border)' : isP1 ? 'var(--p1-border)' : 'var(--border)';
+        card.style.cssText = `background:${cardBg};border:1.5px solid ${cardBorder};border-radius:10px;overflow:hidden;`;
+
+        const hdr = document.createElement('div');
+        hdr.style.cssText = `padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid ${cardBorder};background:${isFar ? '#fff8ee' : isP1 ? '#fff0f0' : '#f8f9fb'};`;
+        const badgeLabel = isFar ? `${distInfo.km}km` : isP1 ? 'P1' : 'P2';
+        const badgeColor = isFar ? 'var(--far-color)' : isP1 ? 'var(--p1-color)' : '#78909c';
+        hdr.innerHTML = `
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <span class="dot ${cityInfo.dotClass}" style="width:8px;height:8px;border-radius:50%;flex-shrink:0;"></span>
+            <span style="font-weight:700;font-size:0.9rem;">${destCity}</span>
+            <span style="font-size:0.63rem;font-weight:800;padding:1px 5px;border-radius:8px;color:white;background:${badgeColor};">${badgeLabel}</span>
+            ${isFar && isP1 ? `<span style="font-size:0.63rem;font-weight:800;padding:1px 5px;border-radius:8px;color:white;background:${badgeColor};">P1</span>` : ''}
+          </div>
+          <div style="font-size:0.7rem;color:var(--text-muted);text-align:right;"><div style="font-weight:600;">${prov}</div></div>
+        `;
+        card.appendChild(hdr);
+
+        const body = document.createElement('div');
+        body.style.cssText = 'padding:10px 14px;';
+        items.forEach(item => {
+          item.text.split('\n').filter(f => f.trim()).forEach(flight => {
+            const parsed = parseFlight(flight);
+            const fi = document.createElement('div');
+            fi.style.cssText = 'background:#f8f9fb;border-radius:6px;padding:5px 8px;margin-bottom:3px;border-left:3px solid var(--primary);';
+            if (cityKey === 5) fi.style.borderLeftColor = 'var(--badge-shijiazhuang)';
+            if (parsed) {
+              fi.innerHTML = `<div style="font-weight:700;font-size:0.8rem;">${parsed.prefix ? parsed.prefix + ' ' : ''}${parsed.flightNo}</div><div style="font-size:0.76rem;color:var(--text-muted);">${parsed.depart} → ${parsed.arrive}</div><div style="font-size:0.7rem;color:var(--text-muted);">${parsed.day}</div>`;
+            } else {
+              fi.innerHTML = `<div style="font-weight:700;font-size:0.8rem;">${flight}</div>`;
+            }
+            body.appendChild(fi);
+          });
+        });
+        card.appendChild(body);
+        cardsDiv.appendChild(card);
       });
     });
-  });
 
-  const cities = Object.keys(cityMap).sort();
+    if (colTotal === 0) {
+      const empty = document.createElement('div');
+      empty.style.cssText = 'padding:40px 20px;text-align:center;color:var(--text-muted);font-size:0.85rem;';
+      empty.innerHTML = '<div style="font-size:2.5rem;margin-bottom:8px;">📭</div>暂无航班数据';
+      cardsDiv.appendChild(empty);
+    }
 
-  if (cities.length === 0) {
-    container.innerHTML = '<div class="no-result">暂无航班信息，请调整筛选条件</div>';
-    return;
+    section.appendChild(cardsDiv);
+    return { section, total: colTotal, far: colFar };
   }
 
-  container.innerHTML = cities.map(city => {
-    const { prov, flights } = cityMap[city];
-    const flightChips = flights.map(f => {
-      const parsed = parseFlight(f.text);
-      const chipClass = f.airportKey === 5 ? 'sjz' : f.airportKey === 4 ? 'tj' : '';
-      if (parsed) {
-        return `<div class="flight-chip ${chipClass}">
-          <div class="f-no">${parsed.prefix ? parsed.prefix + ' ' : ''}${parsed.flightNo}</div>
-          <div class="f-time">${parsed.depart} → ${parsed.arrive}</div>
-          <div class="f-day">${parsed.day}</div>
-        </div>`;
-      }
-      return `<div class="flight-chip ${chipClass}"><div class="f-no">${f.text}</div></div>`;
-    }).join('');
+  const { section: outSec, total: outTotal, far: outFar } = renderCol('去程', 'var(--primary-light)', 'var(--trip-out)');
+  wrapper.appendChild(outSec);
 
-    return `<div class="card">
-      <div class="card-city-row">
-        <div>
-          <div class="card-city">${city}</div>
-          <div class="card-province">${prov}</div>
-        </div>
-        <span class="card-count">${flights.length}条</span>
-      </div>
-      <div class="card-body">${flightChips}</div>
-    </div>`;
-  }).join('');
+  const { section: backSec, total: backTotal, far: backFar } = renderCol('回程', 'var(--accent-light)', 'var(--trip-back)');
+  wrapper.appendChild(backSec);
 
-  // Update counts
-  if (trip === 'out') {
-    const outRows = RAW.filter(r => r[2] === '去程');
-    const citySet = new Set();
-    let outCount = 0;
-    const af = getAirportFilter('out');
-    outRows.forEach(r => {
-      AIRPORTS.forEach(ap => {
-        if (!af(ap.key)) return;
-        const text = r[ap.key];
-        if (text === '-' || !text || !matchesSearch(r[1]) && !matchesSearch(text)) return;
-        if (!matchesProvince(r[0])) return;
-        outCount += text.split('\n').filter(f => f.trim()).length;
-        citySet.add(r[1]);
-      });
-    });
-    document.getElementById('total-out').textContent = `去程 ${outCount} 条`;
-    document.getElementById('total-cities').textContent = `覆盖 ${citySet.size} 个目的地`;
-  } else {
-    const backRows = RAW.filter(r => r[2] === '回程');
-    let backCount = 0;
-    const af = getAirportFilter('back');
-    backRows.forEach(r => {
-      AIRPORTS.forEach(ap => {
-        if (!af(ap.key)) return;
-        const text = r[ap.key];
-        if (text === '-' || !text || !matchesSearch(r[1]) && !matchesSearch(text)) return;
-        if (!matchesProvince(r[0])) return;
-        backCount += text.split('\n').filter(f => f.trim()).length;
-      });
-    });
-    document.getElementById('total-back').textContent = `回程 ${backCount} 条`;
+  container.appendChild(wrapper);
+
+  // Stats bar
+  const totalFlights = outTotal + backTotal;
+  const totalFar = outFar + backFar;
+  statsBar.innerHTML = `
+    <span style="color:var(--trip-out);font-weight:700;">🛫 去程 <strong>${outTotal}</strong> 条</span>
+    <span style="color:var(--trip-back);font-weight:700;">🛬 回程 <strong>${backTotal}</strong> 条</span>
+    <span style="color:var(--far-color);font-weight:700;">🔥 800km+ <strong>${totalFar}</strong> 条</span>
+    <span>🚀 P1: <strong>${P1_PROVS.length}</strong> 省 · 📍 P2: <strong>${P2_PROVS.length}</strong> 省</span>
+  `;
+
+  document.getElementById('result-count').textContent = `共 ${totalFlights} 条`;
+
+  if (totalFlights === 0) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:60px 20px;color:var(--text-muted);">
+        <div style="font-size:3rem;margin-bottom:12px;">🔍</div>
+        <p style="font-size:0.95rem;margin-bottom:6px;">未找到匹配的航线</p>
+        <p style="font-size:0.82rem;">试试调整筛选条件</p>
+      </div>`;
   }
 }
 
-function parseFlight(str) {
-  const m = str.match(/^(?:([^:：]+)[:：]\s*)?([A-Za-z0-9]+)\s+(\d{2}:\d{2})-(\d{2}:\d{2})\(([^)]+)\)/);
+function parseFlight(flightStr) {
+  const m = flightStr.match(/^(?:([^:：]+)[:：]\s*)?([A-Za-z0-9]+)\s+(\d{2}:\d{2})-(\d{2}:\d{2})\(([^)]+)\)/);
   if (!m) return null;
   return { prefix: m[1] ? m[1].trim() : '', flightNo: m[2], depart: m[3], arrive: m[4], day: m[5] };
 }
