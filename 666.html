@@ -687,6 +687,7 @@ const RAW = [
 let outCity = null;   // null = all cities, 3/4/5 = specific city
 let backCity = null;  // null = all cities
 let activeProvince = '全部';
+let activeLevel = null;   // null = show all, 'p1' = P1 only, 'p2' = P2 only
 let searchText = '';
 
 // ==================== COMPUTE P1/P2 ====================
@@ -828,7 +829,7 @@ function buildProvinceButtons() {
 
   // P1 row
   p1Container.innerHTML = '';
-  p1Container.appendChild(makeBtn('全部', '全部', activeProvince === '全部', 'p1'));
+  p1Container.appendChild(makeBtn('全部', '全部', activeProvince === '全部' && activeLevel === 'p1', 'p1'));
   sortedP1.forEach(prov => {
     p1Container.appendChild(makeBtn(prov, prov, activeProvince === prov, 'p1'));
   });
@@ -837,7 +838,7 @@ function buildProvinceButtons() {
   p2Container.innerHTML = '';
   if (sortedP2.length > 0) {
     document.getElementById('p2-filter-row').style.display = '';
-    p2Container.appendChild(makeBtn('全部', '全部', activeProvince === '全部', 'p2'));
+    p2Container.appendChild(makeBtn('全部', '全部', activeProvince === '全部' && activeLevel === 'p2', 'p2'));
     sortedP2.forEach(prov => {
       p2Container.appendChild(makeBtn(prov, prov, activeProvince === prov, 'p2'));
     });
@@ -857,6 +858,7 @@ function makeBtn(text, value, active, level) {
 function setProvince(prov, level, btn) {
   // Only one province active at a time across both levels
   activeProvince = prov;
+  activeLevel = level;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
 
   // If "全部", only activate the "全部" of the clicked level
@@ -955,7 +957,13 @@ function render() {
         const prov = r[0], dest = r[1], text = r[cityKey];
         if (!text || !text.trim()) return;
         if (!matchesSearch(dest) && !matchesSearch(text)) return;
-        if (activeProvince !== '全部' && prov !== activeProvince) return;
+        if (activeProvince !== '全部') {
+          if (prov !== activeProvince) return;
+        } else if (activeLevel === 'p1') {
+          if (!P1_PROVS.includes(prov)) return;
+        } else if (activeLevel === 'p2') {
+          if (!P2_PROVS.includes(prov)) return;
+        }
         destCards.push({ prov, dest, text, cityKey });
       });
 
