@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>忻州初探 · 2026-07-03 至 07-05</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --primary: #92400e;
+    --accent: #b45309;
+    --success: #0d904f;
+    --text: #202124;
+    --muted: #5f6368;
+    --border: #dadce0;
+    --radius: 12px;
+    --note-w: 220px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 24px 16px 80px;
+  }
+  .container { max-width: 1080px; margin: 0 auto; }
+
+  .header {
+    background: linear-gradient(135deg, #92400e, #b45309);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+  .header p { font-size: 0.9rem; opacity: 0.85; margin-bottom: 12px; }
+  .header .badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+  }
+
+  .section { margin-bottom: 22px; }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 4px 12px;
+    color: var(--text);
+  }
+  .section-title::before {
+    content: '';
+    width: 4px; height: 18px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+
+  .day-header {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary);
+  }
+  .day-header .date { font-size: 0.85rem; font-weight: 700; color: var(--primary); }
+  .day-header .title { font-size: 1.05rem; font-weight: 700; }
+  .day-header .sub { font-size: 0.78rem; color: var(--muted); }
+
+  .timeline { display: flex; flex-direction: column; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 80px 16px 1fr var(--note-w);
+    gap: 10px;
+    padding: 8px 0;
+    align-items: start;
+    border-bottom: 1px dashed #eee;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .tl-time { font-size: 0.78rem; color: var(--primary); font-weight: 600; padding-top: 2px; }
+  .tl-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--primary);
+    margin-top: 6px;
+    margin-left: 3px;
+    box-shadow: 0 0 0 3px rgba(146,64,14,0.18);
+  }
+  .tl-dot.accent { background: var(--accent); box-shadow: 0 0 0 3px rgba(180,83,9,0.18); }
+  .tl-dot.success { background: var(--success); box-shadow: 0 0 0 3px rgba(13,144,79,0.18); }
+  .tl-dot.muted { background: #9e9e9e; box-shadow: 0 0 0 3px rgba(0,0,0,0.1); }
+  .tl-dot.star { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.18); }
+
+  .tl-content { font-size: 0.88rem; padding-top: 1px; }
+  .tl-content .place { font-weight: 600; }
+  .tl-content .meta { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+  .tl-note textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    color: var(--text);
+    background: #fafbfc;
+    resize: vertical;
+    min-height: 32px;
+  }
+
+  .spot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .spot {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .spot .name { font-weight: 700; font-size: 0.88rem; margin-bottom: 4px; color: var(--primary); }
+  .spot .desc { font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
+
+  .tips-card {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .tips-card h3 { font-size: 0.95rem; margin-bottom: 8px; color: var(--primary); }
+  .tips-card ul { padding-left: 20px; font-size: 0.85rem; line-height: 1.9; }
+
+  .budget-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .budget-table th {
+    background: #fef3c7;
+    color: var(--primary);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid #fde68a;
+    font-weight: 600;
+  }
+  .budget-table td { padding: 7px 10px; border-bottom: 1px solid #f0f0f0; }
+  .budget-table tr:last-child td { border-bottom: none; }
+  .budget-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  @media (max-width: 720px) {
+    :root { --note-w: 100%; }
+    .timeline-item { grid-template-columns: 70px 14px 1fr; }
+    .tl-note { grid-column: 1 / -1; }
+  }
+  @media (max-width: 640px) {
+    .tl-note { display: none !important; }
+  }
+  @media print {
+    .tl-note textarea { border: none; background: transparent; }
+    .card { box-shadow: none; }
+  }
+  .back-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a73e8;
+    color: #fff;
+    padding: 10px 28px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 200;
+    white-space: nowrap;
+  }
+  .back-btn:hover { opacity: 0.85; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>🏛️ 忻州初探 · 唐构打卡</h1>
+    <p>2026年7月3日（周五）出发 · 7月5日（周日）返程</p>
+    <div class="badges">
+      <span class="badge">🚗 自驾顺风车</span>
+      <span class="badge">🏛️ 唐构打卡</span>
+      <span class="badge">🆕 新路线</span>
+    </div>
+  </div>
+
+  <!-- Day 1 · 7/3 -->
+  <div class="section">
+    <div class="section-title">Day 1 · 7月3日（周五）</div>
+    <div class="card">
+      <div class="day-header">
+        <div class="date">07-03<br><span style="font-size:0.7rem;color:var(--muted);font-weight:400;">周五 · W27</span></div>
+        <div>
+          <div class="title">天津 → 保定</div>
+          <div class="sub">自驾顺风车 · 2学生 · 保定酒店过夜</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">晚上</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">天津出发</span> · 顺风车<div class="meta">👤 2名学生乘客</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">晚上</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">抵达保定</span><div class="meta">🏨 保定 · 酒店过夜</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 · 7/4 -->
+  <div class="section">
+    <div class="section-title">Day 2 · 7月4日（周六）</div>
+    <div class="card">
+      <div class="day-header">
+        <div class="date">07-04<br><span style="font-size:0.7rem;color:var(--muted);font-weight:400;">周六 · W27</span></div>
+        <div>
+          <div class="title">保定 → 忻州 → 保定</div>
+          <div class="sub">南禅寺 + 佛光寺 · 一家三口 · 返回保定酒店过夜</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">清晨</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">保定出发</span> · 顺风车<div class="meta">👤 一家三口 · 孩子放暑假</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">上午</div>
+          <div class="tl-dot accent"></div>
+          <div class="tl-content"><span class="place">南禅寺</span><div class="meta">🏛️ 唐代木构 · 中国现存最古老的木构建筑之一</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">下午</div>
+          <div class="tl-dot star"></div>
+          <div class="tl-content"><span class="place">佛光寺</span><div class="meta">🏛️ 唐代木构 · 全国仅存三座半唐构之一</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">傍晚</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">返回保定</span><div class="meta">🏨 保定酒店过夜</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 · 7/5 -->
+  <div class="section">
+    <div class="section-title">Day 3 · 7月5日（周日）</div>
+    <div class="card">
+      <div class="day-header">
+        <div class="date">07-05<br><span style="font-size:0.7rem;color:var(--muted);font-weight:400;">周日 · W27</span></div>
+        <div>
+          <div class="title">忻州 → 雄安 → 天津</div>
+          <div class="sub">雄安CBD + 雄安公园 · 返程天津</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">上午</div>
+          <div class="tl-dot accent"></div>
+          <div class="tl-content"><span class="place">雄安新区 CBD</span><div class="meta">🏙️ 雄安新区城市建设</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">下午</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">雄安公园</span><div class="meta">🌳 城市公园 · 休闲放松</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">傍晚</div>
+          <div class="tl-dot muted"></div>
+          <div class="tl-content"><span class="place">返回天津</span></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 景点速览 -->
+  <div class="section">
+    <div class="section-title">📍 景点速览</div>
+    <div class="card">
+      <div class="spot-grid">
+        <div class="spot">
+          <div class="name">🏛️ 南禅寺</div>
+          <div class="desc">唐代木构 · 中国现存最古老的木构建筑之一 · 唐构打卡</div>
+        </div>
+        <div class="spot">
+          <div class="name">🏛️ 佛光寺</div>
+          <div class="desc">唐代木构 · 全国仅存三座半唐构之一 · 唐构打卡</div>
+        </div>
+        <div class="spot">
+          <div class="name">🏙️ 雄安 CBD</div>
+          <div class="desc">雄安新区城市核心区</div>
+        </div>
+        <div class="spot">
+          <div class="name">🌳 雄安公园</div>
+          <div class="desc">雄安城市公园 · 休闲</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 收支统计 -->
+  <div class="section">
+    <div class="section-title">💰 收支统计</div>
+    <div class="card">
+      <table class="budget-table">
+        <thead>
+          <tr>
+            <th>行程</th>
+            <th>乘客</th>
+            <th>金额</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>天津 → 保定（酒店过夜）</td>
+            <td>学生×2</td>
+            <td class="num">¥282.05</td>
+          </tr>
+          <tr>
+            <td>保定 → 忻州（唐构打卡）</td>
+            <td>一家三口 · 孩子放暑假</td>
+            <td class="num">¥255.00</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;padding:10px;background:#fef3c7;border-radius:8px;text-align:center;">
+        <div style="font-size:0.75rem;color:var(--muted);">顺风车合计收入</div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--primary);">¥537.05</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 备注 -->
+  <div class="section">
+    <div class="section-title">📌 备注</div>
+    <div class="card tips-card">
+      <h3>行程亮点</h3>
+      <ul>
+        <li>🆕 <strong>忻州初探</strong> · 保定两晚酒店，忻州唐构打卡</li>
+        <li>🏛️ <strong>唐构双打卡</strong>：南禅寺（最古老木构之一）+ 佛光寺（全国仅存三座半唐构之一）</li>
+        <li>🆕 <strong>雄安新区</strong>：第一次到雄安，逛 CBD + 雄安公园</li>
+        <li>👤 Day1 顺风车：2名学生 · 酒店过夜保定</li>
+        <li>👨‍👩‍👧 Day2 顺风车：一家三口 · 孩子放暑假</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align:center;color:var(--muted);font-size:0.75rem;padding:20px 0;">
+    周末逃离天津计划 · 顺风车 W27 · 2026-08-22 整理
+  </div>
+
+</div>
+<a class="back-btn" href="weekend-escape.html">← 返回主页</a>
+</body>
+</html>
