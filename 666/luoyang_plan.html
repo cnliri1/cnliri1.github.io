@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>洛阳四大石窟 · 2026-07-24 至 07-27</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --primary: #1a73e8;
+    --accent: #e8710a;
+    --success: #0d904f;
+    --done: #9e9e9e;
+    --danger: #c5221f;
+    --text: #202124;
+    --muted: #5f6368;
+    --border: #dadce0;
+    --radius: 12px;
+    --note-w: 220px;
+    --gap: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 24px 16px 80px;
+  }
+  .container { max-width: 1080px; margin: 0 auto; }
+
+  .header {
+    background: linear-gradient(135deg, #b45309, #92400e);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+  .header p { font-size: 0.9rem; opacity: 0.85; margin-bottom: 12px; }
+  .header .badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+  }
+
+  .section { margin-bottom: 22px; }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 4px 12px;
+    color: var(--text);
+  }
+  .section-title::before {
+    content: '';
+    width: 4px; height: 18px;
+    background: #b45309;
+    border-radius: 2px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+
+  .day-header {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #b45309;
+  }
+  .day-header .date { font-size: 0.85rem; font-weight: 700; color: #b45309; }
+  .day-header .title { font-size: 1.05rem; font-weight: 700; }
+  .day-header .sub { font-size: 0.78rem; color: var(--muted); }
+
+  .timeline { display: flex; flex-direction: column; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 80px 16px 1fr var(--note-w);
+    gap: 10px;
+    padding: 8px 0;
+    align-items: start;
+    border-bottom: 1px dashed #eee;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .tl-time { font-size: 0.78rem; color: #b45309; font-weight: 600; padding-top: 2px; }
+  .tl-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #b45309;
+    margin-top: 6px;
+    margin-left: 3px;
+    box-shadow: 0 0 0 3px rgba(180,83,9,0.18);
+  }
+  .tl-dot.accent { background: var(--accent); box-shadow: 0 0 0 3px rgba(232,113,10,0.18); }
+  .tl-dot.success { background: var(--success); box-shadow: 0 0 0 3px rgba(13,144,79,0.18); }
+  .tl-dot.muted { background: var(--muted); box-shadow: 0 0 0 3px rgba(95,99,104,0.18); }
+  .tl-dot.star { background: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.18); }
+  .tl-content { font-size: 0.88rem; padding-top: 1px; }
+  .tl-content strong { color: var(--text); }
+  .tl-content .place { font-weight: 600; }
+  .tl-content .meta { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+  .tl-note textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    color: var(--text);
+    background: #fafbfc;
+    resize: vertical;
+    min-height: 32px;
+  }
+
+  .budget-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .budget-table th, .budget-table td {
+    text-align: left;
+    padding: 9px 10px;
+    border-bottom: 1px solid #eef0f3;
+  }
+  .budget-table th { background: #fef3c7; color: #92400e; font-weight: 600; }
+  .budget-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .budget-table tr.total td {
+    font-weight: 700;
+    color: #92400e;
+    background: #fffbeb;
+    border-top: 2px solid #b45309;
+  }
+  .budget-table tr.income td { color: var(--success); }
+
+  .budget-summary {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .sum-card {
+    background: #fffbeb;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+  }
+  .sum-card .label { font-size: 0.72rem; color: var(--muted); }
+  .sum-card .value { font-size: 1.15rem; font-weight: 700; color: #b45309; margin-top: 2px; }
+  .sum-card.green .value { color: var(--success); }
+
+  .spot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .spot {
+    background: #fafaf8;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .spot .name { font-weight: 700; font-size: 0.88rem; margin-bottom: 4px; }
+  .spot .desc { font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
+
+  .highlight-box {
+    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+    border: 1px solid #fed7aa;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    font-size: 0.88rem;
+  }
+  .highlight-box .title { font-weight: 700; color: #9a3412; margin-bottom: 6px; }
+
+  .tips-card {
+    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+    border-left: 4px solid #f97316;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .tips-card h3 { font-size: 0.95rem; margin-bottom: 8px; color: #9a3412; }
+  .tips-card ul { padding-left: 20px; font-size: 0.85rem; line-height: 1.9; }
+
+  @media (max-width: 720px) {
+    :root { --note-w: 100%; }
+    .timeline-item { grid-template-columns: 70px 14px 1fr; }
+    .tl-note { grid-column: 1 / -1; }
+    .budget-summary { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media print {
+    .tl-note textarea { border: none; background: transparent; }
+    .card { box-shadow: none; }
+  }
+
+  .back-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a73e8;
+    color: #fff;
+    padding: 10px 28px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 200;
+    white-space: nowrap;
+  }
+  .back-btn:hover { opacity: 0.85; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>🏛️ 洛阳四大石窟 · 4日</h1>
+    <p>2026年7月24日（周五）出发 · 7月27日（周一）返程 · 去程3人（邯郸下车）/ 回程3人</p>
+    <div class="badges">
+      <span class="badge">🚗 自驾顺风车</span>
+      <span class="badge">💰 车费收入 ¥882.35</span>
+      <span class="badge">🏛️ 四大石窟完结</span>
+      <span class="badge">🎭 古都洛阳</span>
+    </div>
+  </div>
+
+  <!-- 四大石窟完结highlight -->
+  <div class="section">
+    <div class="card" style="background:linear-gradient(135deg,#fff7ed,#ecfccb);border:1px solid #fed7aa;">
+      <div class="highlight-box" style="background:none;border:none;padding:0;margin:0;">
+        <div class="title">🏆 四大石窟打卡计划 ✅</div>
+        此行补全四大石窟最后一站——<strong>洛阳龙门石窟</strong>，四大石窟全部打卡：
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+          <span style="background:#dbeafe;color:#1e40af;padding:3px 10px;border-radius:20px;font-size:0.78rem;">大同云冈石窟 ✅</span>
+          <span style="background:#dbeafe;color:#1e40af;padding:3px 10px;border-radius:20px;font-size:0.78rem;">敦煌莫高窟 ✅</span>
+          <span style="background:#dbeafe;color:#1e40af;padding:3px 10px;border-radius:20px;font-size:0.78rem;">洛阳龙门石窟 ✅（此行）</span>
+          <span style="background:#dbeafe;color:#1e40af;padding:3px 10px;border-radius:20px;font-size:0.78rem;">天水麦积山石窟 ✅</span>
+        </div>
+        <div style="margin-top:8px;font-size:0.78rem;color:#92400e;">
+          四大石窟：云冈（山西大同）/ 莫高窟（甘肃敦煌）/ 龙门（河南洛阳）/ 麦积山（甘肃天水）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 1 · 7/24 -->
+  <div class="section">
+    <div class="section-title">Day 1 · 7月24日（周五）</div>
+    <div class="card">
+      <div class="day-header">
+        <div class="date">07-24<br><span style="font-size:0.7rem;color:var(--muted);font-weight:400;">周五 · W30</span></div>
+        <div>
+          <div class="title">天津 → 邯郸</div>
+          <div class="sub">下午出发 · 顺风车3人 · 抵达后车里过夜</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">下午</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">天津出发</span> · 顺风车3人上车<div class="meta">👤 高尔夫球童 + 药明康德员工，共3人，目的地：邯郸</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">傍晚</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">抵达邯郸</span> · 顺风车乘客下车<div class="meta">🌙 邯郸 · 车里过夜</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">当日</div>
+          <div class="tl-dot muted"></div>
+          <div class="tl-content"><span class="place">车费收入</span> · 去程<div class="meta"><strong style="color:var(--success);">+ ¥256.70</strong> + <strong style="color:var(--success);">+ ¥185.35</strong></div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 · 7/25 -->
+  <div class="section">
+    <div class="section-title">Day 2 · 7月25日（周六）</div>
+    <div class="card">
+      <div class="day-header">
+        <div class="date">07-25<br><span style="font-size:0.7rem;color:var(--muted);font-weight:400;">周六 · W30</span></div>
+        <div>
+          <div class="title">邯郸 → 邺城 → 铜雀台 → 曹操高陵 → 龙门石窟 → 应天门</div>
+          <div class="sub">邯郸出发 · 博物馆打卡 · 四大石窟完结 · 夜宿酒店</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">上午</div>
+          <div class="tl-dot accent"></div>
+          <div class="tl-content"><span class="place">邯郸博物馆</span><div class="meta">邯郸历史文化</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">上午</div>
+          <div class="tl-dot accent"></div>
+          <div class="tl-content"><span class="place">邺城博物馆 + 铜雀台</span><div class="meta"></div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="tl-time">下午</div>
+          <div class="tl-dot accent"></div>
+          <div class="tl-content"><span class="place">曹操高陵</span><div class="meta">曹操送布洛芬 💊 · 背诗可免门票</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">下午</div>
+          <div class="tl-dot accent"></div>
+          <div class="tl-content"><span class="place">殷墟博物馆</span><div class="meta">甲骨文龟片 + 青铜器</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">傍晚</div>
+          <div class="tl-dot star"></div>
+          <div class="tl-content"><span class="place">龙门石窟</span><div class="meta">🏆 四大石窟完结打卡 ✅ · 四大石窟最后一站</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">晚上</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">应天门 / 天堂 / 明堂</span> 夜游<div class="meta">🚴 骑电动车夜游 · 盛唐夜景 · 应天门都是拍照的妹子</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">夜间</div>
+          <div class="tl-dot muted"></div>
+          <div class="tl-content"><span class="place">夜宿酒店</span><div class="meta">🏨 洛阳 · 第一晚酒店</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 · 7/26 -->
+  <div class="section">
+    <div class="section-title">Day 3 · 7月26日（周日）</div>
+    <div class="card">
+      <div class="day-header">
+        <div class="date">07-26<br><span style="font-size:0.7rem;color:var(--muted);font-weight:400;">周日 · W30</span></div>
+        <div>
+          <div class="title">白马寺 · 汉魏洛阳故城 · 仿古一日游</div>
+          <div class="sub">白马寺+唐都盛宴 · 仿古墓打卡 · 黄河边 · 夜宿酒店</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">上午</div>
+          <div class="tl-dot accent"></div>
+          <div class="tl-content"><span class="place">白马寺</span><div class="meta">中国第一古刹</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">中午</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">唐都盛宴</span><div class="meta">🍽️ 午餐 · 有歌舞表演</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">下午</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">汉魏洛阳故城遗址</span><div class="meta">🧱 可以给到一个夯 · 夯土城墙遗迹</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">傍晚</div>
+          <div class="tl-dot muted"></div>
+          <div class="tl-content"><span class="place">仿古一日游</span> · 墓葬打卡<div class="meta">李煜墓（伪）/ 王之涣墓 / 曹丕墓（伪） · 怀古亭需爬山15分钟 / 刘秀墓</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">傍晚</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">黄河边</span> · 停车吹风<div class="meta">🌬️ 景点打卡后在黄河边吹风休息</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">晚上</div>
+          <div class="tl-dot muted"></div>
+          <div class="tl-content"><span class="place">晚餐</span> · 涮毛肚<div class="meta">🍲</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">晚上</div>
+          <div class="tl-dot muted"></div>
+          <div class="tl-content"><span class="place">夜宿酒店</span><div class="meta">🏨 洛阳</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 4 · 7/27 -->
+  <div class="section">
+    <div class="section-title">Day 4 · 7月27日（周一）</div>
+    <div class="card">
+      <div class="day-header">
+        <div class="date">07-27<br><span style="font-size:0.7rem;color:var(--muted);font-weight:400;">周一 · W31</span></div>
+        <div>
+          <div class="title">洛阳 → 天津</div>
+          <div class="sub">一大早出发 · 顺风车3人 · 抵达天津</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">清晨</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">洛阳出发</span> · 顺风车3人上车<div class="meta">👤 会计（回唐山）+ 洛阳旅游女生×2（回邯郸），共3人</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">下午</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">继续驶向天津</span></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">当日</div>
+          <div class="tl-dot muted"></div>
+          <div class="tl-content"><span class="place">车费收入</span> · 回程<div class="meta"><strong style="color:var(--success);">+ ¥197.20</strong> + <strong style="color:var(--success);">+ ¥243.10</strong></div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 景点速览 -->
+  <div class="section">
+    <div class="section-title">📍 景点速览</div>
+    <div class="card">
+      <div class="spot-grid">
+        <div class="spot">
+          <div class="name">🏆 龙门石窟</div>
+          <div class="desc">四大石窟完结 ✅ · 云冈/莫高窟/龙门/麦积山全部打卡</div>
+        </div>
+        <div class="spot">
+          <div class="name">🏛️ 洛阳博物馆</div>
+          <div class="desc">洛阳历史之旅</div>
+        </div>
+        <div class="spot">
+          <div class="name">⚱️ 曹操高陵</div>
+          <div class="desc">背诗免票 · 送布洛芬 💊</div>
+        </div>
+        <div class="spot">
+          <div class="name">🛕 白马寺</div>
+          <div class="desc">中国第一古刹</div>
+        </div>
+        <div class="spot">
+          <div class="name">🏯 应天门 / 天堂 / 明堂</div>
+          <div class="desc">盛唐夜景 · 骑电动车夜游</div>
+        </div>
+        <div class="spot">
+          <div class="name">🧱 汉魏洛阳故城遗址</div>
+          <div class="desc">夯土城墙 · 可以给到一个夯</div>
+        </div>
+        <div class="spot">
+          <div class="name">⛰️ 怀古亭</div>
+          <div class="desc">仿古墓打卡 · 需爬山15分钟</div>
+        </div>
+        <div class="spot">
+          <div class="name">🌊 黄河边</div>
+          <div class="desc">停车吹风 · 放松一刻</div>
+        </div>
+        <div class="spot">
+          <div class="name">🏛️ 邺城博物馆 + 铜雀台</div>
+          <div class="desc"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 收支统计 -->
+  <div class="section">
+    <div class="section-title">💰 收支统计</div>
+    <div class="card">
+      <div class="budget-summary">
+        <div class="sum-card green">
+          <div class="label">车费总收入</div>
+          <div class="value">¥882.35</div>
+        </div>
+        <div class="sum-card">
+          <div class="label">趟数</div>
+          <div class="value">4 趟</div>
+        </div>
+        <div class="sum-card">
+          <div class="label">乘客数</div>
+          <div class="value">去程3+回程3</div>
+        </div>
+        <div class="sum-card">
+          <div class="label">住宿</div>
+          <div class="value">车里1+酒店2</div>
+        </div>
+      </div>
+      <table class="budget-table" style="margin-top:14px;">
+        <thead>
+          <tr><th>日期</th><th>方向</th><th>乘客</th><th class="num">车费</th></tr>
+        </thead>
+        <tbody>
+          <tr class="income"><td>07-24</td><td>去程①</td><td>球童 + 药明员工 · 天津→邯郸</td><td class="num">+ ¥256.70</td></tr>
+          <tr class="income"><td>07-24</td><td>去程②</td><td>（继续同车）</td><td class="num">+ ¥185.35</td></tr>
+          <tr class="income"><td>07-27</td><td>回程①</td><td>会计 · 洛阳→唐山</td><td class="num">+ ¥197.20</td></tr>
+          <tr class="income"><td>07-27</td><td>回程②</td><td>女生×2 · 洛阳→邯郸</td><td class="num">+ ¥243.10</td></tr>
+          <tr class="total">
+            <td colspan="3">合计（车费收入）</td><td class="num">+ ¥882.35</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:10px;font-size:0.78rem;color:var(--muted);">
+        * 去程3人全部到邯郸（¥256.70+¥185.35）；回程：会计到唐山（¥197.20）+ 女生×2到邯郸（¥243.10）
+      </div>
+    </div>
+  </div>
+
+  <!-- 备注 -->
+  <div class="section">
+    <div class="section-title">📌 备注</div>
+    <div class="card tips-card">
+      <h3>行程亮点</h3>
+      <ul>
+        <li>🏆 <strong>四大石窟完结</strong> · 云冈石窟（山西大同）✅ + 莫高窟（甘肃敦煌）✅ + 龙门石窟（河南洛阳）✅ + 麦积山石窟（甘肃天水）✅</li>
+        <li>曹操高陵 · 背诗可免门票，文艺青年福利</li>
+        <li>白马寺 · 中国第一古刹；唐都盛宴有歌舞表演，体验佳</li>
+        <li>应天门/天堂/明堂夜游 · 电动车逛盛唐夜景，应天门拍照妹子多</li>
+        <li>仿古一日游 · 怀古亭爬山15分钟，黄河边停车吹风放松</li>
+        <li>住宿：Day1 睡车里；Day2/Day3 酒店；Day4 一大早返程</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align:center;color:var(--muted);font-size:0.75rem;padding:20px 0;">
+    周末逃离天津计划 · 自驾顺风车 W30-W31 · 2026-08-22 整理
+  </div>
+
+</div>
+<a class="back-btn" href="weekend-escape.html">← 返回主页</a>
+
+</body>
+</html>

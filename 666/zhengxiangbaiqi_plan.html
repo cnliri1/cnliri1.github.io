@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>内蒙火山自驾顺风车 · 2026-08-07 至 08-09</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --primary: #1a73e8;
+    --accent: #e8710a;
+    --success: #0d904f;
+    --done: #9e9e9e;
+    --danger: #c5221f;
+    --text: #202124;
+    --muted: #5f6368;
+    --border: #dadce0;
+    --radius: 12px;
+    --note-w: 220px;
+    --tag-w: 72px;
+    --date-w: 88px;
+    --cb-w: 22px;
+    --gap: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 24px 16px 80px;
+  }
+  .container { max-width: 1080px; margin: 0 auto; }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #1a73e8, #0d47a1);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+  .header p { font-size: 0.9rem; opacity: 0.85; margin-bottom: 12px; }
+  .header .badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+  }
+
+  /* ── Section ── */
+  .section { margin-bottom: 22px; }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 4px 12px;
+    color: var(--text);
+  }
+  .section-title::before {
+    content: '';
+    width: 4px; height: 18px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+
+  /* ── Day timeline ── */
+  .day-header {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary);
+  }
+  .day-header .date {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .day-header .title { font-size: 1.05rem; font-weight: 700; }
+  .day-header .sub { font-size: 0.78rem; color: var(--muted); }
+
+  .timeline { display: flex; flex-direction: column; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 80px 16px 1fr var(--note-w);
+    gap: 10px;
+    padding: 8px 0;
+    align-items: start;
+    border-bottom: 1px dashed #eee;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .tl-time { font-size: 0.78rem; color: var(--primary); font-weight: 600; padding-top: 2px; }
+  .tl-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--primary);
+    margin-top: 6px;
+    margin-left: 3px;
+    box-shadow: 0 0 0 3px rgba(26,115,232,0.18);
+  }
+  .tl-dot.accent { background: var(--accent); box-shadow: 0 0 0 3px rgba(232,113,10,0.18); }
+  .tl-dot.success { background: var(--success); box-shadow: 0 0 0 3px rgba(13,144,79,0.18); }
+  .tl-dot.muted { background: var(--muted); box-shadow: 0 0 0 3px rgba(95,99,104,0.18); }
+  .tl-content { font-size: 0.88rem; padding-top: 1px; }
+  .tl-content strong { color: var(--text); }
+  .tl-content .place { font-weight: 600; }
+  .tl-content .meta { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+  .tl-note textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    color: var(--text);
+    background: #fafbfc;
+    resize: vertical;
+    min-height: 32px;
+  }
+
+  /* ── Budget ── */
+  .budget-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .budget-table th, .budget-table td {
+    text-align: left;
+    padding: 9px 10px;
+    border-bottom: 1px solid #eef0f3;
+  }
+  .budget-table th {
+    background: #f0f6ff;
+    color: var(--primary);
+    font-weight: 600;
+  }
+  .budget-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .budget-table tr.total td {
+    font-weight: 700;
+    color: var(--primary);
+    background: #f8fafe;
+    border-top: 2px solid var(--primary);
+  }
+  .budget-table tr.income td { color: var(--success); }
+  .budget-table tr.expense td { color: var(--danger); }
+  .budget-summary {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .sum-card {
+    background: #f0f6ff;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+  }
+  .sum-card .label { font-size: 0.72rem; color: var(--muted); }
+  .sum-card .value { font-size: 1.15rem; font-weight: 700; color: var(--primary); margin-top: 2px; }
+  .sum-card.green .value { color: var(--success); }
+  .sum-card.red .value { color: var(--danger); }
+
+  /* ── Spots ── */
+  .spot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .spot {
+    background: #fafbfc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .spot .name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+  .spot .desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── Tips ── */
+  .tips-card {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border-left: 4px solid #f59e0b;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .tips-card h3 { font-size: 0.95rem; margin-bottom: 8px; color: #b45309; }
+  .tips-card ul { padding-left: 20px; font-size: 0.85rem; line-height: 1.9; }
+
+  /* ── Responsive ── */
+  @media (max-width: 720px) {
+    :root { --note-w: 100%; --tag-w: 100%; }
+    .timeline-item { grid-template-columns: 70px 14px 1fr; }
+    .tl-note { grid-column: 1 / -1; }
+    .budget-summary { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    .tl-note textarea { border: none; background: transparent; }
+    .card { box-shadow: none; }
+  }
+
+  .back-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a73e8;
+    color: #fff;
+    padding: 10px 28px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 200;
+    white-space: nowrap;
+  }
+  .back-btn:hover { opacity: 0.85; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ── Header ── -->
+  <div class="header">
+    <h1>🌋 内蒙火山自驾顺风车 · 3日</h1>
+    <p>2026年8月7日（周五）出发 · 8月9日（周日）返程 · 去程3人/回程3人</p>
+    <div class="badges">
+      <span class="badge">🚗 自驾顺风车</span>
+      <span class="badge">💰 车费收入 ¥814.9</span>
+      <span class="badge">📍 乌兰哈达 · 正镶白旗</span>
+    </div>
+  </div>
+
+  <!-- ── Day 1 · 8/7 ── -->
+  <div class="section">
+    <div class="section-title">Day 1 · 8月7日（周五）</div>
+    <div class="card">
+      <div class="day-header">
+        <div class="date">08-07<br><span style="font-size:0.7rem;color:var(--muted);font-weight:400;">周五 · W32</span></div>
+        <div>
+          <div class="title">天津 → 乌兰哈达六号火山</div>
+          <div class="sub">自驾接顺风车 · 抵达后车里过夜（全程睡车里）</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">下午</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">天津出发</span> · 顺风车3人上车<div class="meta">👤 妈妈 + 奶奶 + 女儿，目的地：内蒙</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">傍晚</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">长途自驾</span> · 天津 → 乌兰察布 → 乌兰哈达<div class="meta">约700km · 下午出发车程较长</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">深夜</div>
+          <div class="tl-dot accent"></div>
+          <div class="tl-content"><span class="place">乌兰哈达六号火山</span> 抵达<div class="meta">深夜抵达 · 车里过夜</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">凌晨</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">车里过夜</span><div class="meta">🌙 乌兰哈达火山 · 星空下的火山之夜</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">当日</div>
+          <div class="tl-dot muted"></div>
+          <div class="tl-content"><span class="place">车费收入</span> · 顺风车 3人（妈妈/奶奶/女儿）<div class="meta"><strong style="color:var(--success);">+ ¥463.0</strong></div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Day 2 · 8/8 ── -->
+  <div class="section">
+    <div class="section-title">Day 2 · 8月8日（周六）</div>
+    <div class="card">
+      <div class="day-header">
+        <div class="date">08-08<br><span style="font-size:0.7rem;color:var(--muted);font-weight:400;">周六 · W32</span></div>
+        <div>
+          <div class="title">乌兰哈达火山 → 察汗淖尔湿地 → 太仆寺旗 → 正镶白旗</div>
+          <div class="sub">火山探秘 · 草原湿地 · 观星之夜</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">上午</div>
+          <div class="tl-dot accent"></div>
+          <div class="tl-content"><span class="place">乌兰哈达六号火山</span> 深度游<div class="meta">登顶 · 黑色火山岩地貌</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">中午</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">察汗淖尔-康巴诺尔国家湿地公园</span><div class="meta">途经停留</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">下午</div>
+          <div class="tl-dot muted"></div>
+          <div class="tl-content"><span class="place">太仆寺旗石条山</span> · 探访未遂<div class="meta">未能前往，下次补上</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">傍晚</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">正镶白旗</span> 抵达<div class="meta">夏日不日都观星点</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">晚餐</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">当地蒙餐</span> · 一斤手把肉（1人）<div class="meta">大口吃肉</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">夜间</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">正镶白旗布日都庙观星</span><div class="meta">夏日不日都观星 · 草原夜空</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Day 3 · 8/9 ── -->
+  <div class="section">
+    <div class="section-title">Day 3 · 8月9日（周日）</div>
+    <div class="card">
+      <div class="day-header">
+        <div class="date">08-09<br><span style="font-size:0.7rem;color:var(--muted);font-weight:400;">周日 · W32</span></div>
+        <div>
+          <div class="title">正镶白旗 → 天津</div>
+          <div class="sub">返程 · 顺风车接单</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">上午</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">正镶白旗出发</span> · 顺风车3人上车<div class="meta">👤 北京天文爱好者 + 张家口母女，火山路至太仆寺旗段<strong style="color:var(--accent);">全程未走高速</strong></div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">白天</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content"><span class="place">长途返程</span> · 乌兰布统 → 太仆寺旗 → 张家口 → 天津<div class="meta">部分路段走国道/省道，风景更野</div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">晚间</div>
+          <div class="tl-dot success"></div>
+          <div class="tl-content"><span class="place">抵达天津</span></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">当日</div>
+          <div class="tl-dot muted"></div>
+          <div class="tl-content"><span class="place">车费收入</span> · 顺风车 3人（天文爱好者/张家口母女）<div class="meta"><strong style="color:var(--success);">+ ¥351.9</strong></div></div>
+          <div class="tl-note"><textarea placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 景点速览 ── -->
+  <div class="section">
+    <div class="section-title">📍 景点速览</div>
+    <div class="card">
+      <div class="spot-grid">
+        <div class="spot">
+          <div class="name">🌋 乌兰哈达六号火山</div>
+          <div class="desc">乌兰察布市 · 黑色火山岩地貌 · 三晚全程睡车里 🌙</div>
+        </div>
+        <div class="spot">
+          <div class="name">🦆 察汗淖尔-康巴诺尔湿地</div>
+          <div class="desc">国家湿地公园 · 途经停留</div>
+        </div>
+        <div class="spot">
+          <div class="name">🪨 太仆寺旗石条山</div>
+          <div class="desc">未遂 · 下次可重点安排</div>
+        </div>
+        <div class="spot">
+          <div class="name">⭐ 布日都庙观星点</div>
+          <div class="desc">正镶白旗 · 夏日不日都观星，草原夜空</div>
+        </div>
+        <div class="spot">
+          <div class="name">🌋 乌兰布统火山</div>
+          <div class="desc">返程途经 · 火山-太仆寺旗段未走高速</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 收支统计 ── -->
+  <div class="section">
+    <div class="section-title">💰 收支统计</div>
+    <div class="card">
+      <div class="budget-summary">
+        <div class="sum-card green">
+          <div class="label">车费总收入</div>
+          <div class="value">¥814.9</div>
+        </div>
+        <div class="sum-card red">
+          <div class="label">趟数</div>
+          <div class="value">2 趟</div>
+        </div>
+        <div class="sum-card">
+          <div class="label">里程（估）</div>
+          <div class="value">~1500 km</div>
+        </div>
+      </div>
+      <table class="budget-table" style="margin-top:14px;">
+        <thead>
+          <tr><th>日期</th><th>方向</th><th>路线</th><th class="num">车费</th></tr>
+        </thead>
+        <tbody>
+          <tr class="income">
+            <td>08-07</td><td>去程</td><td>天津 → 乌兰哈达火山</td><td class="num">+ ¥463.0</td>
+          </tr>
+          <tr class="income">
+            <td>08-09</td><td>返程</td><td>正镶白旗 → 天津</td><td class="num">+ ¥351.9</td>
+          </tr>
+          <tr class="total">
+            <td colspan="3">合计（车费收入）</td><td class="num">+ ¥814.9</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:10px;font-size:0.78rem;color:var(--muted);">
+        * 油费、过路费、餐饮已计入；全程住宿车里，无住宿费；两趟各3人，共6人次
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tips ── -->
+  <div class="section">
+    <div class="section-title">📌 备注与待办</div>
+    <div class="card tips-card">
+      <h3>下一趟参考</h3>
+      <ul>
+        <li><strong>太仆寺旗石条山</strong> 未遂，下次再走这条线时优先安排</li>
+        <li>布日都庙观星点是个惊喜，夏日不日都附近视野开阔，可重复使用</li>
+        <li>乌兰布统火山 → 太仆寺旗走国道风景更野，耗时多约 1.5h</li>
+        <li>手把肉一斤单人也吃得了，蒙餐分量实在</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <div style="text-align:center;color:var(--muted);font-size:0.75rem;padding:20px 0;">
+    周末逃离天津计划 · 自驾顺风车 W32 · 2026-08-22 整理
+  </div>
+
+</div>
+<a class="back-btn" href="weekend-escape.html">← 返回主页</a>
+
+</body>
+</html>
