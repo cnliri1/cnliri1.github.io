@@ -291,13 +291,16 @@ header p {
     <button class="filter-tab" onclick="filterTrips('drive', this)">
       🚗 自驾顺风车 <span class="count" id="count-drive">4</span>
     </button>
+    <button class="filter-tab" onclick="filterTrips('gujian', this)">
+      🏛️ 古建打卡 <span class="count" id="count-gujian">3</span>
+    </button>
   </div>
 </header>
 
 <div class="timeline-wrap">
 
   <!-- 保定辽构探访 -->
-  <div class="trip-row" data-attr="drive">
+  <div class="trip-row" data-attr="drive" data-theme="gujian">
     <div class="trip-dot-wrap"><div class="trip-dot done"></div></div>
     <a class="trip-card" href="baoding_liao_plan.html">
       <div class="trip-top">
@@ -314,7 +317,7 @@ header p {
   </div>
 
   <!-- 忻州初探 -->
-  <div class="trip-row" data-attr="drive">
+  <div class="trip-row" data-attr="drive" data-theme="gujian">
     <div class="trip-dot-wrap"><div class="trip-dot done"></div></div>
     <a class="trip-card" href="xinzhou_plan.html">
       <div class="trip-top">
@@ -331,7 +334,7 @@ header p {
   </div>
 
   <!-- 五台山拜财神 -->
-  <div class="trip-row" data-attr="self">
+  <div class="trip-row" data-attr="self" data-theme="gujian">
     <div class="trip-dot-wrap"><div class="trip-dot done"></div></div>
     <a class="trip-card" href="wutai_plan.html">
       <div class="trip-top">
@@ -478,7 +481,15 @@ header p {
     var rows = document.querySelectorAll('.trip-row');
     var visible = 0;
     rows.forEach(function(row) {
-      if (attr === 'all' || row.getAttribute('data-attr') === attr) {
+      var match;
+      if (attr === 'all') {
+        match = true;
+      } else if (attr === 'gujian') {
+        match = row.getAttribute('data-theme') === 'gujian';
+      } else {
+        match = row.getAttribute('data-attr') === attr;
+      }
+      if (match) {
         row.classList.remove('hidden');
         visible++;
       } else {
