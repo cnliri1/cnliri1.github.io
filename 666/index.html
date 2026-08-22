@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周末逃离天津计划</title>
+<style>
+:root {
+  --bg: #f4f5f7;
+  --card: #ffffff;
+  --primary: #1a73e8;
+  --primary-dark: #1765cc;
+  --text: #202124;
+  --muted: #6b7280;
+  --border: #e2e8f0;
+  --radius: 12px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.08);
+  --shadow-hover: 0 6px 20px rgba(0,0,0,0.13);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
+
+/* ── Header ── */
+header {
+  background: linear-gradient(135deg, #0d3d6e, #0a5a8c);
+  color: #fff;
+  padding: 24px 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 3px 16px rgba(0,0,0,0.18);
+}
+header h1 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+header p {
+  font-size: 0.78rem;
+  opacity: 0.75;
+  margin-bottom: 16px;
+}
+
+/* ── Filter Tabs ── */
+.filter-tabs {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.filter-tabs::-webkit-scrollbar { display: none; }
+.filter-tab {
+  flex-shrink: 0;
+  padding: 8px 18px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.65);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-bottom: 2.5px solid transparent;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.filter-tab:hover { color: #fff; }
+.filter-tab.active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+.filter-tab .count {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 0 6px;
+  font-size: 0.68rem;
+}
+
+/* ── Timeline ── */
+.timeline-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 16px 0;
+  position: relative;
+}
+/* vertical line */
+.timeline-wrap::before {
+  content: '';
+  position: absolute;
+  left: 28px;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #1a73e8, #93c5fd);
+  border-radius: 2px;
+}
+
+.trip-row {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 0 14px;
+  margin-bottom: 14px;
+  position: relative;
+}
+.trip-row.hidden { display: none; }
+
+/* dot on timeline */
+.trip-dot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 18px;
+}
+.trip-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--primary);
+  flex-shrink: 0;
+  z-index: 1;
+}
+.trip-dot.done { background: #16a34a; box-shadow: 0 0 0 2px #16a34a; }
+.trip-dot.planned { background: #e8710a; box-shadow: 0 0 0 2px #e8710a; }
+
+/* card */
+.trip-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  padding: 16px 16px 14px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: all 0.2s;
+}
+.trip-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+.trip-card:active { transform: translateY(0); }
+
+/* top row: dates + status */
+.trip-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.trip-dates {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.3px;
+}
+.trip-dates span { color: var(--muted); font-weight: 400; margin: 0 4px; }
+.status-badge {
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
+}
+.status-done { background: #dcfce7; color: #16a34a; }
+.status-planned { background: #fef3c7; color: #d97706; }
+
+.week-tag {
+  display: inline-block;
+  background: #ede9fe;
+  color: #6d28d9;
+  border-radius: 8px;
+  padding: 1px 7px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* title */
+.trip-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+
+/* overview */
+.trip-overview {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+
+/* bottom: attr tags */
+.trip-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.attr-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+.attr-flight {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.attr-drive {
+  background: #dcfce7;
+  color: #15803d;
+}
+.attr-highland {
+  background: #fce7f3;
+  color: #9d174d;
+}
+
+/* ── Add hint ── */
+.empty-hint {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  display: none;
+}
+.empty-hint.show { display: block; }
+.empty-hint .big { font-size: 2.5rem; margin-bottom: 12px; }
+
+/* ── Bottom Nav ── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  z-index: 90;
+}
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.63rem;
+  font-weight: 600;
+  padding: 5px 24px;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+.bottom-nav a:hover, .bottom-nav a.active { color: var(--primary); background: #e8f0fe; }
+.bottom-nav .icon { font-size: 1.25rem; }
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .timeline-wrap::before { left: 20px; }
+  .trip-row { grid-template-columns: 44px 1fr; gap: 0 10px; }
+  .trip-dot-wrap { padding-top: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🏃 周末逃离天津计划</h1>
+  <p>时间线 · 记录每一次出发</p>
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterTrips('all', this)">
+      全部 <span class="count" id="count-all">2</span>
+    </button>
+    <button class="filter-tab" onclick="filterTrips('flight', this)">
+      ✈️ 海航666 <span class="count" id="count-flight">2</span>
+    </button>
+    <button class="filter-tab" onclick="filterTrips('drive', this)">
+      🚗 自驾顺风车 <span class="count" id="count-drive">0</span>
+    </button>
+  </div>
+</header>
+
+<div class="timeline-wrap">
+
+  <!-- 九寨沟 -->
+  <div class="trip-row" data-attr="flight">
+    <div class="trip-dot-wrap"><div class="trip-dot planned"></div></div>
+    <a class="trip-card" href="/jiuzhai_plan.html">
+      <div class="trip-top">
+        <div class="trip-dates">出发 2026-09-17 <span>→</span> 返程 2026-09-19 <span class="week-tag">W38</span></div>
+        <span class="status-badge status-planned">待出行</span>
+      </div>
+      <div class="trip-title">九寨沟3日</div>
+      <div class="trip-overview">成都天府进 → 黄龙九寨站出 · 含三星堆 · 人均¥2,468 · 高原海拔2000–3100m</div>
+      <div class="trip-tags">
+        <span class="attr-tag attr-flight">✈️ 海航666</span>
+        <span class="attr-tag attr-highland">🏔️ 高原</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- 乌鲁木齐·赛里木湖 -->
+  <div class="trip-row" data-attr="flight">
+    <div class="trip-dot-wrap"><div class="trip-dot planned"></div></div>
+    <a class="trip-card" href="/urumqi_plan.html">
+      <div class="trip-top">
+        <div class="trip-dates">出发 2026-10-16 <span>→</span> 返程 2026-10-19 <span class="week-tag">W42</span></div>
+        <span class="status-badge status-planned">待出行</span>
+      </div>
+      <div class="trip-title">赛里木湖4日</div>
+      <div class="trip-overview">乌鲁木齐只作中转，直奔赛里木湖 · 直飞往返大兴 · 人均约¥4,295 · 自驾环湖</div>
+      <div class="trip-tags">
+        <span class="attr-tag attr-flight">✈️ 海航666</span>
+        <span class="attr-tag attr-highland">🏔️ 高原</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- 自驾顺风车占位（示例，可删除）-->
+  <div class="trip-row hidden" data-attr="drive" id="drive-placeholder">
+    <div class="trip-dot-wrap"><div class="trip-dot"></div></div>
+    <a class="trip-card" href="javascript:void(0)">
+      <div class="trip-top">
+        <div class="trip-dates">出发 — <span>→</span> 返程 — <span class="week-tag">W—</span></div>
+        <span class="status-badge status-planned">待规划</span>
+      </div>
+      <div class="trip-title">下一站去哪？</div>
+      <div class="trip-overview">告诉我你想去哪，我来规划路线和食宿</div>
+      <div class="trip-tags">
+        <span class="attr-tag attr-drive">🚗 自驾顺风车</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="empty-hint" id="empty-hint">
+    <div class="big">🗺️</div>
+    <div>该分类下暂无行程</div>
+    <div style="margin-top:8px;font-size:0.78rem;">告诉我目的地，开始规划吧</div>
+  </div>
+
+</div>
+
+<nav class="bottom-nav">
+  <a href="/weekend-escape.html" class="active">
+    <span class="icon">📋</span>
+    行程主页
+  </a>
+  <a href="/flight-search.html">
+    <span class="icon">🔍</span>
+    航班搜索
+  </a>
+</nav>
+
+<script>
+  function filterTrips(attr, btn) {
+    // update tabs
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    // filter rows
+    var rows = document.querySelectorAll('.trip-row');
+    var visible = 0;
+    rows.forEach(function(row) {
+      if (attr === 'all' || row.getAttribute('data-attr') === attr) {
+        row.classList.remove('hidden');
+        visible++;
+      } else {
+        row.classList.add('hidden');
+      }
+    });
+
+    // show/hide empty hint
+    document.getElementById('empty-hint').classList.toggle('show', visible === 0);
+  }
+</script>
+
+</body>
+</html>

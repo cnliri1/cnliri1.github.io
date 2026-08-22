@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>赛里木湖4日行程 · 2026年10月16日–19日</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --primary: #1a73e8;
+    --accent: #e8710a;
+    --success: #0d904f;
+    --done: #9e9e9e;
+    --danger: #c5221f;
+    --text: #202124;
+    --muted: #5f6368;
+    --border: #dadce0;
+    --radius: 12px;
+    --note-w: 200px;
+    --tag-w: 68px;
+    --date-w: 82px;
+    --cb-w: 22px;
+    --gap: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 24px 16px 80px;
+  }
+  .container { max-width: 1080px; margin: 0 auto; }
+
+  .header {
+    background: linear-gradient(135deg, #0d6e6e, #0a4a6e);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+  .header p { font-size: 0.9rem; opacity: 0.85; }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+    margin-top: 10px;
+  }
+
+  .section-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 28px 0 10px 4px;
+  }
+  .section-wrap { padding-top: 0; }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 18px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-header .day-tag {
+    background: rgba(255,255,255,0.25);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .card-header.green { background: var(--success); }
+  .card-header.orange { background: var(--accent); }
+  .card-header.red { background: #c5221f; }
+  .card-header.teal { background: #0d6e6e; }
+  .card-body { padding: 0; }
+
+  .checklist { list-style: none; }
+  .checklist > li {
+    display: grid;
+    grid-template-columns: var(--cb-w) var(--date-w) 1fr var(--tag-w) var(--note-w);
+    align-items: start;
+    gap: 0 var(--gap);
+    padding: 9px 14px 9px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.84rem;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .checklist > li:last-child { border-bottom: none; }
+  .checklist > li:hover { background: #f8f9fa; }
+
+  .cb {
+    width: 18px; height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    margin-top: 2px;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff; flex-shrink: 0; justify-self: center;
+  }
+  .checklist li.checked .cb { background: var(--success); border-color: var(--success); }
+  .checklist li.checked .cb::after { content: '✓'; color: #fff; font-size: 11px; font-weight: 700; line-height: 1; }
+  .checklist li.checked .li-text { text-decoration: line-through; color: var(--muted); }
+
+  .li-date { padding-top: 2px; font-size: 0.72rem; font-weight: 700; color: var(--primary); line-height: 1.5; }
+  .checklist li.checked .li-date { color: var(--success); }
+  .li-date .sub { font-weight: 400; color: var(--muted); display: block; }
+
+  .li-text { padding-top: 1px; }
+  .li-text .title { font-weight: 600; margin-bottom: 2px; }
+  .li-text .sub { color: var(--muted); font-size: 0.78rem; }
+
+  .li-tag { display: flex; align-items: flex-start; justify-content: flex-end; padding-top: 2px; }
+  .tag {
+    display: inline-block; font-size: 0.67rem;
+    padding: 1px 6px; border-radius: 10px;
+    font-weight: 600; white-space: nowrap;
+  }
+  .tag-urgent { background: #fce8e6; color: var(--danger); }
+  .tag-soon { background: #fef7e0; color: #7a4e00; }
+  .tag-normal { background: #e8f5e9; color: var(--success); }
+  .tag-now { background: #e8f0fe; color: var(--primary); }
+  .tag-done { background: #e8f5e9; color: var(--success); }
+
+  .li-note { display: flex; align-items: flex-start; }
+  .note-input {
+    width: 100%; border: 1px solid var(--border); border-radius: 6px;
+    padding: 4px 7px; font-size: 0.76rem; font-family: inherit;
+    background: #fafafa; color: var(--text); outline: none;
+    transition: border-color 0.15s; resize: none; min-height: 26px;
+  }
+  .note-input:focus { border-color: var(--primary); background: #fff; }
+  .note-input::placeholder { color: #bdbdbd; font-style: italic; }
+  .note-input.done { border-color: #c8e6c9; background: #f1f8e9; }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 54px 10px 1fr var(--note-w);
+    gap: 0 10px;
+    padding: 9px 14px 9px 12px;
+    border-bottom: 1px dashed var(--border);
+    align-items: start;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+
+  .time { font-size: 0.78rem; color: var(--primary); font-weight: 700; padding-top: 2px; text-align: right; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); margin-top: 6px; justify-self: center; flex-shrink: 0; }
+  .dot.warning { background: var(--accent); }
+  .dot.danger { background: var(--danger); }
+  .dot.success { background: var(--success); }
+  .dot.teal { background: #0d6e6e; }
+
+  .content .title { font-weight: 600; margin-bottom: 2px; font-size: 0.88rem; }
+  .content .sub { color: var(--muted); font-size: 0.78rem; }
+  .transport {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #e8f0fe; color: var(--primary);
+    border-radius: 6px; padding: 1px 8px;
+    font-size: 0.72rem; font-weight: 600; margin-top: 4px;
+  }
+
+  .tl-note { display: flex; align-items: flex-start; }
+  .tl-note .note-input {
+    width: 100%; border: 1px solid var(--border); border-radius: 6px;
+    padding: 4px 7px; font-size: 0.76rem; font-family: inherit;
+    background: #fafafa; color: var(--text); outline: none;
+    resize: none; min-height: 26px;
+  }
+  .tl-note .note-input:focus { border-color: var(--primary); background: #fff; }
+  .tl-note .note-input::placeholder { color: #bdbdbd; font-style: italic; }
+
+  .alert { border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; margin: 10px 14px; }
+  .alert.warning { background: #fef7e0; border-left: 4px solid var(--accent); color: #7a4e00; }
+  .alert.info { background: #e8f5e9; border-left: 4px solid var(--success); color: #1b5e20; }
+  .alert.danger { background: #fce8e6; border-left: 4px solid var(--danger); color: #7a1010; }
+  .alert.teal { background: #e0f7f7; border-left: 4px solid #0d6e6e; color: #0a4a4a; }
+
+  .budget-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .budget-table th {
+    text-align: left; color: var(--muted);
+    font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 6px 8px; border-bottom: 2px solid var(--border);
+  }
+  .budget-table td { padding: 7px 8px; border-bottom: 1px solid var(--border); }
+  .budget-table tr:last-child td { border-bottom: none; }
+  .budget-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .budget-table tr.done td:first-child { text-decoration: line-through; color: var(--muted); }
+  .budget-table tr.done td { color: var(--muted); }
+
+  .budget-notes {
+    background: #f8f9ff;
+    border-top: 2px solid var(--border);
+    padding: 12px 14px;
+  }
+  .budget-notes-title { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .budget-note-input {
+    width: 100%; border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 10px; font-size: 0.82rem; font-family: inherit;
+    background: #fff; color: var(--text); outline: none;
+    resize: vertical; min-height: 50px;
+  }
+  .budget-note-input:focus { border-color: var(--primary); }
+  .budget-note-input::placeholder { color: #bdbdbd; font-style: italic; }
+
+  @media (max-width: 680px) {
+    .checklist > li {
+      grid-template-columns: var(--cb-w) var(--date-w) 1fr;
+      grid-template-areas: "cb date text" "cb tag note";
+    }
+    .cb { grid-area: cb; justify-self: start; margin-top: 0; }
+    .li-date { grid-area: date; }
+    .li-text { grid-area: text; }
+    .li-tag { grid-area: tag; justify-content: flex-start; margin-top: 4px; }
+    .li-note { grid-area: note; margin-top: 4px; }
+  }
+  @media print {
+    body { padding: 0; background: #fff; }
+    .card { box-shadow: none; border: 1px solid #ddd; }
+    .note-input, .budget-note-input { border: 1px solid #ccc !important; background: #fff !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>💧 赛里木湖4日行程</h1>
+    <p>2026年10月16日 – 19日 · 2大人 · 直奔赛里木湖</p>
+    <div class="badge">GS7835 去程 · JD5220 回程 · 乌鲁木齐只是中转</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHECKLIST                                                    -->
+  <!-- ============================================================ -->
+  <div class="section-title">📋 预约 & 待办清单</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-body">
+      <ul class="checklist">
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">现在</div>
+          <div class="li-text">
+            <div class="title">预约 <strong>10/16 天津→滨海机场</strong> 专车（凌晨05:30出发）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-now">立刻</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">现在</div>
+          <div class="li-text">
+            <div class="title">预约 <strong>10/19 大兴机场→天津</strong> 接机（落地后即走）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-now">立刻</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">10月2日起</div>
+          <div class="li-text">
+            <div class="title">预约 <strong>赛里木湖门票</strong>（官方小程序「赛里木湖景区」实名预约，¥70/人；自驾需买套票¥145含入园）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-urgent">⚠️ 尽早</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">10月2日起</div>
+          <div class="li-text">
+            <div class="title">预订 <strong>10/16 赛里木湖住宿</strong>（点将台星空营地或南门民宿，旺季需提前1个月）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-urgent">⚠️ 尽早</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">出发前</div>
+          <div class="li-text">
+            <div class="title">购买 <strong>10/16 GS7835</strong> 机票（天津滨海 T2 07:45 → 乌鲁木齐地窝堡 11:50，天津航空 A320，约4小时）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-normal">待办</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">出发前</div>
+          <div class="li-text">
+            <div class="title">购买 <strong>10/19 JD5220</strong> 机票（乌鲁木齐地窝堡 T1 20:40 → 北京大兴，首都航空，约3小时40分）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-normal">待办</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">出发前3天</div>
+          <div class="li-text">
+            <div class="title">出发前准备：羽绒服/冲锋衣、防晒霜SPF50+、墨镜、帽子、润唇膏、洗漱用品、换洗衣物</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-normal">待办</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder=\"备注…\"></textarea></div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 1 · 10月16日（周五）                                     -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 1 · 10月16日（周五）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header teal"><span class="day-tag">DAY 1</span>飞抵乌鲁木齐，直奔赛里木湖（傍晚入湖）</div>
+    <div class="card-body">
+      <div class="alert teal">🛫 乌鲁木齐只是中转，落地直接提车走人，不进市区！</div>
+      <div class="timeline-item">
+        <div class="time">05:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">天津出发 → 天津滨海机场</div>
+          <div class="sub">专车/滴滴约40分钟，建议提前约好</div>
+          <div class="transport">🚕 约 ¥80–120</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">07:45</div><div class="dot success"></div>
+        <div class="content">
+          <div class="title">GS7835 起飞 ✈️</div>
+          <div class="sub">天津滨海 T2 → 乌鲁木齐地窝堡｜天津航空 A320｜约4小时</div>
+          <div class="transport">🛫 GS7835 · TSN 07:45 → URC 11:50</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">11:50</div><div class="dot success"></div>
+        <div class="content">
+          <div class="title">落地乌鲁木齐地窝堡机场（URC）</div>
+          <div class="sub">提车（神州/一嗨提前预订SUV）、加油、出城上连霍高速</div>
+          <div class="transport">🚗 建议租SUV，¥300–500/天，含全险</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">13:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">出城，沿连霍高速（G30）直奔赛里木湖</div>
+          <div class="sub">全程约550公里，约5.5–6小时｜途中在精河服务区加油休整（全程无加油站后段）</div>
+          <div class="transport">🚗 过路费 ¥180 + 油费 ¥400（SUV）</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">18:30</div><div class="dot warning"></div>
+        <div class="content">
+          <div class="title">抵达赛里木湖景区东门（净海路）</div>
+          <div class="sub">10月日落约19:00，可赶上最后1小时光线｜自驾入园需套票 ¥145/人</div>
+          <div class="transport">🏔️ 东门入 · 门票 ¥70 + 自驾通行费 ¥75 = ¥145/人</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">18:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">逆时针环湖，赏赛湖日落</div>
+          <div class="sub">精华路段：月亮湾（日落+雪山倒影）→ 亲水滩（日落光线绝美）→ 南门出</div>
+          <div class="transport">🌅 10月日落约19:00，月亮湾是最佳日落机位</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">20:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">出南门，打卡果子沟大桥夜景</div>
+          <div class="sub">南门外观景台拍摄果子沟大桥夜景+星空（无光污染）</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">20:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">入住点将台星空营地 / 南门民宿</div>
+          <div class="sub">景区内住宿，推窗即湖，夜观星空，早起看日出绝佳｜含早晚餐约¥800-1500</div>
+          <div class="transport">🏨 强烈推荐住景区内！10月旺季需提前1个月预订</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 2 · 10月17日（周六）                                     -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 2 · 10月17日（周六）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header green"><span class="day-tag">DAY 2</span>赛里木湖全天环湖（核心日！）</div>
+    <div class="card-body">
+      <div class="alert info">💡 赛湖晨昏光线最美，今天是唯一完整一天，全部留给湖！</div>
+      <div class="timeline-item">
+        <div class="time">07:00</div><div class="dot success"></div>
+        <div class="content">
+          <div class="title">湖畔日出 🌅</div>
+          <div class="sub">清晨6:30–7:30日出，光线从深蓝渐变粉蓝再到湛蓝，日出后湖水像蓝宝石｜点将台是最佳机位</div>
+          <div class="transport">🏔️ 10月清晨气温约3–7℃，必须穿羽绒服！</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">08:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">景区早餐，出发环湖</div>
+          <div class="sub">营地早餐后，进入东门，开始逆时针完整环湖（全程约90公里）</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">09:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">环湖精华景点（逆时针停靠）</div>
+          <div class="sub">三台草原 → 十里长堤（天空之镜+雪山倒影）→ 亲水滩（近触湖水）→ 北门 → 点将台（俯瞰全湖）→ 天鹅乐水（投喂天鹅，上午9–11点最佳）→ 西海草原（骑马/花海）→ 克勒涌珠（蓝泉眼+天鹅）</div>
+          <div class="transport">🏔️ 每站停留20–90分钟，总计约5–6小时</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">15:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">松树头登顶（强烈推荐！）</div>
+          <div class="sub">沿木栈道爬山约40分钟–1小时，山顶俯瞰赛湖全景+果子沟大桥同框，是全湖最震撼的观景点</div>
+          <div class="transport">🏔️ 约1.5–2小时（含登顶和下山），无护栏注意安全</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">17:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">S弯公路打卡 + 金花紫卉（网红灯塔）</div>
+          <div class="sub">S弯：雪山+蓝湖+草甸同框，公路电影感拉满｜金花紫卉：红色灯塔+蓝湖+雪山，拍照绝美</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">18:30</div><div class="dot warning"></div>
+        <div class="content">
+          <div class="title">月亮湾日落（今日压轴）</div>
+          <div class="sub">月牙形湖湾+雪山倒影，傍晚柔和光线拍人物剪影绝佳｜日落约19:00</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">20:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">出东门，入住博乐市区</div>
+          <div class="sub">博乐市条件比景区好，含早约¥200-400/晚｜距景区约1.5小时车程</div>
+          <div class="transport">🏨 方案B：继续住景区内（次日清晨还可再看日出）</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">晚上</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">博乐市晚餐 · 休整</div>
+          <div class="sub">博乐市区餐厅选择多，价格比景区便宜一半｜大盘鸡、椒麻鸡、手抓饭</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 3 · 10月18日（周日）                                     -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 3 · 10月18日（周日）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header orange"><span class="day-tag">DAY 3</span>赛湖晨曦 → 返程乌鲁木齐（晚班机前最后半日）</div>
+    <div class="card-body">
+      <div class="alert warning">⚠️ 今天核心是清晨和上午，下午必须出发返乌鲁木齐（约6小时），晚班机20:40</div>
+      <div class="timeline-item">
+        <div class="time">06:30</div><div class="dot success"></div>
+        <div class="content">
+          <div class="title">第二次湖畔日出（可选，如住景区内）🌅</div>
+          <div class="sub">住景区内则再次早起拍日出；住博乐则赶回东门入园拍摄｜晨光光线比Day2更柔和</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">08:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">景区早餐后出发，返程乌鲁木齐</div>
+          <div class="sub">收拾行李退房，驾车沿G30返回｜建议在精河服务区加满油、午餐休整</div>
+          <div class="transport">🚗 过路费+油费约 ¥580｜约5.5–6小时</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">14:00</div><div class="dot warning"></div>
+        <div class="content">
+          <div class="title">回到乌鲁木齐地窝堡机场（URC）</div>
+          <div class="sub">还车、办理值机托运｜建议提前网上值机选座，JD5220值机截止约20:10</div>
+          <div class="transport">🚗 建议14:00前到达机场，留出充足时间</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">19:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">机场简餐，过安检</div>
+          <div class="sub">T1航站楼有多家餐厅</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">20:40</div><div class="dot danger"></div>
+        <div class="content">
+          <div class="title">JD5220 起飞 ✈️</div>
+          <div class="sub">乌鲁木齐地窝堡 T1 → 北京大兴｜首都航空 A320/A333｜约3小时40分</div>
+          <div class="transport">🛫 JD5220 · URC 20:40 → PKX 00:20+1天</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">00:20+1</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">落地北京大兴机场（PKX）</div>
+          <div class="sub">约凌晨00:20，需提前预约接机</div>
+          <div class="transport">🚕 大兴P2停车楼上车，约01:00–01:30到天津</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TIPS                                                         -->
+  <!-- ============================================================ -->
+  <div class="section-title">💡 赛里木湖出行提示</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-body">
+      <ul style="padding:14px 18px;list-style:none;font-size:0.85rem;line-height:2;">
+        <li>赛里木湖海拔约 <strong>2070米</strong>，紫外线极强，<strong>SPF50+防晒霜、墨镜、帽子</strong>必带</li>
+        <li>10月气温：白天约15–20℃，清晨/夜间约 <strong>3–10℃</strong>，<strong>羽绒服/冲锋衣</strong>必须带</li>
+        <li>赛湖景区内 <strong>全程无加油站</strong>，出发前务必在精河或博乐加满油！</li>
+        <li>赛湖门票需提前在「赛里木湖景区」公众号实名预约购票，旺季限流，<strong>10月属旺季</strong></li>
+        <li>自驾环湖 <strong>逆时针</strong> 方向（顺光拍照），靠湖风景在右手边，停车位充足</li>
+        <li>松树头登山建议穿防滑鞋，木栈道约40分钟–1小时登顶，山顶无护栏注意安全</li>
+        <li>赛湖日出约 <strong>07:30</strong>，日落约 <strong>19:00</strong>，晨光光线最佳（湖水呈渐变粉蓝色）</li>
+        <li>天鹅乐水投喂天鹅最佳时段：上午 <strong>9:00–11:00</strong></li>
+        <li>10月日落约19:00，Day1 傍晚18:30入园仍可拍到日落最后1小时光线</li>
+        <li>新疆安检频繁，随身带身份证，配合各检查点检查</li>
+        <li>租车建议选SUV（四驱更佳），走连霍高速，路况良好</li>
+      </ul>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BUDGET                                                       -->
+  <!-- ============================================================ -->
+  <div class="section-title">💰 总预算（2人）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-body">
+      <table class="budget-table">
+        <thead><tr><th>项目</th><th class="num">单价</th><th class="num">小计</th></tr></thead>
+        <tbody>
+          <tr><td>GS7835 去程机票（2人）</td><td class="num">¥700×2</td><td class="num">¥1,400</td></tr>
+          <tr><td>JD5220 回程机票（2人）</td><td class="num">¥740×2</td><td class="num">¥1,480</td></tr>
+          <tr><td>赛里木湖门票+自驾入园（2人，2天）</td><td class="num">¥145×2×2</td><td class="num">¥580</td></tr>
+          <tr><td>赛里木湖住宿（1晚，景区内点将台/民宿）</td><td class="num">¥800</td><td class="num">¥800</td></tr>
+          <tr><td>博乐市住宿（1晚，10/17晚）</td><td class="num">¥300</td><td class="num">¥300</td></tr>
+          <tr><td>自驾租车（4天，SUV含全险）</td><td class="num">¥400×4</td><td class="num">¥1,600</td></tr>
+          <tr><td>自驾油费+过路费（乌鲁木齐↔赛湖往返）</td><td class="num">¥580</td><td class="num">¥580</td></tr>
+          <tr><td>餐饮零花（4天）</td><td class="num">¥150×2×4</td><td class="num">¥1,200</td></tr>
+          <tr><td>天津→滨海机场接送</td><td class="num">—</td><td class="num">¥200</td></tr>
+          <tr><td>大兴机场→天津接机</td><td class="num">—</td><td class="num">¥450</td></tr>
+          <tr><td><strong>合计</strong></td><td></td><td class="num"><strong>¥8,590</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="alert info" style="margin:10px 14px;">
+        💡 人均约 <strong>¥4,295</strong>（2大人），丰俭由人；住宿和租车弹性最大（住博乐市区可省¥500+，2人合租SUV可省¥800）
+      </div>
+    </div>
+    <div class="budget-notes">
+      <div class="budget-notes-title">📝 预算备注</div>
+      <textarea class="budget-note-input" placeholder="点击填写预算备注、实际花费记录…"></textarea>
+    </div>
+  </div>
+  </div>
+
+  <div style="text-align:center;padding:20px 0;color:var(--muted);font-size:0.75rem;">
+    赛里木湖4日行程 · 2026年10月16日–19日 · 可打印使用
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.checklist > li').forEach(function(li) {
+    li.addEventListener('click', function(e) {
+      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+      li.classList.toggle('checked');
+    });
+  });
+</script>
+
+</body>
+</html>

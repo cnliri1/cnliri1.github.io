@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九寨沟3日行程 · 2026年9月17日–19日</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --primary: #1a73e8;
+    --accent: #e8710a;
+    --success: #0d904f;
+    --done: #9e9e9e;
+    --danger: #c5221f;
+    --text: #202124;
+    --muted: #5f6368;
+    --border: #dadce0;
+    --radius: 12px;
+    --note-w: 200px;
+    --tag-w: 68px;
+    --date-w: 82px;
+    --cb-w: 22px;
+    --gap: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 24px 16px 80px;
+  }
+  .container { max-width: 1080px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1a73e8, #0d47a1);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+  .header p { font-size: 0.9rem; opacity: 0.85; }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+    margin-top: 10px;
+  }
+
+  .section-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 28px 0 10px 4px;
+  }
+  .section-wrap { padding-top: 0; }
+
+  /* ========== CARD ========== */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 18px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-header .day-tag {
+    background: rgba(255,255,255,0.25);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .card-header.green { background: var(--success); }
+  .card-header.orange { background: var(--accent); }
+  .card-body { padding: 0; }
+
+  /* ========== CHECKLIST ========== */
+  .checklist { list-style: none; }
+
+  /* Row: cb | date | text | tag | note */
+  .checklist > li {
+    display: grid;
+    /* cb(22) date(82) text(1fr) tag(68) note(200) gap(10) */
+    grid-template-columns: var(--cb-w) var(--date-w) 1fr var(--tag-w) var(--note-w);
+    align-items: start;
+    gap: 0 var(--gap);
+    padding: 9px 14px 9px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.84rem;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .checklist > li:last-child { border-bottom: none; }
+  .checklist > li:hover { background: #f8f9fa; }
+
+  .cb {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    margin-top: 2px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    flex-shrink: 0;
+    justify-self: center;
+  }
+  .checklist li.checked .cb { background: var(--success); border-color: var(--success); }
+  .checklist li.checked .cb::after { content: '✓'; color: #fff; font-size: 11px; font-weight: 700; line-height: 1; }
+  .checklist li.checked .li-text { text-decoration: line-through; color: var(--muted); }
+
+  .li-date {
+    padding-top: 2px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.5;
+  }
+  .checklist li.checked .li-date { color: var(--success); }
+  .li-date .sub { font-weight: 400; color: var(--muted); display: block; }
+
+  .li-text { padding-top: 1px; }
+  .li-text .title { font-weight: 600; margin-bottom: 2px; }
+  .li-text .sub { color: var(--muted); font-size: 0.78rem; }
+
+  .li-tag { display: flex; align-items: flex-start; justify-content: flex-end; padding-top: 2px; }
+  .tag {
+    display: inline-block;
+    font-size: 0.67rem;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .tag-urgent { background: #fce8e6; color: var(--danger); }
+  .tag-soon { background: #fef7e0; color: #7a4e00; }
+  .tag-normal { background: #e8f5e9; color: var(--success); }
+  .tag-now { background: #e8f0fe; color: var(--primary); }
+  .tag-done { background: #e8f5e9; color: var(--success); }
+
+  .li-note { display: flex; align-items: flex-start; }
+  .note-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 7px;
+    font-size: 0.76rem;
+    font-family: inherit;
+    background: #fafafa;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+    resize: none;
+    min-height: 26px;
+  }
+  .note-input:focus { border-color: var(--primary); background: #fff; }
+  .note-input::placeholder { color: #bdbdbd; font-style: italic; }
+  .note-input.done { border-color: #c8e6c9; background: #f1f8e9; }
+
+  /* ========== TIMELINE ========== */
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 54px 10px 1fr var(--note-w);
+    gap: 0 10px;
+    padding: 9px 14px 9px 12px;
+    border-bottom: 1px dashed var(--border);
+    align-items: start;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+
+  .time { font-size: 0.78rem; color: var(--primary); font-weight: 700; padding-top: 2px; text-align: right; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); margin-top: 6px; justify-self: center; flex-shrink: 0; }
+  .dot.warning { background: var(--accent); }
+  .dot.danger { background: var(--danger); }
+  .dot.success { background: var(--success); }
+
+  .content .title { font-weight: 600; margin-bottom: 2px; font-size: 0.88rem; }
+  .content .sub { color: var(--muted); font-size: 0.78rem; }
+  .transport {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #e8f0fe; color: var(--primary);
+    border-radius: 6px; padding: 1px 8px;
+    font-size: 0.72rem; font-weight: 600; margin-top: 4px;
+  }
+
+  .tl-note { display: flex; align-items: flex-start; }
+  .tl-note .note-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 7px;
+    font-size: 0.76rem;
+    font-family: inherit;
+    background: #fafafa;
+    color: var(--text);
+    outline: none;
+    resize: none;
+    min-height: 26px;
+  }
+  .tl-note .note-input:focus { border-color: var(--primary); background: #fff; }
+  .tl-note .note-input::placeholder { color: #bdbdbd; font-style: italic; }
+
+  /* Alert */
+  .alert { border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; margin: 10px 14px; }
+  .alert.warning { background: #fef7e0; border-left: 4px solid var(--accent); color: #7a4e00; }
+  .alert.info { background: #e8f5e9; border-left: 4px solid var(--success); color: #1b5e20; }
+
+  /* Budget table */
+  .budget-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .budget-table th {
+    text-align: left; color: var(--muted);
+    font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 6px 8px; border-bottom: 2px solid var(--border);
+  }
+  .budget-table td { padding: 7px 8px; border-bottom: 1px solid var(--border); }
+  .budget-table tr:last-child td { border-bottom: none; }
+  .budget-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .budget-table tr.done td:first-child { text-decoration: line-through; color: var(--muted); }
+  .budget-table tr.done td { color: var(--muted); }
+
+  /* Budget notes */
+  .budget-notes {
+    background: #f8f9ff;
+    border-top: 2px solid var(--border);
+    padding: 12px 14px;
+  }
+  .budget-notes-title { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .budget-note-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+    font-family: inherit;
+    background: #fff;
+    color: var(--text);
+    outline: none;
+    resize: vertical;
+    min-height: 50px;
+  }
+  .budget-note-input:focus { border-color: var(--primary); }
+  .budget-note-input::placeholder { color: #bdbdbd; font-style: italic; }
+
+  /* Responsive */
+  @media (max-width: 680px) {
+    .checklist > li {
+      grid-template-columns: var(--cb-w) var(--date-w) 1fr;
+      grid-template-areas: "cb date text" "cb tag note";
+    }
+    .cb { grid-area: cb; justify-self: start; margin-top: 0; }
+    .li-date { grid-area: date; }
+    .li-text { grid-area: text; }
+    .li-tag { grid-area: tag; justify-content: flex-start; margin-top: 4px; }
+    .li-note { grid-area: note; margin-top: 4px; }
+  }
+  @media print {
+    body { padding: 0; background: #fff; }
+    .card, .note-card { box-shadow: none; border: 1px solid #ddd; }
+    .note-input, .budget-note-input { border: 1px solid #ccc !important; background: #fff !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>🚄 九寨沟3日行程</h1>
+    <p>2大人 · 2026年9月17日 – 19日</p>
+    <div class="badge">方案B：经北京 · HU7147去 · JD5612回</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHECKLIST                                                    -->
+  <!-- ============================================================ -->
+  <div class="section-title">📋 预约 & 待办清单</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-body">
+      <ul class="checklist">
+
+        <li class="checked">
+          <div class="cb"></div>
+          <div class="li-date">✅ 已完成<span class="sub">08-22</span></div>
+          <div class="li-text">
+            <div class="title">HU7147 机票（9/17 北京首都T2 → 成都天府T2，08:00起飞，¥320/人）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-done">✓ 完成</span></div>
+          <div class="li-note"><textarea class="note-input done" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li class="checked">
+          <div class="cb"></div>
+          <div class="li-date">✅ 已完成<span class="sub">08-22</span></div>
+          <div class="li-text">
+            <div class="title">JD5612 机票（9/19 成都天府T2 → 北京大兴，20:30起飞，¥320/人）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-done">✓ 完成</span></div>
+          <div class="li-note"><textarea class="note-input done" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">现在</div>
+          <div class="li-text">
+            <div class="title">预约 <strong>9/17 天津→北京首都</strong> 专车（凌晨05:30出发）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-now">立刻</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li class="checked">
+          <div class="cb"></div>
+          <div class="li-date">✅ 已完成<span class="sub">08-22</span></div>
+          <div class="li-text">
+            <div class="title">9/17 九寨沟住宿（龙洲大酒店，¥142/晚）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-done">✓ 完成</span></div>
+          <div class="li-note"><textarea class="note-input done" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">现在</div>
+          <div class="li-text">
+            <div class="title">预约 <strong>9/19 大兴机场→天津</strong> 接机（落地后即走）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-now">立刻</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">9月2日<span class="sub">15:00开售</span></div>
+          <div class="li-text">
+            <div class="title">12306 抢 <strong>C6242</strong>（9/17 成都东12:07→黄龙九寨14:14，¥138/人）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-urgent">⚠️ 必抢</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">9月3日<span class="sub">15:00开售</span></div>
+          <div class="li-text">
+            <div class="title">12306 抢 <strong>C5786</strong>（9/18 黄龙九寨20:20→成都东21:19，¥141/人）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-urgent">⚠️ 必抢</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">9月4日<span class="sub">08:00开抢</span></div>
+          <div class="li-text">
+            <div class="title">预约 <strong>九寨沟门票</strong>（小程序，190+90=280元/人，9/18入园，提前14天）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-urgent">⚠️ 必抢</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">9月14日<span class="sub">20:00开抢</span></div>
+          <div class="li-text">
+            <div class="title">预约 <strong>三星堆博物馆门票</strong>（公众号，72元/人，周二闭馆，9/19为周五可约）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-urgent">⚠️ 必抢</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">9月5日起</div>
+          <div class="li-text">
+            <div class="title">预约 <strong>黄龙九寨站↔九寨沟</strong> 景区直通车（九旅悦行小程序，约¥45–65/人）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-soon">尽早</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">出发前3天</div>
+          <div class="li-text">
+            <div class="title">预订 <strong>9/18 成都东站附近住宿</strong>（全季/和颐，¥200–350）</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-normal">待办</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">出发前</div>
+          <div class="li-text">
+            <div class="title">高原装备：氧气瓶、厚外套（5–18℃）、防晒、晕车药、干粮零食</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-normal">待办</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+        <li>
+          <div class="cb"></div>
+          <div class="li-date">出发前</div>
+          <div class="li-text">
+            <div class="title">身份证（入园必备）、充电宝、常用药、洗漱用品</div>
+          </div>
+          <div class="li-tag"><span class="tag tag-normal">待办</span></div>
+          <div class="li-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 1                                                        -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 1 · 9月17日（周三）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header"><span class="day-tag">DAY 1</span>天津 → 北京 → 成都 → 九寨沟沟口</div>
+    <div class="card-body">
+      <div class="timeline-item">
+        <div class="time">05:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">天津出发 → 北京首都机场</div>
+          <div class="sub">专车/滴滴约1.5–2小时，建议提前一晚约好，或住首都机场附近酒店</div>
+          <div class="transport">🚕 约 ¥300–400</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">07:20</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">到达首都机场 T2</div>
+          <div class="sub">建议提前90分钟到达办理值机</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">08:00</div><div class="dot success"></div>
+        <div class="content">
+          <div class="title">HU7147 起飞 ✈️</div>
+          <div class="sub">首都 T2 → 成都天府 T2｜海航，含早餐｜约3小时｜¥320/人</div>
+          <div class="transport">🛫 HU7147 · 首都T2 08:00 → 天府T2 10:55</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">11:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">落地成都天府 → 地铁至成都东站</div>
+          <div class="sub">地铁18号线 天府机场T1/T2 → 成都东站，约40分钟</div>
+          <div class="transport">🚇 地铁约 ¥10/人</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">12:07</div><div class="dot success"></div>
+        <div class="content">
+          <div class="title">C6242 成都东 → 黄龙九寨 🚄</div>
+          <div class="sub">二等座｜12:07发 → 14:14到达｜约2小时｜¥138/人</div>
+          <div class="transport">🚄 C6242 · 成都东 12:07 → 黄龙九寨 14:14</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">14:30</div><div class="dot warning"></div>
+        <div class="content">
+          <div class="title">黄龙九寨站 → 九寨沟沟口</div>
+          <div class="sub">包车或拼车，约2–2.5小时｜九旅悦行小程序预约</div>
+          <div class="transport">🚗 直通车约 ¥45–65/人</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">16:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">入住九寨沟沟口酒店</div>
+          <div class="sub">龙洲大酒店（¥142/晚）</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">晚上</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">逛漳扎镇，吃藏餐，早休息</div>
+          <div class="sub">高原第一天不宜剧烈活动，早睡适应</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 2                                                        -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 2 · 9月18日（周四）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header green"><span class="day-tag">DAY 2</span>九寨沟全域深度一日游</div>
+    <div class="card-body">
+      <div class="alert warning">⚠️ 今日行程核心，需提前预约门票（190+90=280元/人）</div>
+      <div class="timeline-item">
+        <div class="time">07:30</div><div class="dot success"></div>
+        <div class="content">
+          <div class="title">出发进沟（提前预约，凭证身份证入园）</div>
+          <div class="sub">入园时间：08:00–14:00，14:00后停止入园</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">08:00–12:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">上午：日则沟（Y字形上半段）</div>
+          <div class="sub">五花海 → 珍珠滩瀑布 → 熊猫海 → 箭竹海 → 镜海</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">12:00–13:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">诺日朗中心站午餐</div>
+          <div class="sub">自备干粮或景区快餐，建议提前带点高热量零食</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">13:30–16:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">下午：则查洼沟（Y字形左支）</div>
+          <div class="sub">上季节海 → 长海 → 五彩池（必去！）</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">16:00–17:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">树正沟出沟（Y字形下半段）</div>
+          <div class="sub">树正群海 → 芦苇海 → 火花海 → 老虎海 → 盆景滩</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">17:30</div><div class="dot"></div>
+        <div class="content"><div class="title">回酒店取行李，退房</div></div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">18:30</div><div class="dot warning"></div>
+        <div class="content">
+          <div class="title">包车出发 → 黄龙九寨站</div>
+          <div class="sub">约1.5小时，留足时间避免误车</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">20:20</div><div class="dot danger"></div>
+        <div class="content">
+          <div class="title">C5786 黄龙九寨 → 成都东 🚄</div>
+          <div class="sub">二等座｜20:20发 → 21:19到达｜约1小时｜⚠️ 救命返程票，必抢</div>
+          <div class="transport">🚄 C5786 · 黄龙九寨 20:20 → 成都东 21:19</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">22:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">入住成都东站附近酒店</div>
+          <div class="sub">全季/和颐/丽枫，约¥200–350，步行可达高铁站</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 3                                                        -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 3 · 9月19日（周五）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header orange"><span class="day-tag">DAY 3</span>成都 → 三星堆 → 返程北京</div>
+    <div class="card-body">
+      <div class="timeline-item">
+        <div class="time">08:00</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">早餐后退房，打车赴三星堆博物馆</div>
+          <div class="sub">约40公里，约1小时车程｜建议提前预约门票</div>
+          <div class="transport">🚕 约 ¥100–150/车（可拼车）</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">09:00–12:30</div><div class="dot success"></div>
+        <div class="content">
+          <div class="title">三星堆博物馆（新馆）深度游览</div>
+          <div class="sub">预约09:00第一场｜建议请拼团讲解（约¥50/人）或租语音导览（约¥30）</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">12:30–13:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">广汉午餐</div>
+          <div class="sub">当地特色：金丝面、缠丝兔、汉洲板鸭</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">13:30–14:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">返回成都天府机场</div>
+          <div class="sub">建议提前2小时到达，即14:30前到天府机场</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">17:30</div><div class="dot"></div>
+        <div class="content">
+          <div class="title">值机、过安检、候机</div>
+          <div class="sub">天府机场较大，建议预留充足时间</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">20:30</div><div class="dot success"></div>
+        <div class="content">
+          <div class="title">JD5612 起飞 ✈️</div>
+          <div class="sub">天府 T2 → 大兴｜首都航空｜20:30 → 23:00｜约2.5小时｜¥320/人</div>
+          <div class="transport">🛫 JD5612 · 天府T2 20:30 → 大兴 23:00</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">23:00</div><div class="dot warning"></div>
+        <div class="content">
+          <div class="title">落地北京大兴机场 → 天津</div>
+          <div class="sub">P2停车楼上车点约网约车回天津，约01:00到家</div>
+          <div class="transport">🚕 约 ¥400–500，落地后立刻叫车</div>
+        </div>
+        <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TIPS                                                         -->
+  <!-- ============================================================ -->
+  <div class="section-title">💡 高原出行提示</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-body">
+      <ul style="padding:14px 18px;list-style:none;font-size:0.85rem;line-height:2;">
+        <li>九寨沟海拔 <strong>2000–3100米</strong>，黄龙九寨站海拔2977米，避免剧烈跑跳</li>
+        <li>景区昼夜温差大（5–18℃），带一件厚外套，防晒必带</li>
+        <li>九寨沟观光车随上随下，不累，游览顺序参考：早去日则沟深处→诺日朗换乘→则查洼沟</li>
+        <li>C5786 是唯一合适的返程高铁，<strong>放票立刻抢</strong>，别等</li>
+        <li>三星堆新馆很大，建议请讲解，否则走马观花</li>
+        <li>黄龙九寨站距九寨沟约90公里，车程2小时，留足衔接时间</li>
+      </ul>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BUDGET                                                       -->
+  <!-- ============================================================ -->
+  <div class="section-title">💰 总预算</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-body">
+      <table class="budget-table">
+        <thead><tr><th>项目</th><th class="num">单价</th><th class="num">小计</th></tr></thead>
+        <tbody>
+          <tr class="done"><td>HU7147 去程（2人，已出票）</td><td class="num">¥320×2</td><td class="num">¥640</td></tr>
+          <tr class="done"><td>JD5612 回程（2人，已出票）</td><td class="num">¥320×2</td><td class="num">¥640</td></tr>
+          <tr><td>C6242 高铁去程（2人）</td><td class="num">¥138×2</td><td class="num">¥276</td></tr>
+          <tr><td>C5786 高铁回程（2人）</td><td class="num">¥141×2</td><td class="num">¥282</td></tr>
+          <tr class="done"><td>9/17 九寨沟住宿（龙洲大酒店，已预订）</td><td class="num">¥142</td><td class="num">¥142</td></tr>
+          <tr><td>9/18 成都住宿（成都东站附近）</td><td class="num">¥200–350</td><td class="num">¥275</td></tr>
+          <tr><td>景区直通车×2（2人）</td><td class="num">¥50×4</td><td class="num">¥200</td></tr>
+          <tr><td>九寨沟门票+观光车（2人）</td><td class="num">¥280×2</td><td class="num">¥560</td></tr>
+          <tr><td>三星堆门票+讲解（2人）</td><td class="num">¥160</td><td class="num">¥320</td></tr>
+          <tr><td>餐饮零花</td><td class="num">—</td><td class="num">¥800</td></tr>
+          <tr><td>天津↔首都机场 + 大兴→天津接送</td><td class="num">—</td><td class="num">¥800</td></tr>
+          <tr><td><strong>合计</strong></td><td></td><td class="num"><strong>¥4,935</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="alert info" style="margin:10px 14px;">
+        💡 人均约 <strong>¥2,468</strong>（2大人），已预订项目已标注，丰俭由人
+      </div>
+    </div>
+    <!-- Notes inside card -->
+    <div class="budget-notes">
+      <div class="budget-notes-title">📝 预算备注</div>
+      <textarea class="budget-note-input" placeholder="点击填写预算备注、实际花费记录…"></textarea>
+    </div>
+  </div>
+  </div>
+
+  <div style="text-align:center;padding:20px 0;color:var(--muted);font-size:0.75rem;">
+    九寨沟3日行程 · 2026年9月17日–19日 · 可打印使用
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.checklist > li').forEach(function(li) {
+    li.addEventListener('click', function(e) {
+      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+      li.classList.toggle('checked');
+    });
+  });
+</script>
+
+</body>
+</html>
