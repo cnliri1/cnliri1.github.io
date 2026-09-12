@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鲁东沿海5日行程 · 2026年9月4日–8日</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --primary: #1a73e8;
+    --accent: #e8710a;
+    --success: #0d904f;
+    --done: #9e9e9e;
+    --danger: #c5221f;
+    --text: #202124;
+    --muted: #5f6368;
+    --border: #dadce0;
+    --radius: 12px;
+    --note-w: 200px;
+    --tag-w: 68px;
+    --date-w: 82px;
+    --cb-w: 22px;
+    --gap: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 24px 16px 80px;
+  }
+  .container { max-width: 1080px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #0d904f, #065f2e);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+  .header p { font-size: 0.9rem; opacity: 0.85; }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+    margin-top: 10px;
+  }
+
+  .section-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 28px 0 10px 4px;
+  }
+  .section-wrap { padding-top: 0; }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 18px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+  }
+  .card-body { padding: 14px 16px; }
+
+  /* Timeline */
+  .card-header .day-tag {
+    background: rgba(255,255,255,0.25);
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    margin-right: 10px;
+  }
+  .timeline {
+    display: flex;
+    flex-direction: column;
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 76px 12px 1fr var(--note-w);
+    gap: var(--gap);
+    align-items: start;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-item .time {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: right;
+    padding-top: 2px;
+  }
+  .timeline-item .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    margin: 7px auto 0;
+    position: relative;
+  }
+  .timeline-item .dot.success { background: var(--success); }
+  .timeline-item .content { min-width: 0; }
+  .timeline-item .title { font-weight: 600; font-size: 0.9rem; }
+  .timeline-item .sub { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
+  .timeline-item .transport {
+    display: inline-block;
+    background: #e6f4ea;
+    color: var(--success);
+    border-radius: 6px;
+    padding: 1px 8px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .tl-note { display: flex; align-items: flex-start; }
+  .tl-note .note-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 7px;
+    font-size: 0.76rem;
+    font-family: inherit;
+    background: #fafafa;
+    color: var(--text);
+    outline: none;
+    resize: none;
+    min-height: 26px;
+  }
+  .tl-note .note-input:focus { border-color: var(--primary); background: #fff; }
+  .tl-note .note-input::placeholder { color: #bdbdbd; font-style: italic; }
+
+  /* Budget table */
+  .budget-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .budget-table th {
+    text-align: left; color: var(--muted);
+    font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 6px 8px; border-bottom: 2px solid var(--border);
+  }
+  .budget-table td { padding: 7px 8px; border-bottom: 1px solid var(--border); }
+  .budget-table tr:last-child td { border-bottom: none; }
+  .budget-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .alert { border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; margin: 10px 14px; }
+  .alert.info { background: #e8f5e9; border-left: 4px solid var(--success); color: #1b5e20; }
+
+  @media (max-width: 680px) {
+    .timeline-item {
+      grid-template-columns: 64px 10px 1fr;
+      gap: 8px;
+    }
+    .tl-note { display: none !important; }
+  }
+  @media print {
+    body { padding: 0; background: #fff; }
+    .card { box-shadow: none; border: 1px solid #ddd; }
+    .note-input { border: 1px solid #ccc !important; background: #fff !important; }
+  }
+
+  .back-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0d904f;
+    color: #fff;
+    padding: 10px 28px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 200;
+    white-space: nowrap;
+  }
+  .back-btn:hover { opacity: 0.85; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>🌊 鲁东沿海5日行程</h1>
+    <p>自驾/顺风车 · 2026年9月4日 – 8日</p>
+    <div class="badge">天津→滨州→东营→烟台→蓬莱→威海→招远→天津</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 1                                                        -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 1 · 9月4日（周四）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header"><span class="day-tag">DAY 1</span>天津 → 滨州 → 东营</div>
+    <div class="card-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">傍晚</div><div class="dot"></div>
+          <div class="content">
+            <div class="title">天津出发 → 滨州</div>
+            <div class="sub">约150km，车程约2小时，傍晚抵达滨州</div>
+            <div class="transport">🚗 天津→滨州（收款 ¥152.85）</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">夜间</div><div class="dot success"></div>
+          <div class="content">
+            <div class="title">抵达东营，入住休息</div>
+            <div class="sub">滨州→东营约60km，夜宿东营，为明日孤东海堤做准备</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 2                                                        -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 2 · 9月5日（周五）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header"><span class="day-tag">DAY 2</span>东营 孤东海堤 → 烟台 金沙滩</div>
+    <div class="card-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">上午</div><div class="dot"></div>
+          <div class="content">
+            <div class="title">孤东海堤 🏖️</div>
+            <div class="sub">黄河入海口附近，万亩槐林 + 石油钻井平台 + 海滨大坝，东营标志性景观</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">下午</div><div class="dot success"></div>
+          <div class="content">
+            <div class="title">东营出发 → 烟台</div>
+            <div class="sub">东营→烟台约300km，车程约3.5–4小时</div>
+            <div class="transport">🚗 东营→烟台（收款 ¥295）</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">夜间</div><div class="dot success"></div>
+          <div class="content">
+            <div class="title">抵达烟台金沙滩，打卡「孤独的鲸」🐋</div>
+            <div class="sub">烟台开发区金沙滩公园，网红艺术装置「孤独的鲸」海边地标，夜景很出片</div>
+            <div class="transport">🌊 金沙滩 · 孤独的鲸</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 3                                                        -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 3 · 9月6日（周六）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header"><span class="day-tag">DAY 3</span>烟台 蓬莱阁 → 市区 Ingress → 朝阳街/烟台山</div>
+    <div class="card-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">上午</div><div class="dot"></div>
+          <div class="content">
+            <div class="title">蓬莱阁 🏯</div>
+            <div class="sub">中国古代四大名楼之一，临海而建，八仙过海传说发源地；蓬莱区距烟台市区约70km</div>
+            <div class="transport">🚗 蓬莱→烟台（收款 ¥77）</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">下午</div><div class="dot"></div>
+          <div class="content">
+            <div class="title">烟台市区 Ingress Mission 🎮</div>
+            <div class="sub">在烟台市区做 Ingress 任务点，顺路逛市区商圈/海边</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">晚上</div><div class="dot success"></div>
+          <div class="content">
+            <div class="title">朝阳街 + 烟台山 🌃</div>
+            <div class="sub">朝阳街：烟台开埠历史老街，酒吧/咖啡馆云集；烟台山：近代领事馆建筑群 + 灯塔，俯瞰黄海</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 4                                                        -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 4 · 9月7日（周日）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header"><span class="day-tag">DAY 4</span>烟台 → 威海 大陆最东端</div>
+    <div class="card-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">上午</div><div class="dot success"></div>
+          <div class="content">
+            <div class="title">威海 大陆最东端 · 成山头 🌅</div>
+            <div class="sub">荣成成山头，中国大陆海岸线最东端，「天尽头」，绵长海岸线 + 礁石景观，看日出圣地</div>
+            <div class="transport">🚗 烟台→威海（约150km，约2小时）</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">下午</div><div class="dot"></div>
+          <div class="content">
+            <div class="title">威海绵长海岸线自驾 🚗</div>
+            <div class="sub">沿海公路一路向南，火炬八街、国际海水浴场、猫头山等打卡点</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">傍晚</div><div class="dot"></div>
+          <div class="content">
+            <div class="title">返回烟台/招远方向</div>
+            <div class="sub">夜宿招远或烟台周边，为明日返津做准备</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DAY 5                                                        -->
+  <!-- ============================================================ -->
+  <div class="section-title">Day 5 · 9月8日（周一）</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-header"><span class="day-tag">DAY 5</span>招远 → 天津</div>
+    <div class="card-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">上午</div><div class="dot"></div>
+          <div class="content">
+            <div class="title">招远出发 → 天津</div>
+            <div class="sub">招远→天津约380km，车程约4.5–5小时，返程</div>
+            <div class="transport">🚗 招远→天津（收款 ¥170 / 东营→天津 ¥290）</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">下午</div><div class="dot success"></div>
+          <div class="content">
+            <div class="title">抵达天津，行程结束 🏠</div>
+            <div class="sub">5日鲁东沿海自驾/顺风车行程圆满收官</div>
+          </div>
+          <div class="tl-note"><textarea class="note-input" placeholder="备注…"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BUDGET                                                       -->
+  <!-- ============================================================ -->
+  <div class="section-title">💰 交通费明细</div>
+  <div class="section-wrap">
+  <div class="card">
+    <div class="card-body">
+      <table class="budget-table">
+        <thead>
+          <tr><th>行程</th><th style="text-align:right;">金额</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>天津 → 滨州</td><td class="num">¥152.85</td></tr>
+          <tr><td>东营 → 烟台</td><td class="num">¥295.00</td></tr>
+          <tr><td>蓬莱 → 烟台</td><td class="num">¥77.00</td></tr>
+          <tr><td>烟台 → 东营</td><td class="num">¥116.00</td></tr>
+          <tr><td>烟台 → 天津</td><td class="num">¥170.00</td></tr>
+          <tr><td>东营 → 天津</td><td class="num">¥290.00</td></tr>
+          <tr><td><strong>合计</strong></td><td class="num"><strong>¥1,100.85</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="alert info" style="margin: 10px 0 0;">
+        💡 以上为各段顺风车/驾车收款合计 <strong>¥1,100.85</strong>，含天津↔滨州↔东营↔烟台↔蓬莱↔威海↔招远全程交通。
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <a href="jiuzhai_plan.html" class="back-btn">← 返回九寨沟行程</a>
+
+</div>
+</body>
+</html>
