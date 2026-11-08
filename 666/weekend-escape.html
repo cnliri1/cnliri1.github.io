@@ -283,13 +283,13 @@ header p {
   <p>时间线 · 记录每一次出发</p>
   <div class="filter-tabs">
     <button class="filter-tab active" onclick="filterTrips('all', this)">
-      全部 <span class="count" id="count-all">9</span>
+      全部 <span class="count" id="count-all">11</span>
     </button>
     <button class="filter-tab" onclick="filterTrips('flight', this)">
-      ✈️ 海航666 <span class="count" id="count-flight">2</span>
+      ✈️ 海航666 <span class="count" id="count-flight">3</span>
     </button>
     <button class="filter-tab" onclick="filterTrips('drive', this)">
-      🚗 自驾顺风车 <span class="count" id="count-drive">6</span>
+      🚗 自驾顺风车 <span class="count" id="count-drive">7</span>
     </button>
     <button class="filter-tab" onclick="filterTrips('gujian', this)">
       🏛️ 古建打卡 <span class="count" id="count-gujian">4</span>
@@ -445,17 +445,36 @@ header p {
 
   <!-- 乌鲁木齐·赛里木湖 -->
   <div class="trip-row" data-attr="flight">
-    <div class="trip-dot-wrap"><div class="trip-dot planned"></div></div>
-    <a class="trip-card" href="urumqi_plan.html">
+    <div class="trip-dot-wrap"><div class="trip-dot done"></div></div>
+    <a class="trip-card" href="xinjiang_trip_1016.html">
       <div class="trip-top">
         <div class="trip-dates">出发 2026-10-16 <span>→</span> 返程 2026-10-19 <span class="week-tag">W42</span></div>
-        <span class="status-badge status-planned">待出行</span>
+        <span class="status-badge status-done">已完成</span>
       </div>
-      <div class="trip-title">赛里木湖4日</div>
-      <div class="trip-overview">乌鲁木齐只作中转，直奔赛里木湖 · 直飞往返大兴 · 人均约¥4,295 · 自驾环湖</div>
+      <div class="trip-title">伊犁·赛里木湖4日</div>
+      <div class="trip-overview">乌鲁木齐中转伊宁 · 六星街/库尔德宁骑马/喀赞其/果子沟大桥 · 赛湖日落+星空 · 伊宁进博乐出</div>
       <div class="trip-tags">
         <span class="attr-tag attr-flight">✈️ 海航666</span>
         <span class="attr-tag attr-highland">🏔️ 高原</span>
+        <span class="attr-tag" style="background:#e0f7f7;color:#0d6e6e;border:1px solid #99d6d6;">🌲 伊犁</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- 香港万圣节 -->
+  <div class="trip-row" data-attr="flight">
+    <div class="trip-dot-wrap"><div class="trip-dot done"></div></div>
+    <a class="trip-card" href="hongkong_halloween_1029.html">
+      <div class="trip-top">
+        <div class="trip-dates">出发 2026-10-29 <span>→</span> 返程 2026-11-01 <span class="week-tag">W44</span></div>
+        <span class="status-badge status-done">已完成</span>
+      </div>
+      <div class="trip-title">🎃 万圣节香港4日</div>
+      <div class="trip-overview">天津⇄济南⇄深圳 · 深圳↔香港往返大巴 · 尖沙咀/星光大道/港大/中环/兰桂坊 · 顺风车收入 ¥300</div>
+      <div class="trip-tags">
+        <span class="attr-tag attr-flight">✈️ 金鹏航空</span>
+        <span class="attr-tag" style="background:#f3e8ff;color:#7e22ce;border:1px solid #d8b4fe;">🎃 万圣节</span>
+        <span class="attr-tag" style="background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;">🇭🇰 香港</span>
       </div>
     </a>
   </div>

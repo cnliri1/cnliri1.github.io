@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>万圣节去香港 · 2026年10月29日–11月1日</title>
+<style>
+  :root {
+    --bg: #f7f4fb;
+    --card: #ffffff;
+    --ink: #21172e;
+    --muted: #6f647d;
+    --line: #e6dff0;
+    --purple: #5b1f7a;
+    --purple-dark: #2e1046;
+    --orange: #e8710a;
+    --amber: #f59e0b;
+    --green: #0d904f;
+    --red: #c5221f;
+    --radius: 16px;
+    --shadow: 0 6px 24px rgba(45, 20, 70, 0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    padding: 24px 16px 88px;
+  }
+  .container { max-width: 980px; margin: 0 auto; }
+
+  .header {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #2e1046 0%, #5b1f7a 58%, #8b2f6d 100%);
+    color: #fff;
+    border-radius: 22px;
+    padding: 34px 26px 30px;
+    box-shadow: 0 14px 34px rgba(60, 20, 85, 0.24);
+  }
+  .header::after {
+    content: '🎃';
+    position: absolute;
+    right: 18px;
+    top: -6px;
+    font-size: 7rem;
+    opacity: 0.13;
+    transform: rotate(12deg);
+  }
+  .eyebrow {
+    position: relative;
+    z-index: 1;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    position: relative;
+    z-index: 1;
+    font-size: 1.72rem;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .header p {
+    position: relative;
+    z-index: 1;
+    font-size: 0.86rem;
+    opacity: 0.86;
+  }
+  .badges {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 18px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  .section-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 28px 0 10px 4px;
+  }
+
+  .route-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .route-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .route-line .stop {
+    background: #f4ecfa;
+    color: var(--purple);
+    border-radius: 8px;
+    padding: 3px 9px;
+    white-space: nowrap;
+  }
+  .route-line .stop.key {
+    background: var(--purple);
+    color: #fff;
+  }
+  .route-line .arrow { color: #a897b6; font-weight: 500; }
+  .route-break { flex-basis: 100%; height: 0; }
+  .route-note {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    padding: 12px 10px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(45, 20, 70, 0.04);
+  }
+  .stat strong {
+    display: block;
+    color: var(--purple);
+    font-size: 1.08rem;
+    line-height: 1.2;
+  }
+  .stat span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.68rem;
+    margin-top: 4px;
+  }
+
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .day-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    color: #fff;
+    background: linear-gradient(90deg, var(--purple-dark), var(--purple));
+  }
+  .day-card:nth-of-type(2) .day-head { background: linear-gradient(90deg, #5a1b1b, #9b2c2c); }
+  .day-card:nth-of-type(3) .day-head { background: linear-gradient(90deg, #4a153d, #7a2c68); }
+  .day-card:nth-of-type(4) .day-head { background: linear-gradient(90deg, #4d3510, #8a5a12); }
+  .day-num {
+    flex-shrink: 0;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.18);
+  }
+  .day-head h2 { font-size: 1rem; line-height: 1.35; }
+  .day-head p { font-size: 0.72rem; opacity: 0.82; margin-top: 2px; }
+  .day-tag {
+    margin-left: auto;
+    flex-shrink: 0;
+    font-size: 0.64rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.18);
+    white-space: nowrap;
+  }
+
+  .timeline { padding: 6px 18px 10px; }
+  .event {
+    display: grid;
+    grid-template-columns: 58px 18px 1fr;
+    gap: 0 10px;
+    padding: 11px 0;
+    border-bottom: 1px dashed #eee6f5;
+  }
+  .event:last-child { border-bottom: none; }
+  .time {
+    color: var(--purple);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-align: right;
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+  .rail {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--purple);
+    margin-top: 5px;
+    z-index: 1;
+    box-shadow: 0 0 0 3px #f0e7f7;
+  }
+  .dot.orange { background: var(--orange); box-shadow: 0 0 0 3px #fdf0e4; }
+  .dot.green { background: var(--green); box-shadow: 0 0 0 3px #e7f5ed; }
+  .dot.red { background: var(--red); box-shadow: 0 0 0 3px #fbeaea; }
+  .event:not(:last-child) .rail::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    bottom: -18px;
+    width: 2px;
+    background: #eadff2;
+  }
+  .event-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.45;
+    margin-bottom: 3px;
+  }
+  .event p {
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.65;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 5px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #f3eefb;
+    color: #5b1f7a;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+  .chip.green { background: #eaf7ef; color: #0b7a43; }
+  .chip.orange { background: #fdf2e7; color: #a95709; }
+
+  .note-box {
+    margin: 0 18px 18px;
+    background: #faf4ff;
+    border-left: 4px solid var(--purple);
+    border-radius: 8px;
+    padding: 11px 13px;
+  }
+  .note-box strong {
+    display: block;
+    color: var(--purple);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+  .note-box p {
+    color: #4c4059;
+    font-size: 0.79rem;
+    line-height: 1.7;
+  }
+
+  .highlight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .highlight {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    padding: 14px 15px;
+    box-shadow: 0 2px 10px rgba(45, 20, 70, 0.04);
+  }
+  .highlight .emoji { font-size: 1.25rem; }
+  .highlight h3 {
+    font-size: 0.86rem;
+    margin: 6px 0 4px;
+  }
+  .highlight p {
+    color: var(--muted);
+    font-size: 0.76rem;
+    line-height: 1.6;
+  }
+
+  .tips-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .tips-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 20px;
+  }
+  .tips-list li {
+    position: relative;
+    padding-left: 17px;
+    color: #4c4059;
+    font-size: 0.78rem;
+    line-height: 1.65;
+  }
+  .tips-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--purple);
+    font-weight: 800;
+  }
+  .tips-list strong { color: var(--ink); }
+
+  .budget-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .budget-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.79rem;
+  }
+  .budget-table th {
+    text-align: left;
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 10px 14px 7px;
+    border-bottom: 2px solid var(--line);
+  }
+  .budget-table td {
+    padding: 8px 14px;
+    border-bottom: 1px solid #f1ebf6;
+  }
+  .budget-table tr:last-child td { border-bottom: none; }
+  .budget-table .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .budget-table .income { color: var(--green); }
+  .budget-table .total td {
+    background: #faf4ff;
+    font-weight: 800;
+    color: var(--purple);
+  }
+  .budget-note {
+    padding: 11px 14px;
+    background: #fbf9fd;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.72rem;
+    line-height: 1.6;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 24px 0 6px;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+
+  .back-btn {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--purple);
+    color: #fff;
+    padding: 10px 26px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(91, 31, 122, 0.28);
+    z-index: 200;
+    white-space: nowrap;
+  }
+  .back-btn:hover { opacity: 0.88; }
+
+  @media (max-width: 680px) {
+    body { padding: 14px 12px 78px; }
+    .header { padding: 28px 20px 24px; border-radius: 18px; }
+    .header h1 { font-size: 1.38rem; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .highlight-grid, .tips-list { grid-template-columns: 1fr; }
+    .day-head { align-items: flex-start; flex-wrap: wrap; padding: 14px 15px; }
+    .day-head h2 { font-size: 0.94rem; }
+    .day-tag { margin-left: 0; }
+    .timeline { padding: 4px 14px 8px; }
+    .event { grid-template-columns: 48px 16px 1fr; gap: 0 8px; }
+    .time { font-size: 0.68rem; }
+    .event-title { font-size: 0.84rem; }
+    .event p { font-size: 0.75rem; }
+    .note-box { margin: 0 14px 14px; }
+    .budget-table th, .budget-table td { padding-left: 10px; padding-right: 10px; }
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .header { box-shadow: none; }
+    .day-card, .route-card, .tips-card, .budget-card, .highlight { box-shadow: none; }
+    .back-btn { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="eyebrow">周末逃离天津 · 2026 W44</div>
+    <h1>🎃 万圣节去香港</h1>
+    <p>2026年10月29日–11月1日 · 天津 ⇄ 济南 ⇄ 深圳 ⇄ 香港 · 单人</p>
+    <div class="badges">
+      <span class="badge">✈️ Y87904</span>
+      <span class="badge">✈️ Y87903</span>
+      <span class="badge">🚌 深圳↔香港</span>
+      <span class="badge">🚗 顺风车 +¥300</span>
+    </div>
+  </header>
+
+  <div class="section-title">🗺️ 这次怎么走</div>
+  <div class="route-card">
+    <div class="route-line">
+      <span class="stop">天津</span><span class="arrow">🚗</span>
+      <span class="stop">济南</span><span class="arrow">✈</span>
+      <span class="stop">深圳</span><span class="arrow">🚌</span>
+      <span class="stop key">香港</span><span class="arrow">→</span>
+      <span class="stop">尖沙咀</span><span class="arrow">→</span>
+      <span class="stop">星光大道</span>
+      <span class="route-break"></span>
+      <span class="arrow">→</span><span class="stop">海港城</span><span class="arrow">→</span>
+      <span class="stop">铜锣湾时代广场</span><span class="arrow">→</span>
+      <span class="stop">港大</span><span class="arrow">→</span>
+      <span class="stop key">兰桂坊</span><span class="arrow">🚌</span>
+      <span class="stop">深圳</span><span class="arrow">✈</span>
+      <span class="stop">济南</span><span class="arrow">🚗</span>
+      <span class="stop">天津</span>
+    </div>
+    <div class="route-note">天津自驾到济南遥墙机场，车停机场；回程 Y87903 落地济南后取车回天津。深圳往返香港坐跨境大巴，万圣节正日留给兰桂坊。</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><strong>4天2晚</strong><span>行程</span></div>
+    <div class="stat"><strong>2程飞机</strong><span>济南↔深圳</span></div>
+    <div class="stat"><strong>6个点</strong><span>香港打卡</span></div>
+    <div class="stat"><strong>+¥300</strong><span>顺风车收入</span></div>
+  </div>
+
+  <div class="section-title">📖 每日行程</div>
+
+  <section class="day-card">
+    <div class="day-head">
+      <div class="day-num">DAY 01</div>
+      <div>
+        <h2>天津 → 济南 → 深圳</h2>
+        <p>10月29日 · 周四 · 红眼航班，凌晨落地</p>
+      </div>
+      <span class="day-tag">赶路日</span>
+    </div>
+    <div class="timeline">
+      <div class="event">
+        <div class="time">晚间</div><div class="rail"><span class="dot green"></span></div>
+        <div class="event-body">
+          <div class="event-title">天津自驾去济南遥墙机场</div>
+          <p>从天津开车到济南机场，去程带顺风车乘客，收入计入这趟往返合计 ¥300。车停机场，停车费 ¥60，红眼航班别把时间卡太紧。</p>
+          <span class="chip green">🚗 顺风车 +¥300 · 停车 ¥60</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">22:55</div><div class="rail"><span class="dot orange"></span></div>
+        <div class="event-body">
+          <div class="event-title">Y87904 起飞 ✈️</div>
+          <p>济南遥墙机场 → 深圳宝安机场 T3，金鹏航空，约2小时35分。飞机上尽量睡一会儿，落地已经是后半夜。</p>
+          <span class="chip">🛫 Y87904 · 济南 22:55 → 深圳 01:30+1</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">01:30+1</div><div class="rail"><span class="dot"></span></div>
+        <div class="event-body">
+          <div class="event-title">落地深圳，入住休息</div>
+          <p>取行李后直接去酒店，建议住深圳湾/福田口岸方向，第二天去香港更顺。不要在凌晨安排夜宵和市区打卡。</p>
+          <span class="chip">🏨 口岸方向更省第二天时间</span>
+        </div>
+      </div>
+    </div>
+    <div class="note-box">
+      <strong>当天感受</strong>
+      <p>第一天基本都在路上，红眼航班的重点不是省时间，而是把第二天完整留给香港。落地后越快睡下越好。</p>
+    </div>
+  </section>
+
+  <section class="day-card">
+    <div class="day-head">
+      <div class="day-num">DAY 02</div>
+      <div>
+        <h2>深圳 → 香港 · 尖沙咀 / 星光大道</h2>
+        <p>10月30日 · 周五 · 下午两点抵港</p>
+      </div>
+      <span class="day-tag">初见维港</span>
+    </div>
+    <div class="timeline">
+      <div class="event">
+        <div class="time">上午</div><div class="rail"><span class="dot"></span></div>
+        <div class="event-body">
+          <div class="event-title">深圳口岸过关，坐跨境大巴</div>
+          <p>深圳到香港往返大巴已含在这趟 ¥55 里。过关留出排队时间，证件和签注提前确认好。</p>
+          <span class="chip">🚌 深圳↔香港往返 ¥55</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">14:00</div><div class="rail"><span class="dot green"></span></div>
+        <div class="event-body">
+          <div class="event-title">抵达香港市区</div>
+          <p>先到酒店放行李，轻装出门。香港十月体感仍偏暖，走路多，鞋比造型重要。</p>
+          <span class="chip green">🇭🇰 下午两点正式开逛</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">下午</div><div class="rail"><span class="dot"></span></div>
+        <div class="event-body">
+          <div class="event-title">尖沙咀 citywalk</div>
+          <p>从弥敦道一路往海边走，海港城、重庆大厦、半岛酒店都在附近。不用特意赶景点，顺着人流和街景走就好。</p>
+          <span class="chip">📸 弥敦道 + 海港城</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">傍晚</div><div class="rail"><span class="dot orange"></span></div>
+        <div class="event-body">
+          <div class="event-title">星光大道 + 维港日落</div>
+          <p>沿着星光大道走，找一段栏杆停下来等天色变蓝。对面就是港岛天际线，日落后的蓝调时刻最出片。</p>
+          <span class="chip orange">🌇 维港日落 + 夜景</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">晚上</div><div class="rail"><span class="dot"></span></div>
+        <div class="event-body">
+          <div class="event-title">尖沙咀晚饭，回酒店</div>
+          <p>第一晚不熬太晚，第二天要去海港城、铜锣湾和港大，晚上还有兰桂坊万圣节。</p>
+        </div>
+      </div>
+    </div>
+    <div class="note-box">
+      <strong>当天感受</strong>
+      <p>下午两点到香港，刚好处在一天里最松弛的时段：先放行李，再慢慢走到维港。星光大道的风、天星小轮的灯和对岸的天际线，是香港最直接的开场。</p>
+    </div>
+  </section>
+
+  <section class="day-card">
+    <div class="day-head">
+      <div class="day-num">DAY 03</div>
+      <div>
+        <h2>海港城 → 铜锣湾时代广场 → 港大 → 兰桂坊</h2>
+        <p>10月31日 · 周六 · 万圣节正日，22:00 回深圳</p>
+      </div>
+      <span class="day-tag">Halloween</span>
+    </div>
+    <div class="timeline">
+      <div class="event">
+        <div class="time">上午</div><div class="rail"><span class="dot"></span></div>
+        <div class="event-body">
+          <div class="event-title">海港城</div>
+          <p>从尖沙咀海边一路逛到海港城，商场大、店铺多，别想着全逛完，挑自己感兴趣的逛就好。海运观点看维港也不错。</p>
+          <span class="chip">🛍️ 海港城 + 海运观点</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">中午</div><div class="rail"><span class="dot orange"></span></div>
+        <div class="event-body">
+          <div class="event-title">铜锣湾时代广场 + 午饭</div>
+          <p>坐地铁到铜锣湾，逛时代广场和周边街区，顺便在附近吃午饭。铜锣湾人多，吃饭避开最正点的午市高峰。</p>
+          <span class="chip">🛍️ 时代广场 + 铜锣湾</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">下午</div><div class="rail"><span class="dot"></span></div>
+        <div class="event-body">
+          <div class="event-title">香港大学</div>
+          <p>坐地铁到 HKU，逛主楼、百周年校园和周边坡道。港大依山而建，楼与楼之间高差很大，慢慢走比赶路舒服。</p>
+          <span class="chip">🎓 港大校园 + 山道</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">傍晚</div><div class="rail"><span class="dot orange"></span></div>
+        <div class="event-body">
+          <div class="event-title">中环 / 兰桂坊附近吃饭</div>
+          <p>从港大下山到中环，兰桂坊就在附近。万圣节正日，傍晚开始就有人换装，先吃饭再看街头。</p>
+          <span class="chip">📸 中环 + 兰桂坊</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">晚上</div><div class="rail"><span class="dot red"></span></div>
+        <div class="event-body">
+          <div class="event-title">兰桂坊 Halloween 🎃</div>
+          <p>兰桂坊的万圣节氛围主要在街头： costume、音乐、酒吧外摆和人流。看好随身物品，喝酒别过量，提前想好回深圳的路线。</p>
+          <span class="chip">🎃 万圣节正日 · 人流管制</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">22:00</div><div class="rail"><span class="dot"></span></div>
+        <div class="event-body">
+          <div class="event-title">跨境大巴回深圳</div>
+          <p>10点左右从香港市区坐跨境大巴回深圳，不在香港过夜。万圣节当晚人多，提前确认上车点和过关时间。</p>
+          <span class="chip">🚌 香港 → 深圳 · 22:00 左右</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">凌晨</div><div class="rail"><span class="dot orange"></span></div>
+        <div class="event-body">
+          <div class="event-title">深圳夜宵</div>
+          <p>过关后找一家还开着的店吃点东西，补一下体力。夜宵别吃太撑，等会儿还要坐早航班。</p>
+        </div>
+      </div>
+    </div>
+    <div class="note-box">
+      <strong>当天感受</strong>
+      <p>从海港城到铜锣湾，再到港大和兰桂坊，一天里把香港的商场、校园和夜生活都走了一遍。最热闹的不是某个酒吧，而是整条街都在认真扮鬼；10点左右回深圳，算是把万圣节的余温一路带到了口岸。</p>
+    </div>
+  </section>
+
+  <section class="day-card">
+    <div class="day-head">
+      <div class="day-num">DAY 04</div>
+      <div>
+        <h2>深圳 → 济南 → 天津</h2>
+        <p>11月1日 · 周日 · 06:00 早航班，济南取车回天津</p>
+      </div>
+      <span class="day-tag">返程日</span>
+    </div>
+    <div class="timeline">
+      <div class="event">
+        <div class="time">凌晨</div><div class="rail"><span class="dot"></span></div>
+        <div class="event-body">
+          <div class="event-title">到深圳宝安机场，候机</div>
+          <p>夜宵后直接到机场，找地方眯一会儿。红眼转早班，值机、安检时间提前确认好。</p>
+          <span class="chip">🛫 深圳机场 · 等早航班</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">06:00</div><div class="rail"><span class="dot green"></span></div>
+        <div class="event-body">
+          <div class="event-title">Y87903 起飞 ✈️</div>
+          <p>06:00 从深圳飞济南，机票按 ¥339 记录。建议 04:30 左右到机场，留足值机和安检时间。</p>
+          <span class="chip green">🛫 Y87903 · 深圳 06:00 → 济南 · ¥339</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="time">到济南</div><div class="rail"><span class="dot"></span></div>
+        <div class="event-body">
+          <div class="event-title">济南机场取车，自驾回天津</div>
+          <p>落地济南后取车回天津，回程继续带顺风车乘客，往返顺风车收入合计 ¥300，已在预算里抵扣。</p>
+          <span class="chip">🚗 济南 → 天津 · 顺风车收入已计入</span>
+        </div>
+      </div>
+    </div>
+    <div class="note-box">
+      <strong>当天感受</strong>
+      <p>返程几乎是从万圣节人群里直接抽离：兰桂坊、跨境大巴、口岸、夜宵、机场、早航班，最后回到济南取车。身体很累，但这趟的时间利用率确实很高。</p>
+    </div>
+  </section>
+
+  <div class="section-title">✨ 这趟最难忘</div>
+  <div class="highlight-grid">
+    <div class="highlight">
+      <div class="emoji">🌃</div>
+      <h3>星光大道</h3>
+      <p>维港日落和港岛天际线，是香港最不需要滤镜的一幕。</p>
+    </div>
+    <div class="highlight">
+      <div class="emoji">🛍️</div>
+      <h3>尖沙咀</h3>
+      <p>弥敦道、海港城和海边，第一次到香港最容易进入状态的一片。</p>
+    </div>
+    <div class="highlight">
+      <div class="emoji">🎓</div>
+      <h3>香港大学</h3>
+      <p>依山而建的校园，楼与楼之间全是坡道和转角，很适合慢慢走。</p>
+    </div>
+    <div class="highlight">
+      <div class="emoji">🏙️</div>
+      <h3>中环</h3>
+      <p>半山扶梯、街市、旧楼和茶餐厅，香港最密集的城市切片。</p>
+    </div>
+    <div class="highlight">
+      <div class="emoji">🎃</div>
+      <h3>兰桂坊</h3>
+      <p>万圣节正日的街头比酒吧更有意思，整条街都在认真扮鬼。</p>
+    </div>
+  </div>
+
+  <div class="section-title">💡 实用信息</div>
+  <div class="tips-card">
+    <ul class="tips-list">
+      <li><strong>证件：</strong>港澳通行证 + 有效香港签注，出发前再检查一次有效期。</li>
+      <li><strong>跨境大巴：</strong>深圳↔香港往返 ¥55，提前确认上车点、口岸和末班时间。</li>
+      <li><strong>支付：</strong>八达通最省事，地铁和便利店也能用支付宝/微信，但备一点港币现金。</li>
+      <li><strong>兰桂坊：</strong>万圣节当晚有人流管制，早点去、看好随身物品，散场别在人群里硬打车。</li>
+      <li><strong>红眼航班：</strong>Y87904 落地已过凌晨，深圳住宿优先选口岸方向，第二天不折腾。</li>
+      <li><strong>天气：</strong>10月底香港约 24–28°C，走路多，带轻便外套和好走的鞋。</li>
+      <li><strong>充电：</strong>香港用英标插头，带转换头；手机支付和地图都很耗电。</li>
+      <li><strong>返程：</strong>香港回深圳的大巴要给过关留时间，别按“下车就到机场”算。</li>
+    </ul>
+  </div>
+
+  <div class="section-title">💰 单人已知花费</div>
+  <div class="budget-card">
+    <table class="budget-table">
+      <thead>
+        <tr><th>项目</th><th class="num">金额</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Y87904 济南 → 深圳</td><td class="num">¥339</td></tr>
+        <tr><td>Y87903 深圳 → 济南</td><td class="num">¥339</td></tr>
+        <tr><td>深圳 ↔ 香港往返大巴</td><td class="num">¥55</td></tr>
+        <tr><td>济南机场停车</td><td class="num">¥60</td></tr>
+        <tr><td>住宿 2 晚（同学付款）</td><td class="num">¥0</td></tr>
+        <tr><td>顺风车收入（往返合计）</td><td class="num income">-¥300</td></tr>
+        <tr class="total"><td>合计净支出</td><td class="num">¥493</td></tr>
+      </tbody>
+    </table>
+    <div class="budget-note">两程机票均按 ¥339 记录；住宿由同学付款，记 ¥0；济南机场停车 ¥60；餐饮和香港市内交通未提供，暂未计入。尖沙咀、星光大道、港大、中环、兰桂坊均为免费街区/校园，无门票。</div>
+  </div>
+
+  <div class="footer">万圣节香港4日 · 2026年10月29日–11月1日 · 天津⇄济南 / 深圳⇄香港 · 可打印保存</div>
+
+</div>
+
+<a class="back-btn" href="weekend-escape.html">← 返回主页</a>
+
+</body>
+</html>
